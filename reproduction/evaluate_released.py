@@ -98,22 +98,40 @@ try:
         record["gpu_model"] = torch.cuda.get_device_name(0)
         record["gpu_vram_bytes"] = torch.cuda.get_device_properties(0).total_memory
         record["gpu_capability"] = list(torch.cuda.get_device_capability(0))
+        nfe_count = [0]
+        def count_encoder_evaluation(module, inputs):
+            nfe_count[0] += 1
+        nfe_hook = model.encoder.blocks[0].register_forward_pre_hook(count_encoder_evaluation)
         torch.cuda.reset_peak_memory_stats()
         torch.cuda.synchronize()
         evaluation_start = time.perf_counter()
         if args.mode == "smoke":
             with torch.no_grad():
                 labels = torch.tensor([0, 999], device=device)
-                images = model.diffusion_generate(device=device, num_visuals=2, cfg_scale=args.cfg_scale,
-                    cfg_interval=(0.1, 1.0), cfg_norm_order="norm_first", y_given=labels).clamp(0, 1)
-                assert tuple(images.shape) == (2, 3, 256, 256) and torch.isfinite(images).all()
+                batches, timings, nfe_per_call = [], [], []
+                for smoke_index in range(2):
+                    torch.cuda.synchronize()
+                    call_start = time.perf_counter()
+                    previous_nfe = nfe_count[0]
+                    images = model.diffusion_generate(device=device, num_visuals=2, cfg_scale=args.cfg_scale,
+                        cfg_interval=(0.1, 1.0), cfg_norm_order="norm_first", y_given=labels).clamp(0, 1)
+                    torch.cuda.synchronize()
+                    timings.append(time.perf_counter() - call_start)
+                    nfe_per_call.append(nfe_count[0] - previous_nfe)
+                    assert tuple(images.shape) == (2, 3, 256, 256) and torch.isfinite(images).all()
+                    batches.append(images.cpu().numpy())
+                record["sampling_seconds_per_call"] = timings
+                record["encoder_nfe_per_call"] = nfe_per_call
                 inception = get_inception_model(device)
                 features, logits = extract_inception_features(images, inception, batch_size=2)
                 assert tuple(features.shape) == (2, 2048) and torch.isfinite(features).all()
                 assert torch.isfinite(logits).all()
-                np.savez(args.output / "smoke-images.npz", images=images.cpu().numpy(),
+                np.savez(args.output / "smoke-images.npz", images=np.stack(batches),
                          labels=labels.cpu().numpy(), features=features.numpy(), logits=logits.numpy())
-                record["sample_count"] = 2
+                record["sample_count"] = 4
+                record["warmup_sample_count"] = 2
+                record["steady_sample_count"] = 2
+                record["batch_size"] = 2
                 record["paper_metric"] = False
         else:
             def capture_fid(features, ref):
@@ -136,6 +154,8 @@ try:
             record.update(fid_release_return=fid, sample_count=50000, images_per_class=50,
                           paper_metric=False, comparison_scope="Released-code numerical comparison with declared paper differences")
         torch.cuda.synchronize()
+        record["encoder_nfe_total"] = nfe_count[0]
+        nfe_hook.remove()
         record["evaluation_elapsed_seconds_including_first_compile"] = time.perf_counter() - evaluation_start
         record["peak_allocated_bytes"] = torch.cuda.max_memory_allocated()
         record["peak_reserved_bytes"] = torch.cuda.max_memory_reserved()
