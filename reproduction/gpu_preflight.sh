@@ -21,6 +21,6 @@ assert torch.cuda.device_count() == 1, "Unexpected GPU visibility"
 assert torch.cuda.get_device_capability(0)[0] >= 8, "Native TF32 architecture required"
 print(json.dumps({"torch":torch.__version__,"torch_cuda":torch.version.cuda,
                   "cuda_available":torch.cuda.is_available(),"device_count":torch.cuda.device_count(),
-                  "gpu_name":torch.cuda.get_device_name(0),"vram_bytes":torch.cuda.get_device_properties(0).total_memory,
+                  "gpu_name":torch.cuda.get_device_name(0),"gpu_uuid":str(torch.cuda.get_device_properties(0).uuid),"vram_bytes":torch.cuda.get_device_properties(0).total_memory,
                   "capability":torch.cuda.get_device_capability(0),"compiled_arches":torch.cuda.get_arch_list()},indent=2))
 PY

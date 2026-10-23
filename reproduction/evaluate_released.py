@@ -5,6 +5,7 @@ import json
 import os
 import platform
 import random
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -30,6 +31,7 @@ parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--batch-size", type=int, default=16)
 args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
+source_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 assert (Path.cwd() / "REPRODUCIBILITY_METADATA.json").is_file(), "Run only from a complete source stage"
 assert (Path.cwd() / "STAGING_MANIFEST.json").is_file(), "A verified staging manifest is required"
 assert os.getenv("SLURM_JOB_ID"), "Run only in a Slurm allocation"
@@ -42,6 +44,8 @@ record = {"run_id": args.output.name, "node_id": "RELEASED_CHECKPOINT_" + args.m
           "node": platform.node(), "stage": str(Path.cwd()), "seed": args.seed,
           "checkpoint": str(args.checkpoint), "checkpoint_sha256_expected": args.checkpoint_sha256,
           "encoder": args.encoder, "batch_size": args.batch_size,
+          "source_revision": source_revision, "upstream_source_revision": "2389f2c65fedbd43ada851e69b2b810efd23af7d",
+          "package_lock_sha256": hashlib.sha256(Path("reproduction/locks/packages-cpu-setup-2826271.txt").read_bytes()).hexdigest(),
           "torch": torch.__version__, "torch_cuda": torch.version.cuda,
           "python": sys.version, "cfg_scale": args.cfg_scale,
           "cfg_interval": [0.1, 1.0], "cfg_norm_order": "norm_first",
@@ -96,6 +100,8 @@ try:
         model.decoder = torch.compile(model.decoder, mode="default")
         record["decoder_compile_mode"] = "default"
         record["gpu_model"] = torch.cuda.get_device_name(0)
+        record["gpu_uuid"] = str(torch.cuda.get_device_properties(0).uuid)
+        record["driver_version"] = subprocess.check_output(["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"], text=True).splitlines()[0]
         record["gpu_vram_bytes"] = torch.cuda.get_device_properties(0).total_memory
         record["gpu_capability"] = list(torch.cuda.get_device_capability(0))
         nfe_count = [0]
