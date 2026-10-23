@@ -18,6 +18,7 @@ import yaml
 from models.unite import UNITE
 from engines import eval as evaluation
 from utils.fid import get_inception_model, extract_inception_features
+from utils.distributed import setup_distributed, cleanup_distributed
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--checkpoint", type=Path, required=True)
@@ -38,7 +39,10 @@ if args.protocol == "paper-text":
             super().__init__(*positional, **keywords)
             self.t = 0.1 + 0.9 * self.t
     denoiser.ode = PaperTextODE
-args.output.mkdir(parents=True, exist_ok=True)
+rank, world_size, distributed_device = setup_distributed() if args.mode != "check" else (0, 1, torch.device("cpu"))
+rank_output = args.output / f"rank-{rank:04d}"
+rank_output.mkdir(parents=True, exist_ok=True)
+effective_seed = args.seed * world_size + rank
 source_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 assert (Path.cwd() / "REPRODUCIBILITY_METADATA.json").is_file(), "Run only from a complete source stage"
 assert (Path.cwd() / "STAGING_MANIFEST.json").is_file(), "A verified staging manifest is required"
@@ -50,6 +54,8 @@ record = {"run_id": args.output.name, "node_id": "RELEASED_CHECKPOINT_" + args.m
           "status": "PLANNED", "mode": args.mode, "protocol": args.protocol,
           "owner": "unite-reproduce-20261023", "job_id": os.environ["SLURM_JOB_ID"],
           "node": platform.node(), "stage": str(Path.cwd()), "seed": args.seed,
+          "effective_rank_seed": effective_seed, "rank": rank, "world_size": world_size,
+          "seed_rule": "source main_train.py: global_seed * world_size + rank",
           "checkpoint": str(args.checkpoint), "checkpoint_sha256_expected": args.checkpoint_sha256,
           "encoder": args.encoder, "batch_size": args.batch_size,
           "source_revision": source_revision, "upstream_source_revision": "2389f2c65fedbd43ada851e69b2b810efd23af7d",
@@ -61,7 +67,10 @@ record = {"run_id": args.output.name, "node_id": "RELEASED_CHECKPOINT_" + args.m
           "flow_steps_per_recon": 14, "timestep_shift_alpha": 0.5,
           "paper_interval_difference": "Explicit paper-text interval variant; source Gaussian initial state and drift retained." if args.protocol == "paper-text" else "Paper states integration [0.1,1.0]; this run follows released source integration [0,1]."}
 def save():
-    (args.output / "results.json").write_text(json.dumps(record, indent=2) + "\n")
+    payload = json.dumps(record, indent=2) + "\n"
+    (rank_output / "results.json").write_text(payload)
+    if rank == 0:
+        (args.output / "results.json").write_text(payload)
 save()
 try:
     h = hashlib.sha256()
@@ -93,9 +102,9 @@ try:
     record["encoder_parameters"] = sum(p.numel() for p in model.encoder.parameters())
     record["decoder_parameters"] = sum(p.numel() for p in model.decoder.parameters())
     del state, checkpoint
-    random.seed(args.seed)
-    np.random.seed(args.seed)
-    torch.manual_seed(args.seed)
+    random.seed(effective_seed)
+    np.random.seed(effective_seed)
+    torch.manual_seed(effective_seed)
     # PyTorch 2.10 Inductor reads legacy getters; use one API family consistently.
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
@@ -106,16 +115,16 @@ try:
         del inception
     else:
         assert torch.cuda.is_available()
-        device = torch.device("cuda", 0)
-        torch.cuda.manual_seed_all(args.seed)
+        device = distributed_device
+        torch.cuda.manual_seed_all(effective_seed)
         model = model.to(device)
         model.decoder = torch.compile(model.decoder, mode="default")
         record["decoder_compile_mode"] = "default"
-        record["gpu_model"] = torch.cuda.get_device_name(0)
-        record["gpu_uuid"] = str(torch.cuda.get_device_properties(0).uuid)
+        record["gpu_model"] = torch.cuda.get_device_name(device)
+        record["gpu_uuid"] = str(torch.cuda.get_device_properties(device).uuid)
         record["driver_version"] = subprocess.check_output(["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"], text=True).splitlines()[0]
-        record["gpu_vram_bytes"] = torch.cuda.get_device_properties(0).total_memory
-        record["gpu_capability"] = list(torch.cuda.get_device_capability(0))
+        record["gpu_vram_bytes"] = torch.cuda.get_device_properties(device).total_memory
+        record["gpu_capability"] = list(torch.cuda.get_device_capability(device))
         nfe_count = [0]
         def count_encoder_evaluation(module, inputs):
             nfe_count[0] += 1
@@ -144,7 +153,7 @@ try:
                 features, logits = extract_inception_features(images, inception, batch_size=args.batch_size)
                 assert tuple(features.shape) == (args.batch_size, 2048) and torch.isfinite(features).all()
                 assert torch.isfinite(logits).all()
-                np.savez(args.output / "smoke-images.npz", images=np.stack(batches),
+                np.savez(rank_output / "smoke-images.npz", images=np.stack(batches),
                          labels=labels.cpu().numpy(), features=features.numpy(), logits=logits.numpy())
                 record["sample_count"] = 2 * args.batch_size
                 record["warmup_sample_count"] = args.batch_size
@@ -169,7 +178,7 @@ try:
                 cfg_intervals=[(0.1, 1.0)], cfg_norm_orders=["norm_first"],
                 num_images=50000, num_classes=1000, batch_size=args.batch_size,
                 log_to_wandb=False, log_fid_best=False, current_best_cfg_scale=args.cfg_scale)
-            record.update(fid_release_return=fid, sample_count=50000, images_per_class=50,
+            record.update(fid_release_return=fid, sample_count=50000, local_sample_count=len(np.array_split(np.arange(50000), world_size)[rank]), images_per_class=50,
                           paper_metric=False, comparison_scope="Released-code numerical comparison with declared paper differences")
         torch.cuda.synchronize()
         record["encoder_nfe_total"] = nfe_count[0]
@@ -184,3 +193,4 @@ except Exception as exc:
 finally:
     record["elapsed_seconds"] = time.perf_counter() - start
     save()
+    cleanup_distributed()
