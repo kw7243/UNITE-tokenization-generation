@@ -1,21 +1,22 @@
-# Source setup notebook
+# UNITE research notebook
 
 ## Current state
 
 - Date: 2026-10-23 UTC.
-- Role: Source prepared for a separate reproduction worker.
+- Role: Released-checkpoint reproduction under way; sole owner unite-reproduce-20261023.
 - Official upstream: https://github.com/ShivamDuggal4/UNITE-tokenization-generation.
 - Public fork: https://github.com/kw7243/UNITE-tokenization-generation.
 - Pinned upstream source: `2389f2c65fedbd43ada851e69b2b810efd23af7d`.
 - Canonical retained clone: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-tokenization-generation`.
 - SSH access: `kwen1@slurm-login.csail.mit.edu` (observed `slurm-login-0.csail.mit.edu`).
 - The authenticated GitHub account is `kw7243`. GitHub API confirms the fork parent is `ShivamDuggal4/UNITE-tokenization-generation`.
-- This notebook is the only setup change. No environment, checkpoint download, experiment, or GPU allocation was started.
+- Initial source setup changed only this notebook. Current CPU-only setup and later research changes are recorded in dated entries below; no numerical result or GPU allocation exists yet.
 
 ## Branch index
 
 - `main`: canonical source plus this documentation-only setup commit; fork and upstream default branches remain `main`.
 - `upstream/main`: official source at setup revision `2389f2c65fedbd43ada851e69b2b810efd23af7d`.
+- `research/unite-released-20261023`: independent released-checkpoint branch, parent de27e4a, implementation receipt dfc1e30.
 - No existing divergent branch was changed. No force push was used.
 
 ## Storage and next step
@@ -60,3 +61,15 @@
 - Output root: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-results/cpu-setup-2826271`; log beside it: `cpu-setup-2826271.log`.
 - Sole submission, terminal-result and notebook owner: `unite-reproduce-20261023`.
 - This job prepares dependencies, downloads released artifacts, inspects checkpoint metadata and inventories the validation filenames/class map. It produces no paper metric.
+
+
+## 2026-10-23 — Standalone evaluation entrypoint prepared
+
+- Research implementation receipt: `dfc1e30` on `research/unite-released-20261023`, backed up to the authorized fork.
+- `reproduction/protocol.md` records Table 1 targets Base FID 2.12 / IS 294.1 and Large FID 1.73 / IS 296.0, exact 50K balanced sampling, metric implementation, seed policy and unresolved source/paper differences.
+- `reproduction/evaluate_released.py` loads the exact hash-locked EMA with strict state matching and invokes released `engines.eval.evaluate_fid`. It retains Inception features/logits without replacing metric functions. It is not yet numerically validated.
+- CPU-only source readiness is prepared in `reproduction/readiness.sbatch`. It is not submitted before setup job 2826271 supplies checkpoint hashes and configuration evidence.
+- Source trace: training evaluation hooks run outside BF16 autocast; decoder compilation uses default mode for the YAML gradient accumulation of two. The entrypoint restores those settings.
+- Source concern: CFG=1.0 follows a separate normalization branch. This is recorded, not silently changed.
+- Full paper reconstruction Table 2 uses Base at 120 epochs; released Base is advertised at 240 epochs. Do not claim that table is replicated by evaluating the wrong checkpoint.
+- CPU job 2826271 is still installing dependencies. No GPU is requested and no numerical claim is made.
