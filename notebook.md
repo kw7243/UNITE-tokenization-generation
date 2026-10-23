@@ -141,3 +141,19 @@
 - Branch index: research/unite-released-20261023 at a1b4484 backed up to kw7243; parent de27e4a7084e631452b27d84d3e92aadec815ea7, official pin 2389f2c65fedbd43ada851e69b2b810efd23af7d.
 - Paper scores remain unmeasured. Source-path single-RTX3090 sampling projects Base 9.46 hours / Large 31.2 hours per 50K, before extraction/scoring and adaptive variation.
 - Next: prepare source-engine batch evaluation, inspect current permitted resources/account use, report requests and submit complete stages. UNITE job/result/notebook ownership remains active.
+
+
+## 2026-10-23 — First full evaluation externally cancelled before confirmed batch execution
+
+- Frozen initial plan fce4491 requests Base release 1 RTX3090, Large release 4, Base paper-text 1 and Large paper-text 3; batch 16 per rank, zero global seed with native seed = global_seed * world_size + rank.
+- The measured single-steady-call sampling projections are 9.46 / 7.80 / 7.43 / 8.25 hours respectively, excluding extraction/scoring and adaptive variation. All limits are 12 hours. Exact plan: reproduction/locks/final-plan.json in the research branch.
+- IS uses all 50,000 images and the first 1,000 class dimensions per image from 1,008 logits, then ten contiguous splits. It is not a 1,000-sample evaluation.
+- Actual paper batch/world size and RNG state are unspecified. Saved CFG Base 2.0 / Large 1.8 remains separate from the unrun 16-point paper sweep. Large interval comparisons use different world sizes and do not isolate a causal interval effect.
+- Slurm accepted Base-release job 2827364 from full stage /data/scratch-fast/kwen1/unite-released-20261023-stages/20261023_230229-7f3b99-fce4491-code (236 verified files/links).
+- Job 2827364 then CANCELLED by UID 0 after 2 seconds, 23:02:44–23:02:46 UTC; Reason=None, PreemptTime=None, Restarts=0. No initial batch receipt, stdout or GPU preflight log exists. No model execution or metric is confirmed.
+- Retained report/results/accounting: UNITE-released-20261023-results/fid-Base-release-2827364. Allocated cost is 2 GPU-seconds / 8 core-seconds; this is an operational cancellation, not a scientific failure.
+- Read-only association, QoS, partition, public job-submit/prolog and node/controller checks give no cause. Controller log is unavailable on login. No system file changed, no admin privilege used, and no speculative resubmission or other final request made.
+- Source unequal-count logic already gathers actual counts, pads to max and slices g[:count]. CPU proof gives [16667,16667,16666] for world 3 and exactly 50,000 labels, each class 50 times.
+- Update 68d1c7d prepares native allocated-node GPU binding, NCCL all-reduce and the original source evaluator's unequal-count gather on 2,000 synthetic rows before long inference. No model or scientific metric is used in this test. Actual multi-rank GPU execution remains unverified.
+- Future preflight and full evaluation each receive a new complete stage inside the submitted immutable stage; inherited skip-stage state is explicitly cleared.
+- Next: obtain the controller-side cancellation reason or a verified remedy. Research/terminal/notebook ownership remains with unite-reproduce-20261023; no owned job is active.
