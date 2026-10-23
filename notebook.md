@@ -10,7 +10,7 @@
 - Canonical retained clone: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-tokenization-generation`.
 - SSH access: `kwen1@slurm-login.csail.mit.edu` (observed `slurm-login-0.csail.mit.edu`).
 - The authenticated GitHub account is `kw7243`. GitHub API confirms the fork parent is `ShivamDuggal4/UNITE-tokenization-generation`.
-- Initial source setup changed only this notebook. Current CPU-only setup and later research changes are recorded in dated entries below; no numerical result or GPU allocation exists yet.
+- Initial source setup changed only this notebook. CPU setup has completed and input hashes are locked. Later research changes are recorded in dated entries below; no numerical result or GPU allocation exists yet.
 
 ## Branch index
 
@@ -73,3 +73,16 @@
 - Source concern: CFG=1.0 follows a separate normalization branch. This is recorded, not silently changed.
 - Full paper reconstruction Table 2 uses Base at 120 epochs; released Base is advertised at 240 epochs. Do not claim that table is replicated by evaluating the wrong checkpoint.
 - CPU job 2826271 is still installing dependencies. No GPU is requested and no numerical claim is made.
+
+
+## 2026-10-23 — CPU setup completed; released inputs locked
+
+- Job 2826271 COMPLETED 0:0 on groenig-2: 1635 seconds / 6540 allocated CPU-core-seconds / zero GPU-seconds; MaxRSS 18412356 KB.
+- Exact retained run evidence: `UNITE-released-20261023-results/cpu-setup-2826271/report.md`, `results.json`, `checkpoint-metadata.json`, `packages.txt`. All paths are under the retained image-tokenization root.
+- Installed Python 3.10.22, Torch 2.10.0+cu128, torchvision 0.25.0+cu128, torch-fidelity 0.4.0, torchdiffeq 0.2.5, timm 0.9.16, transformers 4.56.2, NumPy 1.26.0 and SciPy 1.15.3, plus remaining source requirements.
+- Base SHA256: `7b7f40dd37111196cad6e4401bf9737156268612e001c29cb0a760ae416bff4b`; bytes 2745102286; epoch 240, step 316000, saved CFG 2.0.
+- Large SHA256: `5b15fe343c4b288d1e0231d04af4c38de126bd1609ac8b4155a5c147720d7a40`; bytes 6687027302; epoch 113, step 150000, saved CFG 1.8. This is the actual release, not proof of the advertised 120-epoch checkpoint.
+- Inception SHA256 `6726825d0af5f729cebd5821db510b11b1cfad8faad88a03f1befd49fb9129b2`; stats SHA256 `412046720c0d496dc6d72a30eac3e22b9ef6ddac3501cce7f996674ad227ba4c`.
+- Validation inventory: 50,000 images, 1,000 classes, 50 images per class; sorted synsets match all map indices. Class-map SHA256 `a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc`. Image content is not individually hashed.
+- Both checkpoints contain raw and EMA weights, optimizer/scheduler states and compiled decoder keys. Complete scientific configurations are absent. The source/README remain the authority for non-weight settings, including 14 training flow iterations.
+- This is a successful setup check, not a paper result. Next: strict CPU model loading and source readiness, then one attended GPU diagnosis. UNITE ownership remains with this assignment.
