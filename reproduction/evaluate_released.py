@@ -84,10 +84,10 @@ try:
     random.seed(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
-    if hasattr(torch.backends.cuda.matmul, "fp32_precision"):
-        torch.backends.cuda.matmul.fp32_precision = "tf32"
-    if hasattr(torch.backends.cudnn, "conv") and hasattr(torch.backends.cudnn.conv, "fp32_precision"):
-        torch.backends.cudnn.conv.fp32_precision = "tf32"
+    # PyTorch 2.10 Inductor reads legacy getters; use one API family consistently.
+    torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cudnn.allow_tf32 = True
+    record["tf32_configuration_api"] = "legacy_only_compatibility_with_pytorch_2_10_inductor"
     if args.mode == "check":
         inception = get_inception_model(torch.device("cpu"))
         record["inception_loaded_on_cpu"] = True
