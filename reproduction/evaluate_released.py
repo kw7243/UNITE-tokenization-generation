@@ -85,6 +85,10 @@ try:
     record["checkpoint_cfg_scale"] = checkpoint.get("current_best_cfg_scale")
     record["parameter_count_including_frozen_loss"] = sum(p.numel() for p in model.parameters())
     record["strict_state_load"] = True
+    resolved_times = model.flow_sampler.sample_ode(num_steps=50, timestep_shift=model.timestep_shift_alpha).__self__.t
+    record["resolved_ode_output_times"] = resolved_times.tolist()
+    expected_start = torch.tensor(0.1 if args.protocol == "paper-text" else 0.0, dtype=resolved_times.dtype)
+    assert resolved_times[0] == expected_start and resolved_times[-1] == 1.0
     record["model_dtype"] = str(next(model.parameters()).dtype)
     record["encoder_parameters"] = sum(p.numel() for p in model.encoder.parameters())
     record["decoder_parameters"] = sum(p.numel() for p in model.decoder.parameters())
