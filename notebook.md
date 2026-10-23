@@ -86,3 +86,17 @@
 - Validation inventory: 50,000 images, 1,000 classes, 50 images per class; sorted synsets match all map indices. Class-map SHA256 `a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc`. Image content is not individually hashed.
 - Both checkpoints contain raw and EMA weights, optimizer/scheduler states and compiled decoder keys. Complete scientific configurations are absent. The source/README remain the authority for non-weight settings, including 14 training flow iterations.
 - This is a successful setup check, not a paper result. Next: strict CPU model loading and source readiness, then one attended GPU diagnosis. UNITE ownership remains with this assignment.
+
+
+## 2026-10-23 — CPU readiness passed; first GPU request proposed
+
+- CPU job 2826684 COMPLETED 0:0 on groenig-2: 189 seconds / 756 allocated core-seconds / zero GPU-seconds; MaxRSS 2889700 KB. These totals apply to the shared job, not separately to each model.
+- Stage `/data/scratch-fast/kwen1/unite-released-20261023-stages/20261023_181429-bbd908-f744bc9-code` passed 130-file/link, execute-bit and Git-identity checks.
+- Both Base and Large load strictly after exact normalization of 152 compiled decoder key names. Prescribed Inception and package checks passed. Per-model reports/results are in retained `cpu-readiness-2826684-B` and `cpu-readiness-2826684-L`.
+- Actual encoder/decoder counts: Base 130789920 / 86435328; Large 458477824 / 86435328. Total including frozen LPIPS: Base 232951392, Large 560967488. Preserve these measured source counts instead of silently repeating advertised 217.6M/589.0M identities.
+- GPU smoke implementation `1f780e8` records two calls at the selected evaluation batch size, warm/steady timing, observed encoder calls and peak memory. It has passed AST checks, not GPU execution.
+- First GPU proposal: one RTX 3080, expected 10 GB, 4 CPUs / 16 GB RAM / 45 minutes, vision-torralba-urops-meng / vision-shared-rtx3080 / lab-free. Static FP32 model storage is below 2.3 GB for Large; activation/compile peak remains to be measured.
+- Current all-partition/node, association, QoS and own-account job inventory is retained in research `reproduction/evidence/resources-20261023-2219-*`. No account GPU job is running; B1's H100 jobs remain pending and are untouched.
+- Native TF32 support excludes older Turing/Pascal choices from matching the released evaluation backend. RTX 3080 is the smallest currently listed compatible-memory class. Verify actual VRAM/driver/CUDA/mounts after allocation.
+- Diagnostic target: Base CFG 2.0 and Large CFG 1.8, batch 16, seed zero, compiled default decoder, FP32 with source TF32 settings, source dopri5 interval [0,1], CFG interval [0.1,1]. These are smoke calls, not paper metrics.
+- Release the attended allocation after diagnosis. Estimate final 50K evaluation resources from observed steady timing, not the cold compile call.

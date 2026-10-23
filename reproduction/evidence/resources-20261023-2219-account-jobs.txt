@@ -1,0 +1,4 @@
+             JOBID                         NAME                PARTITION    STATE         TIME   TIME_LIMIT             NODELIST(REASON)             TRES_PER_NODE
+           2826692       karl-cpu-configuration                  tig-cpu  RUNNING         4:26        30:00                    groenig-2                       N/A
+           2822787 sp-b1-shared-final-evaluatio     vision-torralba-h100  PENDING         0:00      3:00:00                   (Priority)           gres/gpu:h100:1
+           2825317 sp-b1-separate-final-evaluat     vision-torralba-h100  PENDING         0:00      3:00:00                 (Dependency)           gres/gpu:h100:1
