@@ -128,3 +128,16 @@
 - Base retry `base-smoke-r1` completed finite-image/feature checks. It generated 32 smoke images, not FID-50K: cold/warm calls 17.7716 / 10.8931 seconds, encoder evaluations 104 / 110, peak allocated/reserved 1463837184 / 1853882368 bytes.
 - Large smoke is running in the same attended allocation. No additional GPU reservation or dependency change was made for the precision API fix.
 - Steady Base sampling alone projects about 9.46 hours per 50K on this RTX3090 before feature extraction/scoring and runtime variation. Do not treat this two-call projection as a measured paper-run duration.
+
+
+## 2026-10-23 — GPU diagnosis terminal; interval and launch checks passed
+
+- Allocation 2826865 COMPLETED 0:0 and released at 22:55:30 UTC: 1616 allocated GPU-seconds / 6464 allocated core-seconds, charged once.
+- Source Base / Large steady batch-16 sampling: 10.8931 / 35.9369 seconds; peak allocated 1463837184 / 2923552256 bytes.
+- Explicit paper-text Base / Large steady sampling: 8.5596 / 28.4953 seconds. Both passed finite image/feature checks; actual 50-point grids are saved.
+- Source ODE interval is [0,1]. Adapter c3a9dd8 changes only the paper-text grid to 0.1 + 0.9 * shifted_grid, retaining source Gaussian start and drift. Unpublished intended settings remain uncertain.
+- Adapter a1b4484 reuses native distributed setup with per-rank receipts and source seed rule global_seed * world_size + rank. One-rank torchrun images, labels, features and logits match direct Base launch bitwise.
+- Every child has report.md and results.json in retained UNITE-released-20261023-results/gpu-diagnostic-2826865. accounting.txt includes the initial compile failure.
+- Branch index: research/unite-released-20261023 at a1b4484 backed up to kw7243; parent de27e4a7084e631452b27d84d3e92aadec815ea7, official pin 2389f2c65fedbd43ada851e69b2b810efd23af7d.
+- Paper scores remain unmeasured. Source-path single-RTX3090 sampling projects Base 9.46 hours / Large 31.2 hours per 50K, before extraction/scoring and adaptive variation.
+- Next: prepare source-engine batch evaluation, inspect current permitted resources/account use, report requests and submit complete stages. UNITE job/result/notebook ownership remains active.
