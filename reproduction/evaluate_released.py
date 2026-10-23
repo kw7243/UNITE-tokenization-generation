@@ -107,31 +107,31 @@ try:
         evaluation_start = time.perf_counter()
         if args.mode == "smoke":
             with torch.no_grad():
-                labels = torch.tensor([0, 999], device=device)
+                labels = torch.linspace(0, 999, args.batch_size, device=device).to(torch.long)
                 batches, timings, nfe_per_call = [], [], []
                 for smoke_index in range(2):
                     torch.cuda.synchronize()
                     call_start = time.perf_counter()
                     previous_nfe = nfe_count[0]
-                    images = model.diffusion_generate(device=device, num_visuals=2, cfg_scale=args.cfg_scale,
+                    images = model.diffusion_generate(device=device, num_visuals=args.batch_size, cfg_scale=args.cfg_scale,
                         cfg_interval=(0.1, 1.0), cfg_norm_order="norm_first", y_given=labels).clamp(0, 1)
                     torch.cuda.synchronize()
                     timings.append(time.perf_counter() - call_start)
                     nfe_per_call.append(nfe_count[0] - previous_nfe)
-                    assert tuple(images.shape) == (2, 3, 256, 256) and torch.isfinite(images).all()
+                    assert tuple(images.shape) == (args.batch_size, 3, 256, 256) and torch.isfinite(images).all()
                     batches.append(images.cpu().numpy())
                 record["sampling_seconds_per_call"] = timings
                 record["encoder_nfe_per_call"] = nfe_per_call
                 inception = get_inception_model(device)
-                features, logits = extract_inception_features(images, inception, batch_size=2)
-                assert tuple(features.shape) == (2, 2048) and torch.isfinite(features).all()
+                features, logits = extract_inception_features(images, inception, batch_size=args.batch_size)
+                assert tuple(features.shape) == (args.batch_size, 2048) and torch.isfinite(features).all()
                 assert torch.isfinite(logits).all()
                 np.savez(args.output / "smoke-images.npz", images=np.stack(batches),
                          labels=labels.cpu().numpy(), features=features.numpy(), logits=logits.numpy())
-                record["sample_count"] = 4
-                record["warmup_sample_count"] = 2
-                record["steady_sample_count"] = 2
-                record["batch_size"] = 2
+                record["sample_count"] = 2 * args.batch_size
+                record["warmup_sample_count"] = args.batch_size
+                record["steady_sample_count"] = args.batch_size
+                record["batch_size"] = args.batch_size
                 record["paper_metric"] = False
         else:
             def capture_fid(features, ref):
