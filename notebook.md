@@ -100,3 +100,16 @@
 - Native TF32 support excludes older Turing/Pascal choices from matching the released evaluation backend. RTX 3080 is the smallest currently listed compatible-memory class. Verify actual VRAM/driver/CUDA/mounts after allocation.
 - Diagnostic target: Base CFG 2.0 and Large CFG 1.8, batch 16, seed zero, compiled default decoder, FP32 with source TF32 settings, source dopri5 interval [0,1], CFG interval [0.1,1]. These are smoke calls, not paper metrics.
 - Release the attended allocation after diagnosis. Estimate final 50K evaluation resources from observed steady timing, not the cold compile call.
+
+
+## 2026-10-23 — First GPU preflight stopped on a node driver mismatch
+
+- Allocation 2826772 selected isola-3080-1, one RTX3080-class GPU / 4 CPUs / 16 GB / 45-minute limit. No model command ran.
+- Full source stage: `/data/scratch-fast/kwen1/unite-released-20261023-stages/20261023_182231-62ac98-3259811-code`; 161-file/link, execute-bit and Git proof passed.
+- NVML failed with exit 18. A read-only cause check found loaded kernel driver 580.178.04 versus system NVML/libcuda 580.196.07, with empty LD_LIBRARY_PATH. This is independent of Torch or model code.
+- The allocation was released immediately after cause inspection. Authoritative accounting: 22:22:53–22:24:55 UTC, 122 allocated GPU-seconds / 488 allocated CPU-core-seconds. Allocation exit 0:0 does not mean the preflight passed: step 2826772.0 failed 18:0.
+- Retained report/results/logs: `UNITE-released-20261023-results/gpu-diagnostic-2826772/`; no raw file or failed attempt was removed.
+- Scientific status remains untested. No system driver, shared library or scheduler state was changed.
+- Prior authorized records and existing project evidence were checked; no matching workaround was found. Do not repeat the same probe on this proven unhealthy node.
+- The 22:25 UTC full partition/node/account/QoS inventory remains in research `reproduction/evidence/resources-20261023-2225-*`. No account GPUs are running; B1's H100 jobs remain pending and untouched.
+- Corrected request proposal: one RTX3090 24GB / 4 CPUs / 16 GB RAM / 45 minutes on vision-torralba-rtx3090 with vision-torralba-interactive QoS, same account and same diagnostic. This is the next-smallest viable native-TF32 class after the sole RTX3080 node failed its prerequisite. Do not change scientific settings to address a node fault.
