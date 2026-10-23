@@ -37,7 +37,7 @@ assert expected == actual, {"missing": sorted(expected.keys() - actual.keys()),
                             "extra": sorted(actual.keys() - expected.keys()),
                             "changed": [k for k in expected.keys() & actual.keys() if expected[k] != actual[k]]}
 commands = [["git", "rev-parse", "HEAD"], ["git", "branch", "--show-current"],
-            ["git", "status", "--porcelain=v1"], ["git", "ls-files", "--stage"]]
+            ["git", "status", "--porcelain=v1", "--untracked-files=all", "--", ".", ":(exclude)REPRODUCIBILITY_METADATA.json", ":(exclude)STAGING_MANIFEST.json"], ["git", "ls-files", "--stage"]]
 git_identity = []
 for cmd in commands:
     left = subprocess.check_output(cmd, cwd=source, text=True)
