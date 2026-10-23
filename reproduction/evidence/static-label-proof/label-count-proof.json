@@ -1,0 +1,31 @@
+{
+  "1": {
+    "counts": [
+      50000
+    ],
+    "total": 50000,
+    "class_count_min": 50,
+    "class_count_max": 50
+  },
+  "3": {
+    "counts": [
+      16667,
+      16667,
+      16666
+    ],
+    "total": 50000,
+    "class_count_min": 50,
+    "class_count_max": 50
+  },
+  "4": {
+    "counts": [
+      12500,
+      12500,
+      12500,
+      12500
+    ],
+    "total": 50000,
+    "class_count_min": 50,
+    "class_count_max": 50
+  }
+}
