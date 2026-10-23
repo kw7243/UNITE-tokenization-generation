@@ -1,0 +1,2 @@
+archive_exit=23
+compatible_exit=0

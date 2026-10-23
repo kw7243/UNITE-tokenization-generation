@@ -1,0 +1,5 @@
+rsync: [generator] failed to set permissions on "/data/scratch-fast/kwen1/unite-released-20261023-staging-probe/archive/.": Operation not permitted (1)
+rsync: [generator] failed to set permissions on "/data/scratch-fast/kwen1/unite-released-20261023-staging-probe/archive/__pycache__": Operation not permitted (1)
+rsync: [generator] failed to set permissions on "/data/scratch-fast/kwen1/unite-released-20261023-staging-probe/archive/evidence": Operation not permitted (1)
+rsync: [generator] failed to set permissions on "/data/scratch-fast/kwen1/unite-released-20261023-staging-probe/archive/tools": Operation not permitted (1)
+rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1356) [sender=3.2.7]
