@@ -25,11 +25,19 @@ parser.add_argument("--checkpoint-sha256", required=True)
 parser.add_argument("--encoder", choices=["Base", "Large"], required=True)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--mode", choices=["check", "smoke", "fid"], required=True)
-parser.add_argument("--protocol", choices=["release"], required=True)
+parser.add_argument("--protocol", choices=["release", "paper-text"], required=True)
 parser.add_argument("--cfg-scale", type=float, default=2.4)
 parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--batch-size", type=int, default=16)
 args = parser.parse_args()
+if args.protocol == "paper-text":
+    from modules import denoiser
+    from modules.denoiser_utils.integrators import ode
+    class PaperTextODE(ode):
+        def __init__(self, *positional, **keywords):
+            super().__init__(*positional, **keywords)
+            self.t = 0.1 + 0.9 * self.t
+    denoiser.ode = PaperTextODE
 args.output.mkdir(parents=True, exist_ok=True)
 source_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
 assert (Path.cwd() / "REPRODUCIBILITY_METADATA.json").is_file(), "Run only from a complete source stage"
@@ -49,9 +57,9 @@ record = {"run_id": args.output.name, "node_id": "RELEASED_CHECKPOINT_" + args.m
           "torch": torch.__version__, "torch_cuda": torch.version.cuda,
           "python": sys.version, "cfg_scale": args.cfg_scale,
           "cfg_interval": [0.1, 1.0], "cfg_norm_order": "norm_first",
-          "ode_interval": [0.0, 1.0], "ode_solver": "dopri5", "atol": 1e-6, "rtol": 1e-3,
+          "ode_interval": [0.1 if args.protocol == "paper-text" else 0.0, 1.0], "ode_solver": "dopri5", "atol": 1e-6, "rtol": 1e-3,
           "flow_steps_per_recon": 14, "timestep_shift_alpha": 0.5,
-          "paper_interval_difference": "Paper states integration [0.1,1.0]; this run follows released source integration [0,1]."}
+          "paper_interval_difference": "Explicit paper-text interval variant; source Gaussian initial state and drift retained." if args.protocol == "paper-text" else "Paper states integration [0.1,1.0]; this run follows released source integration [0,1]."}
 def save():
     (args.output / "results.json").write_text(json.dumps(record, indent=2) + "\n")
 save()

@@ -60,3 +60,19 @@ Every experimental command, including smoke and scoring, requires a fresh full t
 - Source trace confirms the evaluation hooks at engines/train.py:125-134 run outside the batch autocast context at line 63. Preserve FP32 evaluation with the training entry's TF32 settings.
 - Source main_train.py:170-176 compiles the decoder in default mode for grad_accum_steps=2 before copying EMA. Restore compilation after loading normalized checkpoint keys; do not silently switch final evaluation to eager execution.
 - At CFG scale 1.0, released diffusion_generate takes a separate branch and only applies encoder output normalization for cfg_first/both, unlike guided norm_first. Preserve and disclose that source behavior until a bounded correction is justified; the other fifteen requested scales use the guided branch.
+
+
+## Predeclared interval variants
+
+The public source and paper text contradict each other, so retain two named variants.
+The release variant uses the original integration [0,1].
+The paper-text variant uses physical ODE times [0.1,1.0], mapping the source's already shifted output time grid by t -> 0.1 + 0.9*t.
+This changes only the two integration endpoints/output query times; the actual source drift, source Gaussian initial latent state, checkpoint tensors, guidance window, normalization, adaptive solver and tolerances are retained.
+This is an explicit literal interpretation of Appendix B; the authors' unreleased configuration cannot establish whether their text instead meant the guidance window.
+
+Initial 50K checkpoint replays use the exact saved CFG values Base=2.0 and Large=1.8, both within the published 1.0:0.2:4.0 search range.
+These replays test the provided configurations; they are not a claim to have rerun the entire CFG search.
+Compare both named interval variants at those frozen values before interpreting a reproduction gap.
+Report FID/IS differences without an arbitrary statistical success threshold.
+The paper provides no evaluation seeds or uncertainty; published rounding resolution alone is not a stochastic tolerance.
+If the provided configurations do not reproduce the published values, the remaining finite CFG grid is the next bounded evaluation branch; do not tune checkpoints, change sample counts or silently change metrics.
