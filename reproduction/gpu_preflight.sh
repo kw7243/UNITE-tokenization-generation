@@ -17,7 +17,11 @@ scontrol show job "$SLURM_JOB_ID" -o
 import json
 import torch
 assert torch.cuda.is_available(), "No CUDA in the allocated step"
-assert torch.cuda.device_count() == 1, "Unexpected GPU visibility"
+import os
+assert torch.cuda.device_count() == int(os.environ.get("UNITE_NPROC", "1")), "Unexpected GPU visibility"
+for index in range(torch.cuda.device_count()):
+    assert torch.cuda.get_device_capability(index)[0] >= 8
+    print(json.dumps({"index": index, "name": torch.cuda.get_device_name(index), "uuid": str(torch.cuda.get_device_properties(index).uuid), "vram_bytes": torch.cuda.get_device_properties(index).total_memory}))
 assert torch.cuda.get_device_capability(0)[0] >= 8, "Native TF32 architecture required"
 print(json.dumps({"torch":torch.__version__,"torch_cuda":torch.version.cuda,
                   "cuda_available":torch.cuda.is_available(),"device_count":torch.cuda.device_count(),

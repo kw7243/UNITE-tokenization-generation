@@ -71,6 +71,43 @@ def save():
     (rank_output / "results.json").write_text(payload)
     if rank == 0:
         (args.output / "results.json").write_text(payload)
+    report = f"""# {record['run_id']}: {record['node_id']}
+
+## Objective
+Measure released {args.encoder} EMA ImageNet-256 generation through the original source evaluator.
+
+## Setup
+Status {record['status']}; job {record['job_id']}; node {record['node']}; rank {rank}/{world_size}.
+Stage {record['stage']}; source {source_revision}; checkpoint SHA256 {args.checkpoint_sha256}.
+Protocol {args.protocol}; CFG {args.cfg_scale}; global seed {args.seed}; rank seed {effective_seed}; batch {args.batch_size} per rank.
+Full configuration, input identity and runtime properties are in results.json.
+
+## Baseline
+Table 1 Base FID-50K 2.12 / IS 294.1; Large FID-50K 1.73 / IS 296.0.
+Full generation uses source balanced 50,000 labels, prescribed Inception weights/reference statistics and unchanged FID/IS functions.
+IS uses all 50,000 images and the first 1,000 class dimensions per image, with ten contiguous splits.
+
+## Results
+FID: {record.get('fid_full_precision')}; IS: {record.get('inception_score')}; split standard deviation: {record.get('inception_score_split_std')}.
+Elapsed seconds: {record.get('elapsed_seconds')}; peak allocated bytes: {record.get('peak_allocated_bytes')}.
+Error: {record.get('error')}. Raw features and logits are retained after extraction.
+Rank-zero results contain global scores; other rank records contain local runtime and memory.
+
+## Interpretation
+PASS means execution completed; it does not assert paper agreement. Smoke runs are not paper-score evaluations.
+Release retains ODE [0,1]; paper-text uses the explicit [0.1,1] grid variant with source Gaussian start and drift.
+
+## Limitations
+Large actual epoch is 113, while the advertised target is 120. Full configuration and authors' RNG states are absent.
+Paper evaluation batch/world size are unspecified; source seed and array splitting are retained. Batch/rank choices affect noise and adaptive ODE integration.
+Fixed saved CFG does not rerun the finite paper CFG sweep. Paper seed uncertainty is unavailable; no arbitrary fidelity threshold is used.
+
+## Next action
+Inspect terminal accounting and compare completed numerical results with the declared paper targets.
+"""
+    (rank_output / "report.md").write_text(report)
+    if rank == 0:
+        (args.output / "report.md").write_text(report)
 save()
 try:
     h = hashlib.sha256()
@@ -162,8 +199,8 @@ try:
                 record["paper_metric"] = False
         else:
             def capture_fid(features, ref):
-                value = source_fid(features, ref)
                 np.save(args.output / "inception-features.npy", features.numpy())
+                value = source_fid(features, ref)
                 record["fid_full_precision"] = value
                 return value
             def capture_is(logits):
@@ -179,7 +216,7 @@ try:
                 num_images=50000, num_classes=1000, batch_size=args.batch_size,
                 log_to_wandb=False, log_fid_best=False, current_best_cfg_scale=args.cfg_scale)
             record.update(fid_release_return=fid, sample_count=50000, local_sample_count=len(np.array_split(np.arange(50000), world_size)[rank]), images_per_class=50,
-                          paper_metric=False, comparison_scope="Released-code numerical comparison with declared paper differences")
+                          paper_metric=True, paper_protocol_exact=False, comparison_scope="Released-code numerical comparison with declared paper differences")
         torch.cuda.synchronize()
         record["encoder_nfe_total"] = nfe_count[0]
         nfe_hook.remove()
