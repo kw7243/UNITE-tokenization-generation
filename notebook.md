@@ -113,3 +113,18 @@
 - Prior authorized records and existing project evidence were checked; no matching workaround was found. Do not repeat the same probe on this proven unhealthy node.
 - The 22:25 UTC full partition/node/account/QoS inventory remains in research `reproduction/evidence/resources-20261023-2225-*`. No account GPUs are running; B1's H100 jobs remain pending and untouched.
 - Corrected request proposal: one RTX3090 24GB / 4 CPUs / 16 GB RAM / 45 minutes on vision-torralba-rtx3090 with vision-torralba-interactive QoS, same account and same diagnostic. This is the next-smallest viable native-TF32 class after the sole RTX3080 node failed its prerequisite. Do not change scientific settings to address a node fault.
+
+
+## 2026-10-23 — Healthy GPU allocation and TF32 compatibility proof
+
+- Corrected allocation 2826865 selected torralba-3090-3: RTX3090 UUID `8db9c33b-38d7-ff85-9dc2-8a8d5cee5ae1`, driver 580.178.04, native SM8.6, CUDA 12.8, one visible GPU, GCC/G++ 11.4, allocated 4 CPUs / 16 GB RAM / 45 minutes.
+- Allocated-node mounts and package identity passed before model execution. Allocation stage: `20261023_182812-8e2145-c8bfa48-code`; separately staged preflight: `20261023_182929-a26954-c8bfa48-code`, under the UNITE-specific scratch staging root.
+- First Base smoke `base-smoke` failed at decoder compilation due to Torch 2.10's legacy TF32 getter conflicting with the source's newer setters. Step 2826865.1 failed 1:0 after 34 seconds. Preserve its log/report/results; no paper metric or decoded image was produced.
+- [Torch 2.10 CUDA documentation](https://docs.pytorch.org/docs/2.10/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices) describes both APIs and disallows mixing them. Installed Inductor's warning path reads the legacy getter.
+- Adapter compatibility code `1db5adf` uses one legacy API family while preserving TF32-enabled matmul/cuDNN and default decoder compilation. Core source model, sampler, metric implementation and checkpoint tensors remain unchanged.
+- Staged primitive counterfactuals in the same allocation passed. Source new-API eager versus legacy-only eager matrix and convolution outputs were bitwise equal, maximum absolute difference zero. Compiled legacy matrix versus eager was also exactly equal.
+- This verifies the selected native-API compatibility change for the fixed primitives; it does not establish full-model or paper equivalence.
+- Retained diagnostic root: `UNITE-released-20261023-results/gpu-diagnostic-2826865/`, with separate report/results for every completed or failed command.
+- Base retry `base-smoke-r1` completed finite-image/feature checks. It generated 32 smoke images, not FID-50K: cold/warm calls 17.7716 / 10.8931 seconds, encoder evaluations 104 / 110, peak allocated/reserved 1463837184 / 1853882368 bytes.
+- Large smoke is running in the same attended allocation. No additional GPU reservation or dependency change was made for the precision API fix.
+- Steady Base sampling alone projects about 9.46 hours per 50K on this RTX3090 before feature extraction/scoring and runtime variation. Do not treat this two-call projection as a measured paper-run duration.
