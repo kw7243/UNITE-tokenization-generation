@@ -1,0 +1,4 @@
+2827023|karl-released-final|RUNNING|vision-shared-rtx2080ti|shared-if-available|vision-torralba-urops-meng|4|16G|gres/gpu:1|inspector-gadget.drl|None
+2827031|karl-released-final|RUNNING|vision-shared-rtx2080ti|shared-if-available|vision-torralba-urops-meng|4|16G|gres/gpu:1|inspector-gadget.drl|None
+2825317|sp-b1-separate-final-evaluation|PENDING|vision-torralba-h100|vision-torralba-interactive|vision-torralba-urops-meng|8|32G|gres/gpu:h100:1||Dependency
+2822787|sp-b1-shared-final-evaluation|RUNNING|vision-torralba-h100|vision-torralba-interactive|vision-torralba-urops-meng|8|32G|gres/gpu:h100:1|torralba-h100-1|None

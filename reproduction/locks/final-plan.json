@@ -1,0 +1,101 @@
+{
+  "frozen_at_utc": "2026-10-23T23:00:00Z",
+  "phase": "initial_saved_cfg_50k",
+  "paper_cfg_sweep_executed": false,
+  "global_seed": 0,
+  "source_seed_rule": "main_train.py:125-128 global_seed * world_size + rank",
+  "source_label_rule": "engines/eval.py: np.tile(np.arange(1000),50); np.array_split(np.arange(50000),world_size), then batch sequentially per rank",
+  "source_distributed_setup": "utils/distributed.py setup_distributed and cleanup_distributed; unchanged native engines/eval.py gather and rank-zero scoring",
+  "paper_evaluation_batch_size": "not specified",
+  "paper_evaluation_world_size": "not specified",
+  "paper_evaluation_rng_state": "not released",
+  "is_sample_count": 50000,
+  "is_class_dimensions_per_sample": 1000,
+  "is_split_count": 10,
+  "resource_account": "vision-torralba-urops-meng",
+  "partition": "vision-torralba-rtx3090",
+  "qos": "vision-torralba-urops-meng",
+  "hardware": "RTX3090 24GB native SM8.6; measured",
+  "request_reason": "One RTX3090 suffices for Base within 12h. Source Large projects 31.2h singly; 3 ranks project 10.4h before observed ~15.5% NFE variation and extraction, so 4 are adequate. Paper-text Large projects 24.74h singly, 3 ranks 8.25h with observed ~12% cold/steady variation, so 3 are adequate. Estimates use one steady call; not measured full runtimes. Different world sizes prevent an isolated causal interval comparison.",
+  "alternative_resources_inspected": "All current Torralba and allowed Vision/CSAIL Shared accelerators and partitions. The sole RTX3080 node is proven unhealthy; older Turing/V100 lack native TF32; RTX4090 has no measured throughput/runtime proof in this environment. Larger-VRAM A6000/L40S/A100/H100/H200 are unnecessary for measured peaks below 3GB. B1 uses the H100 pool; proposed RTX3090 jobs use separate resources.",
+  "current_account_gpu_jobs": [
+    {
+      "id": 2822787,
+      "paper": "B1",
+      "gpu": "H100",
+      "state": "RUNNING"
+    },
+    {
+      "id": 2825317,
+      "paper": "B1",
+      "gpu": "H100",
+      "state": "PENDING Dependency"
+    },
+    {
+      "id": 2827023,
+      "paper": "KARL",
+      "gpu": "RTX2080Ti",
+      "state": "RUNNING"
+    },
+    {
+      "id": 2827031,
+      "paper": "KARL",
+      "gpu": "RTX2080Ti",
+      "state": "RUNNING"
+    }
+  ],
+  "runs": [
+    {
+      "encoder": "Base",
+      "protocol": "release",
+      "world_size": 1,
+      "per_rank_batch_size": 16,
+      "cpus": 4,
+      "host_memory_gb": 16,
+      "time_limit": "12:00:00",
+      "cfg": 2,
+      "sample_count": 50000,
+      "steady_single_call_seconds": 10.893116650986485,
+      "projected_sampling_hours": 9.455830426203546
+    },
+    {
+      "encoder": "Large",
+      "protocol": "release",
+      "world_size": 4,
+      "per_rank_batch_size": 16,
+      "cpus": 16,
+      "host_memory_gb": 64,
+      "time_limit": "12:00:00",
+      "cfg": 1.8,
+      "sample_count": 50000,
+      "steady_single_call_seconds": 35.93694113701349,
+      "projected_sampling_hours": 7.798815350914386
+    },
+    {
+      "encoder": "Base",
+      "protocol": "paper-text",
+      "world_size": 1,
+      "per_rank_batch_size": 16,
+      "cpus": 4,
+      "host_memory_gb": 16,
+      "time_limit": "12:00:00",
+      "cfg": 2,
+      "sample_count": 50000,
+      "steady_single_call_seconds": 8.55958985502366,
+      "projected_sampling_hours": 7.43019952693026
+    },
+    {
+      "encoder": "Large",
+      "protocol": "paper-text",
+      "world_size": 3,
+      "per_rank_batch_size": 16,
+      "cpus": 12,
+      "host_memory_gb": 48,
+      "time_limit": "12:00:00",
+      "cfg": 1.8,
+      "sample_count": 50000,
+      "steady_single_call_seconds": 28.49529244203586,
+      "projected_sampling_hours": 8.245165637163154
+    }
+  ]
+}

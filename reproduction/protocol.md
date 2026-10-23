@@ -76,3 +76,16 @@ Compare both named interval variants at those frozen values before interpreting 
 Report FID/IS differences without an arbitrary statistical success threshold.
 The paper provides no evaluation seeds or uncertainty; published rounding resolution alone is not a stochastic tolerance.
 If the provided configurations do not reproduce the published values, the remaining finite CFG grid is the next bounded evaluation branch; do not tune checkpoints, change sample counts or silently change metrics.
+
+## Frozen initial 50K execution plan
+
+See locks/final-plan.json for the four predeclared saved-CFG runs, exact resource requests and estimates.
+Global seed is zero. Use the native main_train.py rule seed = global_seed * world_size + rank.
+Use utils.distributed.setup_distributed and the unchanged engine's tiled labels, numpy.array_split rank allocation, padded feature gathering and rank-zero metrics.
+Per-rank batch size is 16; world sizes are Base release 1, Large release 4, Base paper-text 1, Large paper-text 3.
+The paper does not specify evaluation batch size, world size or exact RNG state. These operational choices cannot be called recovered paper settings.
+Large interval variants have different world sizes, so they are comparisons with the paper, not a controlled causal interval ablation.
+IS uses all 50,000 images. It selects the first 1,000 class dimensions from each image's 1,008 logits, then uses ten contiguous splits; it does not restrict evaluation to 1,000 samples.
+The saved-CFG points are Base 2.0 and Large 1.8. They remain separate from the unrun 1.0:0.2:4.0 sweep.
+Memory and throughput estimates use one steady smoke call per model/interval. Adaptive integration can change work with samples and rank batches; projected time is not a measured full-run runtime.
+All requests use RTX3090 24GB, the smallest healthy measured class compatible with the released TF32 path. The RTX3080 node failed system-driver preflight. No B1 or KARL resources, jobs or files are changed.

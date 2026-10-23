@@ -1,0 +1,280 @@
+PartitionName=tig-cpu
+   AllowGroups=ALL AllowAccounts=ALL AllowQos=tig-main,tig-free
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=4-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=groenig-[0-7]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=128 TotalNodes=8 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=128,mem=514384M,node=8,billing=2685
+   TRESBillingWeights=CPU=20.0,Mem=0.25G
+
+PartitionName=tig-titanxp
+   AllowGroups=ALL AllowAccounts=ALL AllowQos=tig-main,tig-free
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=4-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=tig-slurm-2
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=32 TotalNodes=1 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=32,mem=257322M,node=1,billing=4542,gres/gpu=8
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=480.0
+
+PartitionName=vision-torralba-rtx3090
+   AllowGroups=vision-torralba,vision-torralba-urops-meng AllowAccounts=vision-torralba,vision-torralba-urops-meng AllowQos=vision-torralba-main,vision-torralba-low,vision-torralba-interactive,vision-torralba-urops-meng
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=7-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=torralba-3090-[1-3]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=384 TotalNodes=3 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=384,mem=772698M,node=3,billing=28028,gres/gpu=21
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=960.0
+
+PartitionName=vision-torralba-h100
+   AllowGroups=vision-torralba,vision-torralba-urops-meng AllowAccounts=vision-torralba,vision-torralba-urops-meng AllowQos=vision-torralba-main,vision-torralba-low,vision-torralba-interactive,vision-torralba-urops-meng
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=7-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=torralba-h100-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=128 TotalNodes=1 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=128,mem=1031762M,node=1,billing=28299,gres/gpu=8
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=3185.9
+
+PartitionName=vision-torralba-h200
+   AllowGroups=vision-torralba,vision-torralba-urops-meng AllowAccounts=vision-torralba,vision-torralba-urops-meng AllowQos=vision-torralba-main,vision-torralba-low,vision-torralba-interactive,vision-torralba-urops-meng
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=7-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=torralba-h200-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=256 TotalNodes=1 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=256,mem=2063711M,node=1,billing=50552,gres/gpu=8
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=5616.1
+
+PartitionName=vision-torralba-v100
+   AllowGroups=vision-torralba,vision-torralba-urops-meng AllowAccounts=vision-torralba,vision-torralba-urops-meng AllowQos=vision-torralba-main,vision-torralba-low,vision-torralba-interactive,vision-torralba-urops-meng
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=7-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=torralba-v100-[1-2]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=160 TotalNodes=2 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=160,mem=1031688M,node=2,billing=23931,gres/gpu=16
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=1280.0
+
+PartitionName=vision-shared-rtx2080ti
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=agrawal-2080ti-1,gpu19-1.drl,gpu19-2.drl,inspector-gadget.drl,isola-2080ti-[1-4]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=472 TotalNodes=8 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=472,mem=3025992M,node=8,billing=29538,gres/gpu=44
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=440.0
+
+PartitionName=vision-shared-titanrtx
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=freeman-titanrtx-[1-2],gpu20-1.drl,gpu20-2.drl,gpu20-3.drl,gpu20-4.drl
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=456 TotalNodes=6 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=456,mem=4121791M,node=6,billing=52366,gres/gpu=44
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=960.0
+
+PartitionName=vision-shared-a6000
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=improbablex[005-009]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=640 TotalNodes=5 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=640,mem=1287788M,node=5,billing=32309,gres/gpu=10
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=1919.5
+
+PartitionName=vision-shared-a100
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=agrawal-a100-1,beery-a100-[1-2],freeman-a100-1,sitzmann-a100-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=896 TotalNodes=5 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=896,mem=5159284M,node=5,billing=140779,gres/gpu=38
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=3200.0
+
+PartitionName=vision-shared-l40s
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=agrawal-l40s-1,beery-l40s-[1-4],bobu-l40s-1,huang-l40s-[1-2],sitzmann-l40s-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=2304 TotalNodes=9 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=2304,mem=6962976M,node=9,billing=177343,gres/gpu=72
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=1799.5
+
+PartitionName=vision-shared-h100
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=agrawal-h100-1,andreas-h100-1,isola-h100-1,torralba-h100-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=512 TotalNodes=4 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=512,mem=3804481M,node=4,billing=113117,gres/gpu=32
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=3185.9
+
+PartitionName=vision-shared-h200
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=agrawal-h200-1,isola-h200-1,sitzmann-h200-[1-2],tedrake-h200-1,torralba-h200-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=1536 TotalNodes=6 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=1536,mem=12382896M,node=6,billing=303315,gres/gpu=48
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=5616.1
+
+PartitionName=vision-shared-v100
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=agrawal-v100-1,freeman-v100-[1-2],isola-v100-[1-2],torralba-v100-[1-2]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=560 TotalNodes=7 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=560,mem=3610910M,node=7,billing=83761,gres/gpu=56
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=1280.0
+
+PartitionName=vision-shared-rtx3090
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=improbablex[001-004],torralba-3090-[1-3]
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=896 TotalNodes=7 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=896,mem=1802999M,node=7,billing=46200,gres/gpu=29
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=960.0
+
+PartitionName=vision-shared-rtx3080
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=isola-3080-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=128 TotalNodes=1 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=128,mem=515612M,node=1,billing=3085,gres/gpu=1
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=400.0
+
+PartitionName=vision-shared-rtx6000ada
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=irg00,isola-ada6000-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=192 TotalNodes=2 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=192,mem=482890M,node=2,billing=21233,gres/gpu=9
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=1919.5
+
+PartitionName=vision-shared-rtx4090
+   AllowGroups=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba,vision-torralba-urops-meng,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg-slurm,clear,hai-res,locomotion AllowAccounts=drl,vision-beery,vision-pulkitag,vision-pulkitag-urops,vision-torralba-urops-meng,vision-torralba,vision-phillipi,vision-oliva,vision-billf,vision-sitzmann,lingo,irg,clear,hai-res,locomotion AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=sitzmann-4090-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=128 TotalNodes=1 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=128,mem=257567M,node=1,billing=9339,gres/gpu=7
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=959.5
+
+PartitionName=csail-shared-h200
+   AllowGroups=ALL AllowAccounts=csail,aia,quanta,clear,oasys AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=aia-h200-[1-13],khattab-h200-1,quanta-h200-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=3808 TotalNodes=15 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=3808,mem=30955729M,node=15,billing=752033,gres/gpu=119
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=5616.1
+
+PartitionName=csail-shared-l40s
+   AllowGroups=ALL AllowAccounts=csail,aia,quanta,clear,oasys AllowQos=lab-free,shared-if-available
+   AllocNodes=ALL Default=NO QoS=N/A
+   DefaultTime=NONE DisableRootJobs=YES ExclusiveUser=NO ExclusiveTopo=NO GraceTime=0 Hidden=NO
+   MaxNodes=UNLIMITED MaxTime=1-00:00:00 MinNodes=0 LLN=NO MaxCPUsPerNode=UNLIMITED MaxCPUsPerSocket=UNLIMITED
+   Nodes=bobu-l40s-1
+   PriorityJobFactor=1 PriorityTier=1 RootOnly=NO ReqResv=NO OverSubscribe=NO
+   OverTimeLimit=NONE PreemptMode=REQUEUE
+   State=UP TotalCPUs=256 TotalNodes=1 SelectTypeParameters=NONE
+   JobDefaults=(null)
+   DefMemPerNode=UNLIMITED MaxMemPerNode=UNLIMITED
+   TRES=cpu=256,mem=773664M,node=1,billing=19704,gres/gpu=8
+   TRESBillingWeights=CPU=20.0,Mem=0.25G,GRES/gpu=1799.5
+
