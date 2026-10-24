@@ -321,3 +321,12 @@ PrefixAdapter correctness methods and check_adapter.py are available for indepen
 - The source zero-initializes final output weights and block gates. Equality and gradient checks use explicitly perturbed engineering weights to avoid trivial zero outputs; initial byte comparison precedes perturbation. The micro16 smoke independently rebuilds exactseed0 initialization. Neither state becomes a paired-training checkpoint.
 - Expected engineering duration2–10minutes is unmeasured; requested maximum is1/3 RTX3090 device-hour. Preserve the stage, every failure and terminal cost. The next request must use a diagnosed cause if this attempt fails.
 - Canonical notebook writer remains unite-reproduce-20261023; return this entry for that owner. No main notebook write is made here.
+
+## 2026-10-24 Native single-GPU checks complete; four-rank revision prepared
+
+- Engineering job2834061 completed0:0 in38reserved seconds on oneRTX3090:0.0105556device-hours and0.0422222allocatedCPU core-hours. Terminal owner is jat-a2-20261024.
+- Both native counts have exact common initialized parameter bytes; only register positions are sliced. FP32 grouped/single maximum relative error6.0791e-7; BF16 maximum0.0045982, within0.005. Output shapes are[B,64,32] and[B,16,32]. Encoding/denoising detach and nonzero intended last-block gradients pass. Image-free sourceCFG/ODE completed with182/140 GE calls for the two engineering samples.
+- ActualBF16 micro16 peaks:64-token14,396,081,664allocated bytes;16-token11,845,806,080bytes. No scientific update or quality result is claimed.
+- Matched revision `campaign/a2/protocol-revision-r1.json` preserves all scientific controls, endpoints, micro16/accumulation4/global256 and four ranks. It declares four homogeneousRTX3090 GPUs across two nodes with two ranks each. Existing four H100 configurations remain preserved.
+- This uses the smallest measured adequate memory class. The hardware assertion now checks the declared model/minimum memory. The four-rank numerical,EMA and checkpoint continuation proof remains required before training; these changes do not waive coordinator acceptance.
+- Proposed engineering request:2nodes x2RTX3090,4CPUs/rank,32GiB host memory/node,20minutes. Maximum reservation1.3333RTX3090device-hours; actual runtime and all failures will be recorded. No main training forecast is claimed from the one-microbatch smoke.

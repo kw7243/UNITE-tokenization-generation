@@ -98,7 +98,8 @@ def main():
     torch.cuda.set_device(device)
     assert torch.cuda.is_bf16_supported()
     props = torch.cuda.get_device_properties(device)
-    assert 'H100' in props.name and props.total_memory >= 80_000_000_000
+    assert cfg['hardware']['device_name_substring'] in props.name
+    assert props.total_memory >= cfg['hardware']['minimum_vram_bytes']
     # Different hardware needs a revised matched configuration, never a silent fallback.
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False
