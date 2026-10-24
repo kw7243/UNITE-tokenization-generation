@@ -272,3 +272,16 @@ No full quality metrics exist yet;this is correctness and throughput evidence.
 Actual new reserved GPU cost49/3600device-hours includes failed12s parser attempt plus37s validation;legacy RTX cost remains separate.
 No A2 training harness exists or is being written.
 PrefixAdapter correctness methods and check_adapter.py are available for independent CPU-only preparation in a separate source/branch.
+
+## 2026-10-24 A1 full-reference submission
+Job2831095 accepted under attached sbatch--wait ownership by unite-reproduce-20261023;automatic requeue disabled.
+Execution source51a29b63aaba705a23a9de0e39ed8818b74a77ec;configSHA256c89e740d3d085426b1a75878c5da0d2bfa7db39d4e5d3c5aa370f2c1d81fc517.
+Stage:/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_080942-76bfe1-51a29b6-code.
+Output:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__UNITE_B_REFERENCE__s20261023__c89e740d3d08.
+Request1H100,4CPU,24GiB,4h;vision-shared-h100,shared-if-available,accountvision-torralba-urops-meng,literal--export=NIL.
+Fresh inventory:outputs/gpu-inventory-20261024T080912Z.json;all permitted partitions/compatible nodes and own account queue inspected.
+No own GPU job running at submission;other B2/C1 jobs pending on A100/RTX4090 were left untouched.
+Native generation uses unchanged third_party/unite/engines/eval.py:evaluate_fid and source utils/fid.py feature/FID/IS functions.
+Instrumentation retains feature/logit arrays,NFE,timing and progress;it does not replace the source metric implementation.
+5000 fixed reconstructions with same-subset rFID/L1/AlexLPIPS precede independently reseeded50000generation.
+Submission is not a quality result or A1 acceptance;all numerical quality values and actual reservation cost await terminal evidence.
