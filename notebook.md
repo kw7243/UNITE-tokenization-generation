@@ -49,3 +49,9 @@
 - Full source stage, executed config fd1bec3f630d0da887bcab20cc8562b8ababf66aab5da4c8552e10eac6b0f00b, original result snapshots and old source plan retained.
 - Current mutable config binds v1.1 but was not executed; exact bindings are in pilot_data/current-plan-binding.json.
 - No GPU authorization, B1 phase, compute extension, cancellation or duplicate hashing job. Canonical notebook owner stays unite-reproduce-20261023.
+
+## 2026-10-24: artifact sealing
+
+- Data job and all integrity checks completed successfully; no new Slurm attempt.
+- Administrative sealing initially failed when chmod tried to preserve the run directory's inherited vision-torralba setgid bit. The login's supplementary groups do not include that owning group.
+- Corrective action: remove write bits and the inherited setgid bit only on this run's owned directories; keep all artifact bytes and dataset/source paths unchanged. Retain sealing-receipt.json with the exact failure and resolution.
