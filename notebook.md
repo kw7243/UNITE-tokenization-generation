@@ -507,3 +507,21 @@ Its immutable stage is `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024
 The complete four-rank and checkpoint continuation evidence still requires coordinator review before training.
 The source now also records all actual GPU identities and first-200-update throughput and memory during later real training.
 All failed stages, prior configurations and terminal receipts are preserved.
+
+## 2026-10-24 A2 correctness work stopped; scientific runs remain unstarted
+
+The explicit-device correction did not resolve the distributed failure.
+Job 2834097 failed with exit 1:0 after 33 seconds, again at the first NCCL barrier with CUDA error 101, invalid device ordinal.
+Every process reported one visible CUDA device and a distinct RTX 3090 UUID.
+This counterfactual rejects device inference alone as a sufficient cause. The remaining cause is unresolved.
+The worker stopped after the same obstacle twice, as required, and made no third GPU request.
+All three A2 jobs are terminal. Their combined cost is 0.127222 RTX 3090 device-hours and 0.508889 allocated CPU core-hours.
+
+The passed single-GPU evidence remains valid within its stated scope.
+The direct denoiser-output comparison, real four-rank reduction, global clipping, EMA, distributed memory fit and full checkpoint continuation remain incomplete.
+There is no scientific A2 update, endpoint comparison, pilot FIT feature extraction or stable64 checkpoint.
+Only the accepted 256-token reference has established scientific stability; unrun native64 is not a negative result.
+No conditional reconstruction-only or B1 experiment is eligible yet.
+Full evidence and preserved terminal receipts are under the A2 source's `outputs/A2/engineering/` directory.
+The seven-section engineering report is `report.md`; `results.json` separates technical STOP from null scientific outcome fields.
+The coordinator must direct the bounded recovery before this worker resumes.
