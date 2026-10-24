@@ -779,3 +779,29 @@ Native64 has no scheduled DEV result yet. Progress is unequal and both endpoints
 Only the accepted256-token reference has established reference quality. No interim or engineering snapshot is the scientific stable64 handoff.
 The primary service-replacement decision remains pending. No healthy local-validation route or passed stage exists; no new launch or analysis is released.
 Next ordinary review is23:40UTC for native16's scheduled update3000 output and both owned jobs, based on its recorded first200 time and current progress, or sooner on an exact primary route or concrete owned-job failure.
+
+## 2026-10-24 23:40 UTC owned-job observation and saved validation preference
+
+Both immutable pre-policy jobs remain RUNNING: native64 job2834281 at708updates and native16 job2834282 at3187updates in the retained snapshot.
+Native16's scheduled512DEV at3000 records L1 0.1249332995, AlexNet LPIPS 0.7139098615, shared distortion0.8388431610, L1p900.1733041495, latent image variance0.2723278404 and latent RMS0.6890849589.
+Its original checkpoint3000 hash record is `e4b128e58241c18ad07f0cb65d8e9c48a1f72f691cb95647a1261198474c309b`; no checkpoint was reloaded or independently rehashed in this observation.
+Raw snapshots, hashes and exact original source/config/data/metric/checkpoint/runtime/Slurm/stderr provenance are in `outputs/A2/training-receipts-r6/observation-2340/` in the A2 source.
+Native64 has no scheduled DEV point and progress is unequal. No paired scientific quality claim, generation release, valid64 or conditional RECON decision follows.
+Next ordinary observation:2026-10-25T00:35Z for native16's scheduled4000DEV and both jobs, or sooner on a concrete owned failure or an exact released review route.
+
+The saved default research-validation preference corr5c51861d32935c7e is adopted.
+Review one completed coherent experiment-affecting change, including relevant reused unreviewed result aggregation. Unused intermediate commits need no separate review.
+Quality takes priority over review latency; historical timing is not a limit. Continue independent authorized work during review while preserving pipeline source custody.
+Recover fixes only through supported actions, check the actual execution environment, then freeze a fresh full stage. Bind reviewed/final commits, configuration, every required local stage and test evidence in both notebooks.
+The local path remains --skip=push,pr,ci with no --yes or scientific/trial/publication expansion. Identical approved repetitions, generated outputs and ordinary prose need no separate run.
+Exact revised domain policy SHA256 `f70c53120acf3e474b4183ee603c24d0345fb84b26bd7255e272908a51f24837` and saved workflow SHA256 `9727f1ce878d15e8e3ddf3c197f5b8f21d6c3d00643773e94906775ed37bf67f` are retained under `outputs/A2/no-mistakes-local-20261024/` in the A2 source.
+
+Separately, endpoint preparation has intermediate backups accc242c3a132a636f36487a8455021b83482796 and6c0bae57348482c25e7754ca2f7b66c369307eec.
+The new endpoint_features.py and aggregate.py reuse the source native sampler, extractor, FID and package KID kernel; they have only been syntax-compiled, never executed.
+The coherent revision is still in preparation, including input/config binding, meaningful tests and a separate plotting environment because the locked training environment has no Matplotlib. No existing environment or running stage was changed.
+These intermediate source commits are unreviewed and unused. They are not a local-validation or scientific result; review the completed coherent revision once before use.
+
+The following exact B1 setup entry is imported as setup evidence only. It proves no usable A2 review route or agent containment and releases no local stage or scientific gate.
+B1 retains the service/CPU2835069 ownership; primary owns the supported authentication direction. A2 performs no independent service or authentication work.
+
+2026-10-24: Adopted standing local research-validation preference corr5c51861d32935c7e: one coherent completed revision review, include reused unreviewed aggregation; independent approved work may overlap, active pipeline owns source; offered fix recovery, actual-environment checks, fresh frozen full stage, exact head/config/stage receipts in branch and canonical notebooks. CPU2835069 native v1.84.0 private daemon passed health and daemon cgroup proof on groenig-6. Actual B1 run01M5R3Y1GM1Y5E4SGNV98S69WD failed at rebase-fix agent launcher Kerberos preflight; compute klist -s1 versus login0. No native Codex agent cgroup proof or usable validation route, no review/test/document/lint pass. Source d11d67a1e8efa97c717df3a4a066abe57a4bdad2 clean, user_owned, unchanged. Allocation running with bounded native stop near2026-10-25T03:16:36Z and terminal accounting pending. Preserve attempts, no credential/Codex change or scientific rerun. A2 remains sole canonical writer; B1 NOT_STARTED.
