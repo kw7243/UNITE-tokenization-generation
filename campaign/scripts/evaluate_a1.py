@@ -46,6 +46,7 @@ record={"node_id":"A1","method_id":cfg["method_id"],"seed":cfg["seed"],
         "data_manifest_sha256":cfg["data"]["reconstruction_manifest_sha256"],
         "metric_protocol_sha256":cfg["metrics"]["protocol_sha256"],
         "main_updates":0,"images_seen":0,"training_gpu_hours":0.0,
+        "images_seen_definition":"Reconstructed real images plus generated samples; correctness fixture counts real encoding inputs and generated samples separately.",
         "gpu_hours":None,"gpu_hours_reason":"Awaiting authoritative terminal allocation accounting.",
         "outcome_class":None,"outcome_class_reason":"Checkpoint evaluation/correctness checks, no training.",
         "node_status":"IN_PROGRESS","run_status":"STARTING","job_id":os.environ["SLURM_JOB_ID"],
@@ -186,18 +187,21 @@ try:
                 torch.cuda.synchronize();times.append(time.perf_counter()-begin);nfes.append(nfe[0]-previous)
                 assert images.shape==(16,3,256,256) and torch.isfinite(images).all()
                 smoke.append(images.cpu().numpy())
+                record["images_seen"]+=len(images)
             features,logits=extract_inception_features(images,inception,batch_size=16)
             assert features.shape==(16,2048) and torch.isfinite(features).all() and torch.isfinite(logits).all()
             real=image_batch(rows[:3],device)
+            before_reconstruction=nfe[0]
             reconstruction=core.reconstruct_batch(real)
+            reconstruction_nfe=nfe[0]-before_reconstruction
             assert reconstruction.shape==real.shape and torch.isfinite(reconstruction).all()
         np.savez(out/"validation-images.npz",generated=np.stack(smoke),labels=labels.cpu().numpy(),
                  real=real.cpu().numpy(),reconstruction=reconstruction.cpu().numpy())
         record["validation"]={"paper_metric":False,"generation_smoke_samples":32,"reconstruction_smoke_samples":3,
                               "per_rank_batch_size":16,"world_size":1,"sampling_seconds_per_call":times,
-                              "nfe_per_call":nfes,"native_peak_allocated_bytes":torch.cuda.max_memory_allocated(),
+                              "nfe_per_call":nfes,"reconstruction_nfe":reconstruction_nfe,"native_peak_allocated_bytes":torch.cuda.max_memory_allocated(),
                               "native_peak_reserved_bytes":torch.cuda.max_memory_reserved()}
-        record["images_seen"]=3
+        record["images_seen"]+=3
         nfe_hook.remove()
         del inception,features,logits,images,reconstruction
         core.decoder=core.decoder._orig_mod
@@ -205,7 +209,7 @@ try:
         phase="ESSENTIAL_ADAPTER_CHECKS"
         proof=check_essential(core,real,seed=cfg["seed"])
         record["adapter_checks"]=proof
-        record["images_seen"]+=9
+        record["images_seen"]+=proof["real_image_encoding_inputs"]+proof["generated_samples"]
         record["reconstruction"]={"rfid_eval":None,"rfid_eval_reason":"Full5000 reference remains unrun; this is declared validation."}
         record["generation"]={"gfid_50k":None,"gfid_50k_reason":"Full50000 reference remains unrun; validation is not a shortened paper result."}
     elif cfg["workload"]=="FULL_REFERENCE":
@@ -215,12 +219,14 @@ try:
         seed_all()
         phase="RECONSTRUCTION_REFERENCE"
         begin=time.perf_counter()
-        real_features=[];recon_features=[];l1_values=[];lpips_values=[]
+        real_features=[];recon_features=[];l1_values=[];lpips_values=[];reconstruction_nfes=[]
         with torch.no_grad():
             for offset in range(0,len(rows),cfg["reconstruction"]["batch_size"]):
                 batch_rows=rows[offset:offset+cfg["reconstruction"]["batch_size"]]
                 real=image_batch(batch_rows,device)
+                before_reconstruction=nfe[0]
                 reconstruction=core.reconstruct_batch(real)
+                reconstruction_nfes.append(nfe[0]-before_reconstruction)
                 assert torch.isfinite(reconstruction).all()
                 feat_real,_=extract_inception_features(real,inception,batch_size=len(real))
                 feat_recon,_=extract_inception_features(reconstruction,inception,batch_size=len(real))
@@ -243,7 +249,10 @@ try:
             "rfid_eval":rfid,"recon_l1":float(np.mean(l1_values)),"recon_lpips":float(np.mean(lpips_values)),
             "recon_l1_p90":float(np.percentile(l1_values,90)),"mean_tokens":256.0,"mean_tokens_sq":65536.0,
             "validity":"Complete finite native-source reconstruction and metrics; coordinator assesses intact quality.",
-            "elapsed_seconds":time.perf_counter()-begin,"real_features_sha256":sha(out/"real-features.npy"),
+            "elapsed_seconds":time.perf_counter()-begin,"nfe":float(np.mean(reconstruction_nfes)),
+            "nfe_total":sum(reconstruction_nfes),"nfe_definition":"Actual shared GE forward calls per reconstruction batch; no ODE in native reconstruction.",
+            "encode_ms_per_image":None,"encode_ms_per_image_reason":"Encoding latency was not measured separately from reconstruction and metrics.",
+            "real_features_sha256":sha(out/"real-features.npy"),
             "reconstruction_features_sha256":sha(out/"reconstruction-features.npy")}
         save()
         del alex,real_features,recon_features,actual_real,actual_recon,real_np,inception
@@ -265,6 +274,7 @@ try:
             first=captured[0];last=first+len(images)
             assert last<=50000
             features_file[first:last]=features.numpy();logits_file[first:last]=logits.numpy();captured[0]=last
+            record["images_seen"]=5000+last
             if last==50000 or len(batches)%20==0:
                 features_file.flush();logits_file.flush()
                 (out/"generation-progress.json").write_text(json.dumps({"completed_features":last,"required":50000})+"\n")
@@ -306,6 +316,11 @@ try:
         (out/"generation-batches.json").write_text(json.dumps(batches,indent=2)+"\n")
         record["generation"].update(sample_count=50000,images_per_class=50,expected_mean_tokens=256.0,
             mean_tokens=256.0,mean_tokens_sq=65536.0,elapsed_seconds=time.perf_counter()-begin,
+            sampling_decode_seconds=sum(x["seconds"] for x in batches),
+            gen_ms_per_image=1000*sum(x["seconds"] for x in batches)/50000,
+            gen_images_per_s=50000/sum(x["seconds"] for x in batches),
+            timing_batch_size=16,timing_scope="Native quality sampling+decode at batch16; no batch64 timing comparison is claimed.",
+            nfe=float(np.mean([x["nfe"] for x in batches])),
             nfe_total=sum(x["nfe"] for x in batches),nfe_mean_per_batch=float(np.mean([x["nfe"] for x in batches])),
             features_sha256=sha(out/"generation-features.npy"),logits_sha256=sha(out/"generation-logits.npy"),
             absolute_difference_headline=abs(record["generation"]["gfid_50k"]-2.12),
@@ -317,6 +332,7 @@ try:
         raise ValueError("Unknown declared workload")
     torch.cuda.synchronize()
     record.update(run_status="COMPLETED",node_status="AWAITING_COORDINATOR_REVIEW",
+                  peak_memory_gib=torch.cuda.max_memory_allocated()/(1024**3),
                   peak_allocated_bytes=torch.cuda.max_memory_allocated(),
                   peak_reserved_bytes=torch.cuda.max_memory_reserved())
 except Exception as exc:

@@ -152,6 +152,6 @@ def check_essential(core, images, seed=20261023):
         guard.remove()
     proof["generation_after_changed_image_relative_l2"]=relative_l2(first,second)
     assert proof["generation_after_changed_image_relative_l2"]<=1e-5
-    proof.update(generation_signature=signature,source_images_forbidden_during_generation=True,
+    proof.update(real_image_encoding_inputs=9,generated_samples=4,generation_signature=signature,source_images_forbidden_during_generation=True,
                  frozen_lpips_eval_after_train=True,status="PASS",elapsed_seconds=time.perf_counter()-start)
     return proof
