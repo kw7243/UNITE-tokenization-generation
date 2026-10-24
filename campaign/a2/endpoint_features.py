@@ -27,12 +27,14 @@ def locked_json(lock):
     return json.loads(Path(lock['path']).read_text())
 
 
-def paired_configs(configs):
+def paired_configs(configs, objective='joint'):
+    assert objective in ('joint', 'reconstruction_only')
+    suffix = 'JOINT' if objective == 'joint' else 'RECON'
     controls = []
     for count in (64, 16):
         cfg = copy.deepcopy(configs[count])
-        assert cfg.pop('method_id') == f'NATIVE{count}_JOINT'
-        assert cfg['objective'] == 'joint'
+        assert cfg.pop('method_id') == f'NATIVE{count}_{suffix}'
+        assert cfg['objective'] == objective
         for key in ('active_count', 'candidate_count', 'native_count'):
             assert cfg['model'].pop(key) == count
         controls.append(cfg)
