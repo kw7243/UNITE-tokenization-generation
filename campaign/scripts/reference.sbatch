@@ -7,7 +7,7 @@
 printf 'FIRST_SCRIPT_STDOUT job=%s cwd=%s\n' "$SLURM_JOB_ID" "$PWD"
 printf 'FIRST_SCRIPT_STDERR job=%s\n' "$SLURM_JOB_ID" >&2
 set -euo pipefail
-export PATH=/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024/bin:/usr/local/cuda/bin:/usr/bin:/bin
+export PATH=/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1/bin:/usr/local/cuda/bin:/usr/bin:/bin
 export TZ=UTC SLURM_EXPORT_ENV=ALL PYTHONUNBUFFERED=1 PYTHONHASHSEED=20261023
 export OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4
 export TORCH_HOME=/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/assets/torch
@@ -24,4 +24,4 @@ hostname
 date -u
 free -h
 df -PT "$PWD" /data/scratch-fast/kwen1 /data/vision/torralba/datasets/imagenet_pytorch_new/val
-/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024/bin/python campaign/scripts/evaluate_a1.py --config "$1"
+/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1/bin/python campaign/scripts/evaluate_a1.py --config "$1"

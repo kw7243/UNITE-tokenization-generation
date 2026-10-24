@@ -68,6 +68,7 @@ def main():
                        "results_path":str(envrun/"results.json"),"results_sha256":sha(envrun/"results.json")},
           "environment":{"path":setup["environment"],"packages":str(envrun/"packages.txt"),
                          "packages_sha256":sha(envrun/"packages.txt"),"package_versions":artifacts["runtime"]["packages"],
+                         "pip_bootstrap_report_sha256":sha(envrun/"pip-bootstrap-wheel.json"),
                          "torch_wheel_report_sha256":sha(envrun/"torch-wheels.json"),
                          "remaining_wheel_report_sha256":sha(envrun/"remaining-wheels.json"),
                          "pip_inspect_sha256":sha(envrun/"pip-inspect.json")},

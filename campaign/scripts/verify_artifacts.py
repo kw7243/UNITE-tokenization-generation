@@ -88,14 +88,19 @@ del inception
 import lpips
 external=lpips.LPIPS(net="alex",version="0.1").eval().requires_grad_(False)
 del external
+metric_weight_paths={
+ "alex_lpips_v01":Path(lpips.__file__).parent/"weights/v0.1/alex.pth",
+ "source_vgg_lpips":Path(os.environ["LPIPS_CACHE_DIR"])/"vgg.pth"}
+metric_weights={name:{"path":str(path),"sha256":sha(path),"bytes":path.stat().st_size}
+                for name,path in metric_weight_paths.items()}
 crop=CenterCropTransform(256)
 sample=ToTensor()(crop(Image.open(manifest[0]["path"]).convert("RGB")))
 assert sample.shape==(3,256,256) and sample.min()>=0 and sample.max()<=1
 module_versions={name:importlib.metadata.version(name) for name in ("torch","torchvision","timm","torchdiffeq","transformers","omegaconf","numpy","scipy","einops","lpips","PyYAML","torch-fidelity")}
 runtime={"python":sys.version,"platform":platform.platform(),"torch_cuda":torch.version.cuda,"packages":module_versions,"executable":sys.executable,"base_prefix":sys.base_prefix,"site_prefix":sys.prefix}
-metric={"torch_fidelity":"0.3.0","extractor":"inception-v3-compat","features":["2048","logits_unbiased"],"inception_weights_sha256":expected["weights-inception-2015-12-05-6726825d.pth"],"statistics_sha256":expected["jit_in256_stats.npz"],"fid_implementation_sha256":sha("third_party/unite/utils/fid.py"),"statistics_precision":"float64, numpy.cov N-1, pinned scipy.sqrtm fallback only after nonfinite","pixel_conversion":"source (x*255).clamp(0,255).to(uint8), own extractor resize","lpips_reporting":"external AlexNet v0.1 on clamped [0,1] mapped to [-1,1]","is":"all50000 samples,first1000 class dimensions/image,10contiguous splits"}
+metric={"metric_weight_files":metric_weights,"torch_fidelity":"0.3.0","extractor":"inception-v3-compat","features":["2048","logits_unbiased"],"inception_weights_sha256":expected["weights-inception-2015-12-05-6726825d.pth"],"statistics_sha256":expected["jit_in256_stats.npz"],"fid_implementation_sha256":sha("third_party/unite/utils/fid.py"),"statistics_precision":"float64, numpy.cov N-1, pinned scipy.sqrtm fallback only after nonfinite","pixel_conversion":"source (x*255).clamp(0,255).to(uint8), own extractor resize","lpips_reporting":"external AlexNet v0.1 on clamped [0,1] mapped to [-1,1]","is":"all50000 samples,first1000 class dimensions/image,10contiguous splits"}
 metric_bytes=(json.dumps(metric,indent=2)+"\n").encode()
 (out/"metric-protocol.json").write_bytes(metric_bytes)
-artifacts={"files":files,"source_import_manifest_sha256":sha("campaign/locks/source-imports.json"),"strict_checkpoint_load":strict,"runtime":runtime,"metric_protocol_sha256":hashlib.sha256(metric_bytes).hexdigest(),"reconstruction_manifest_sha256":hashlib.sha256(manifest_bytes).hexdigest(),"generation_label_manifest_sha256":hashlib.sha256(label_bytes).hexdigest(),"class_map":{"path":str(mapping_path),"sha256":sha(mapping_path)},"archive_sha256":None,"archive_sha256_reason":"A1 consumes the permitted extracted validation images, not an exposed original ImageNet image archive. The consumed5000 image bytes are hashed individually.","model_cache_files":{str(p):sha(p) for p in sorted(Path(os.environ["TORCH_HOME"]).rglob("*")) if p.is_file()}}
+artifacts={"metric_weight_files":metric_weights,"files":files,"source_import_manifest_sha256":sha("campaign/locks/source-imports.json"),"strict_checkpoint_load":strict,"runtime":runtime,"metric_protocol_sha256":hashlib.sha256(metric_bytes).hexdigest(),"reconstruction_manifest_sha256":hashlib.sha256(manifest_bytes).hexdigest(),"generation_label_manifest_sha256":hashlib.sha256(label_bytes).hexdigest(),"class_map":{"path":str(mapping_path),"sha256":sha(mapping_path)},"archive_sha256":None,"archive_sha256_reason":"A1 consumes the permitted extracted validation images, not an exposed original ImageNet image archive. The consumed5000 image bytes are hashed individually.","model_cache_files":{str(p):sha(p) for p in sorted(Path(os.environ["TORCH_HOME"]).rglob("*")) if p.is_file()}}
 (out/"artifacts.json").write_text(json.dumps(artifacts,indent=2)+"\n")
 print(json.dumps({"strict_load":"PASS","metric_cpu_load":"PASS","manifest_count":len(manifest),"stats_blob":blob,"runtime":runtime}))

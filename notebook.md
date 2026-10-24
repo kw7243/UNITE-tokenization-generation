@@ -187,3 +187,12 @@
 - A separate CPU lane owns pilot FIT/ALLOC/DEV/sealed-CONFIRM construction. This source prepares only A1 five-per-class validation and balanced50K labels.
 - New GPU use remains zero. Initial allowance is19.2 H100 hours; coordinator reserve4.8. Legacy0.483333 RTX-device hours remain separate.
 - Next action: finish CPU preparation, inspect current compatible resources/account usage, then submit the smallest useful GPU validation. Full A1 remains unrun; A2/training are outside this worker scope.
+
+## 2026-10-24: CPU environment failure and one diagnosed retry
+
+- Job2830382 ran06:53:30–06:54:56UTC on groenig-2;FAILED1:0,86reserved seconds,four CPUs,24GiB,MaxRSS120536KB,zero GPU-hours.
+- The first stdout/stderr markers appeared. This was a package-install failure after successful literal-NIL launch.
+- The new venv seeded pip23.0.1; it rejected typing_extensions wheel metadata and then could not resolve flit_core from the CUDA-only index. The prior working environment has pip26.2.1.
+- Preserve the failed environment and stage. The one diagnosed CPU retry uses a separate -r1 environment,pinned pip25.3 with published wheelSHA9655943313a94722b7774661c21049070f6bbb0a1516bf02f7c8d5d9201514cd,PyPI dependency resolution and explicit cu128 Torch/torchvision identities.
+- Release evidence: https://pypi.org/project/pip/25.3/ . The bootstrap wheel report, package reports and final freeze will be retained.
+- A1 reference and correctness checks remain unrun; no scientific negative is inferred. GPU use remains zero.

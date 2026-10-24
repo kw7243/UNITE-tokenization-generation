@@ -1,0 +1,27 @@
+{
+  "node_id": "A1",
+  "method_id": "ENVIRONMENT_LOCK_R1",
+  "seed": 20261023,
+  "plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+  "bootstrap_python": "/data/scratch-fast/kwen1/envs/unite-released-20261023/bin/python",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs",
+  "checkpoint_sha256": "7b7f40dd37111196cad6e4401bf9737156268612e001c29cb0a760ae416bff4b",
+  "resources": {
+    "cpus": 4,
+    "memory_gib": 24,
+    "time_seconds": 3600,
+    "gpu_count": 0
+  },
+  "code_sha256": {
+    "campaign/scripts/environment-r1.sbatch": "bae8468d635d070038c46b6a970c8aef1345a749d4aedd434ccb27a877e3f690",
+    "campaign/scripts/prepare_environment.py": "2795b7e2bb34f7843f284c84a583c052ff21095ff88e9be382690625f7d91a9d",
+    "campaign/scripts/verify_artifacts.py": "144538147d667e333d5fff4e585a1ae23d2b918b41061e93bebd17f1173742ab",
+    "campaign/requirements.txt": "7c6e9057a8f00214e5b94715e5b456296fede3628641249d4b2ce3849f1ede77"
+  },
+  "bootstrap_pip_version": "25.3",
+  "bootstrap_pip_wheel_sha256": "9655943313a94722b7774661c21049070f6bbb0a1516bf02f7c8d5d9201514cd",
+  "bootstrap_pip_release": "https://pypi.org/project/pip/25.3/",
+  "retry_of_job": 2830382,
+  "diagnosed_retry": 1
+}
