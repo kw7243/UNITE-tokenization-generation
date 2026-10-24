@@ -561,3 +561,12 @@ The exact primary route is still required before validation or any new affected-
 - Exact installed source confirms Linux IPC is host-local, named publication skips bypass their steps, and skipped push also omits its formatting/final-commit actions. Guarded terminal fix recovery exists, with divergence limits. No runtime compatibility test ran.
 - Primary must establish the exact owner host/context, then reuse or repair the one selected shared service and verify the required local behavior. This worker made no service, source, settings, Codex or experiment change.
 - Local review remains blocked; B1 remains NOT_STARTED. Research backup and accepted preparation are unchanged. A2 retains canonical notebook ownership.
+
+## 2026-10-24 Private local-validation setup attempt retained
+
+The following exact setup-owner entry is imported under coordinator message011.
+It is historical setup evidence; no healthy current route, agent containment, pipeline result or scientific release is established.
+CPU job2834745 belongs to its setup owner and is not adopted into the A2 owned-job ledger.
+Primary owns the replacement-allocation decision and exact route. The two A2 pre-policy jobs continue unchanged.
+
+2026-10-24: Private matched NoMistakes v1.84.0 verified in /data/scratch-fast/kwen1/no-mistakes-research-20261024. CPU2834745 on groenig-6 started the native daemon and passed doctor, then failed after 7s due to worker receipt-script quoting and JSON PID parsing errors. Original artifacts retained; corrected service-v2.sbatch syntax-check passed, unsubmitted. Replacement allocation needs Firstmate authority because exactly one was allowed. Current service/agent containment and local validation remain unproved. B1 scientific execution NOT_STARTED; research branch d11d67a1e8efa97c717df3a4a066abe57a4bdad2 unchanged. New CPU cost0.007777778 core-hours, zero GPU-hours/updates. This entry returns through coordinator; no canonical notebook edit.
