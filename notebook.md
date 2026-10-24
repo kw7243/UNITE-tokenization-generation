@@ -714,3 +714,38 @@ DEV quality, the paired endpoint, gradient probes, eligible generation, the cond
 The configured NoMistakes socket remains unreachable from the login context; primary owns service/context resolution.
 No pipeline has started and no local stage has passed. The policy blocker remains open.
 No new affected-code launch or reported numerical analysis proceeds before required local validation.
+
+## 2026-10-24 Pilot FIT feature job completed; first native16 DEV observation
+
+Pre-policy FIT job 2834488 completed 0:0 at 21:49:49 UTC, including its batch, extern and Python steps.
+The allocation used 2721 seconds, 0.755833 RTX 2080 Ti device-hours and 3.023333 allocated CPU core-hours.
+It processed all 120289 FIT images and retained float32 features with shape [120289, 2048], float64 mean/covariance statistics and ordered image IDs.
+Independent file hashing and header/count checks match its recorded artifacts:
+
+- features.npy SHA256 `ff5cd7288a3f0bd11503bd9d6a6b553507b9c20668cb7cdb08c02d04a21bdc9f`.
+- statistics.npz SHA256 `4350850e2b45c17074982d8f136fec8967d85616ac67670f57632d068b673b86`.
+- image-ids.json SHA256 `87e5bafd71cce38609886f46d07c4e0e0f5eea457e5cf29a6d1b46db7223502a`.
+
+The job checked each feature/logit batch for finiteness. No new numerical analysis was run after policy adoption.
+Artifacts remain at `outputs/A2/PILOT_FIT_INCEPTION__s20261023__c12fa96ab725/` in the A2 source; terminal accounting and the owner-ledger update are in `outputs/A2/fit-feature-receipts-r2/terminal.json`.
+Source stage `00040689e3f340281b799ebebe85a16c9093d653`, config `c12fa96ab725c3211bc8c2c22fa3e48efe47da4db21df164fdc38f16d1261228`, data and metric locks are unchanged.
+The original failed RTX 3080 preflight remains retained and separately accounted for.
+
+Native16 job 2834282 wrote its scheduled 512-DEV result at update 1000: L1 0.2362170091, AlexNet LPIPS 0.8647531515 and shared distortion 1.1009701606.
+Its L1 p90 is 0.3176679581, latent image variance 0.0056268922 and latent RMS 0.9834134635.
+Its interim checkpoint hash is `2dbd922da7e55e7763ef28d840ec9d99ae8095d21d5ea5e35a0c6f848c8c4326` as recorded by the job. This is not the scientific stable64 handoff.
+One DEV point does not establish an improving trajectory. Native64 has no scheduled DEV result yet.
+Both joint jobs remain running from their immutable released stages. No numerical comparison, generation eligibility, conditional RECON release or scientific native64 stability is claimed.
+The paired first-200 training forecast remains 99.5090 RTX 3090 device-hours before evaluation and allocation overhead; it is advisory.
+
+The accepted read-only service diagnosis below is setup evidence only. It does not establish a healthy route, runtime compatibility, a local validation result or scientific acceptance.
+The exact primary route is still required before validation or any new affected-code launch/analysis. No daemon, Codex, source code, environment or running stage was changed here.
+
+## 2026-10-24 - CSAIL local validation service diagnosis
+
+- The selected scratch wrapper executes NoMistakes v1.40.1-3-g4ba40ae at `/data/scratch-fast/kwen1/no-mistakes/bin/no-mistakes`, with `NM_HOME=/data/scratch-fast/kwen1/.no-mistakes-dev`.
+- The configured socket has no listener on slurm-login-2. Its PID1028146 record and last startup log are from August20; neither records a hostname. A service elsewhere remains unexcluded.
+- The older AFS client is v1.37.0 and has a historical AFS socket bind failure. VMv1.84.0 is a separate installation.
+- Exact installed source confirms Linux IPC is host-local, named publication skips bypass their steps, and skipped push also omits its formatting/final-commit actions. Guarded terminal fix recovery exists, with divergence limits. No runtime compatibility test ran.
+- Primary must establish the exact owner host/context, then reuse or repair the one selected shared service and verify the required local behavior. This worker made no service, source, settings, Codex or experiment change.
+- Local review remains blocked; B1 remains NOT_STARTED. Research backup and accepted preparation are unchanged. A2 retains canonical notebook ownership.
