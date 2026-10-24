@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT))
 import numpy as np
 import torch
 from campaign.a2.checkpoint import SCHEMA
-from campaign.a2.data import load_images, per_image_draws, read_interface, sha
+from campaign.a2.data import Streams, load_images, per_image_draws, read_interface, sha
 from campaign.a2.evaluate import generation_eligible, generation_inputs
 from campaign.a2.native import build_native, seed_all
 from campaign.a2.train import verify_config
@@ -78,12 +78,19 @@ def load_ema(arm, train, result, device):
     assert state['configuration_sha256'] == arm['training_config']['sha256']
     assert state['resolved_config'] == train
     assert state['checkpoint_role'] == f'A2_NATIVE{train["model"]["native_count"]}_COMPLETE'
-    assert state['counters']['main_updates'] == state['sampler']['updates'] == 5000
+    assert state['counters']['main_updates'] == state['sampler']['updates'] == 5000, \
+        'Not a complete5000-update scientific checkpoint'
     assert state['counters']['images_seen'] == state['sampler']['images_seen'] == 1280000
-    assert state['scheduler']['completed_updates'] == 5000
+    assert state['scheduler'] == dict(completed_updates=5000, warmup=500, after_warmup='constant')
+    assert set(state['sampler']) == {'queues', 'cursor', 'rng', 'updates', 'images_seen', 'exposure_chain'}
+    assert set(state['sampler']['queues']) == set(state['sampler']['cursor']) == set(range(100))
     assert state['optimizer_parameter_names'] == train['training']['optimizer_parameter_names']
     assert set(state['optimizers']) == {'muon', 'adamw'}
-    assert len(state['process_rng_by_rank']) == 4 and state['streams']
+    assert len(state['process_rng_by_rank']) == 4
+    assert all(set(v) == {'python', 'numpy', 'torch_cpu', 'torch_cuda'} for v in state['process_rng_by_rank'])
+    assert all(v['torch_cuda'] is not None for v in state['process_rng_by_rank'])
+    assert set(state['streams']) == {'generators', 'times'}
+    assert set(state['streams']['generators']) == set(Streams.names)
     assert state['evaluation_history'] == result['reconstruction']['history']
     model = build_native(train).eval().requires_grad_(False)
     model.load_state_dict(state['ema'], strict=True)
@@ -253,7 +260,8 @@ def main():
                 nfe_definition='Actual GE block0 calls; conditional/null CFG halves share each forward batch.',
                 sampling_decode_seconds=seconds, gen_ms_per_image=1000*seconds/5000, gen_images_per_s=5000/seconds,
                 timing_batch_size=16, timing_scope='Sampling, decode, clamp and uint8 conversion; excludes features, disk and scoring. No batch64 cost comparison.',
-                peak_allocated_bytes=torch.cuda.max_memory_allocated(device), peak_reserved_bytes=torch.cuda.max_memory_reserved(device))
+                peak_allocated_bytes=torch.cuda.max_memory_allocated(device), peak_reserved_bytes=torch.cuda.max_memory_reserved(device),
+                peak_memory_gib=torch.cuda.max_memory_allocated(device)/(1024**3))
             save_json(out/'results.json', record)
             del model, rec, gen, logits_file, pixels_file
             torch.cuda.empty_cache()

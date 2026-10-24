@@ -14,14 +14,24 @@ sys.path.insert(0, str(ROOT))
 import numpy as np
 import torch
 from torch_fidelity.metric_kid import polynomial_mmd
-from campaign.a2.data import read_interface, sha
-from campaign.a2.endpoint_features import locked_json, paired_configs, save_json
+from campaign.a2.data import eval_rows, read_interface, sha
+from campaign.a2.endpoint_features import load_ema, locked_json, paired_configs, save_json
 from campaign.a2.evaluate import generation_eligible, paired_interference_interval
 from campaign.a2.train import verify_config
 from utils.fid import compute_fid_from_features
 
 
 METRICS = ('recon_l1', 'recon_lpips', 'allocation_distortion')
+
+
+def aligned_records(records, rows):
+    expected = {r['image_id']: r['class_index'] for r in rows}
+    indexed = {r['image_id']: r for r in records}
+    assert len(expected) == len(rows) == len(indexed) == len(records) == 3200
+    assert set(indexed) == set(expected)
+    ordered = [indexed[k] for k in sorted(expected)]
+    assert all(r['class_index'] == expected[r['image_id']] for r in ordered)
+    return ordered
 
 
 def complete_arm(arm, method, rows):
@@ -36,11 +46,7 @@ def complete_arm(arm, method, rows):
     assert Path(arm['checkpoint']['path']+'.sha256').read_text().strip() == arm['checkpoint']['sha256']
     full, probe = locked_json(arm['dev_full']), locked_json(arm['gradient_probe'])
     assert full['summary']['images'] == 3200
-    expected = {r['image_id']: r['class_index'] for r in rows}
-    indexed = {r['image_id']: r for r in full['per_image']}
-    assert len(indexed) == len(full['per_image']) == 3200 and set(indexed) == set(expected)
-    ordered = [indexed[k] for k in sorted(expected)]
-    assert all(r['class_index'] == expected[r['image_id']] for r in ordered)
+    ordered = aligned_records(full['per_image'], rows)
     values = np.asarray([[r[k] for k in METRICS] for r in ordered], dtype=np.float64)
     assert np.isfinite(values).all() and (values >= 0).all()
     assert np.allclose(values[:, 0]+values[:, 1], values[:, 2], rtol=1e-10, atol=1e-12)
@@ -48,18 +54,32 @@ def complete_arm(arm, method, rows):
     assert [r['update'] for r in history] == [1000, 2000, 3000, 4000, 5000]
     assert all(r['images'] == 512 for r in history)
     assert np.isfinite([r[k] for r in history for k in METRICS]).all()
-    monitor = Path(arm['result']['path']).parent/'monitor.jsonl'
-    records = [json.loads(line) for line in monitor.read_text().splitlines()]
+    assert sha(arm['monitor']['path']) == arm['monitor']['sha256']
+    records = [json.loads(line) for line in Path(arm['monitor']['path']).read_text().splitlines()]
+    assert sha(arm['exposure']['path']) == arm['exposure']['sha256']
+    attempted, completed = [], []
+    with Path(arm['exposure']['path']).open() as stream:
+        for line in stream:
+            event = json.loads(line)
+            assert 'resume_discontinuity' not in event, 'Replayed exposure needs a declared matched revision'
+            if 'optimizer_update_attempted' in event:
+                attempted.append(event['optimizer_update_attempted'])
+                assert len(event['image_ids']) == len(event['flips']) == 256
+            else:
+                completed.append(event['optimizer_update_completed'])
+    assert attempted == completed == list(range(1, 5001))
     assert [r['update'] for r in records] == list(range(100, 5001, 100))
     assert np.isfinite([r[k] for r in records for k in
                        ('reconstruction_loss', 'gradient_norm_before_clip', 'latent_image_variance', 'latent_rms')]).all()
     if train['objective'] == 'joint':
         assert np.isfinite([r['flow_loss_sum'] for r in records]).all()
     assert len(probe['per_image']) == 96
-    assert len({r['image_id'] for r in probe['per_image']}) == 32
-    assert {r['t'] for r in probe['per_image']} == {.25, .5, .75}
+    expected_probe = {r['image_id'] for r in eval_rows(rows, 32, train['evaluation']['seed'])}
+    assert {r['image_id'] for r in probe['per_image']} == expected_probe
+    assert {(r['image_id'], r['t']) for r in probe['per_image']} == {(i, t) for i in expected_probe for t in (.25, .5, .75)}
     assert np.isfinite([r[k] for r in probe['per_image'] for k in
         ('reconstruction_gradient_norm', 'generation_gradient_norm', 'grad_cos_last_block')]).all()
+    assert np.allclose(values.mean(0), [full['summary'][k] for k in METRICS], rtol=1e-10, atol=1e-12)
     return dict(config=train, result=result, full=full, probe=probe, rows=ordered, values=values,
                 terminal=terminal, monitor=records, input=arm)
 
@@ -177,13 +197,22 @@ def main():
     subprocess.run(['git', 'merge-base', '--is-ancestor', cfg['source']['implementation_revision'], stage], check=True)
     torch.set_num_threads(cfg['cpu_threads'])
     import matplotlib
-    assert matplotlib.__version__ == cfg['plot_environment']['matplotlib_version']
+    plot_env = cfg['plot_environment']
+    assert Path(sys.prefix).resolve() == Path(plot_env['path']).resolve()
+    assert sha(plot_env['freeze_all']) == plot_env['freeze_all_sha256']
+    assert sha(plot_env['base_pth']) == plot_env['base_pth_sha256']
+    assert matplotlib.__version__ == plot_env['matplotlib_version']
     first = locked_json(cfg['arms']['NATIVE64_JOINT']['training_config'])
     rows = read_interface(first['data'])['DEV']
     assert set(cfg['arms']) in ({'NATIVE64_JOINT', 'NATIVE16_JOINT'},
                                {'NATIVE64_JOINT', 'NATIVE16_JOINT', 'NATIVE64_RECON', 'NATIVE16_RECON'})
     arms = {k: complete_arm(v, k, rows) for k, v in cfg['arms'].items()}
     paired_configs({k: arms[f'NATIVE{k}_JOINT']['config'] for k in (64, 16)})
+    assert len({v['input']['exposure']['sha256'] for v in arms.values()}) == 1, 'Unmatched image/flip/full-noise exposure logs'
+    assert all(v['probe']['parameter_names'] == arms['NATIVE64_JOINT']['probe']['parameter_names'] for v in arms.values())
+    checked64 = load_ema(arms['NATIVE64_JOINT']['input'], arms['NATIVE64_JOINT']['config'],
+                         arms['NATIVE64_JOINT']['result'], torch.device('cpu'))
+    del checked64
     classes = np.array([r['class_index'] for r in arms['NATIVE64_JOINT']['rows']])
     paired = paired_difference(arms['NATIVE16_JOINT']['values'], arms['NATIVE64_JOINT']['values'], classes)
     eligible = generation_eligible({k: [r['allocation_distortion'] for r in v['result']['reconstruction']['history']]
@@ -191,6 +220,8 @@ def main():
     digest = sha(args.config)
     out = Path(cfg['output_parent'])/f'A2__ENDPOINT_AGGREGATION__s917__{digest[:12]}'
     out.mkdir(parents=True, exist_ok=False); (out/'resolved.yaml').write_bytes(raw)
+    if cfg['endpoint_features']:
+        assert eligible, 'Generation metrics require the original paired finite/improving condition'
     scores = score_features(cfg['endpoint_features'], arms, out) if cfg['endpoint_features'] else None
     with (out/'paired-errors.csv').open('w', newline='') as f:
         writer = csv.writer(f)
@@ -200,22 +231,46 @@ def main():
             writer.writerow([row['image_id'], row['class_index'], *a, *b, b[2]-a[2]])
     interference = None
     if 'NATIVE64_RECON' in arms:
-        assert cfg['conditional_reconstruction_release'], 'Bind coordinator release before using RECON results'
-        locked_json(cfg['conditional_reconstruction_release'])
+        releases = cfg['conditional_reconstruction_releases']
+        assert set(releases) == {'NATIVE64_RECON', 'NATIVE16_RECON'}
+        for method, lock in releases.items():
+            release = locked_json(lock)
+            assert release['allow_a2_training'] is True
+            assert release['conditional_reconstruction_arms_authorized'] is True
+            assert release['configuration_sha256'] == arms[method]['input']['training_config']['sha256']
+            assert release['plan_sha256'] == arms[method]['config']['plan_sha256']
         recon = {k: arms[f'NATIVE{k}_RECON']['config'] for k in (64, 16)}
         paired_configs(recon, objective='reconstruction_only')
+        for count in (64, 16):
+            a = json.loads(json.dumps(arms[f'NATIVE{count}_JOINT']['config']))
+            b = json.loads(json.dumps(arms[f'NATIVE{count}_RECON']['config']))
+            for item in (a, b):
+                for key in ('method_id', 'objective', 'conditional'):
+                    item.pop(key)
+                item['evaluation']['generated_samples'] = 0
+            assert a == b, 'Joint/RECON controls differ beyond the declared objective'
         interference = paired_interference_interval(*(arms[k]['values'][:, 2] for k in
             ('NATIVE16_JOINT', 'NATIVE64_JOINT', 'NATIVE16_RECON', 'NATIVE64_RECON')), classes)
-    curves(arms, out)
     delta = arms['NATIVE16_JOINT']['values'][:, 2]-arms['NATIVE64_JOINT']['values'][:, 2]
     positive = np.sort(np.maximum(delta, 0))
-    result = dict(schema='jat-a2-aggregate-result.v1', node_id='A2', phase_status='COMPLETED',
+    recon = {k: dict(v['full']['summary'], history=v['result']['reconstruction']['history'],
+                     per_image_path=v['input']['dev_full']['path'], per_image_sha256=v['input']['dev_full']['sha256'])
+             for k, v in arms.items()}
+    generation = {}
+    for method in arms:
+        count = str(arms[method]['config']['model']['native_count'])
+        if scores is not None and method.endswith('JOINT'):
+            recon[method].update(rfid_eval=scores[count]['rfid_eval'], rfid_eval_reason=None)
+            generation[method] = {k: v for k, v in scores[count].items() if k != 'rfid_eval'}
+        else:
+            generation[method] = dict(gfid_5k=None, kid_5k=None, reason='RECON is a mechanism probe without generation.' if method.endswith('RECON') else 'No completed endpoint feature workload is bound.')
+    h64 = np.array([r['allocation_distortion'] for r in arms['NATIVE64_JOINT']['result']['reconstruction']['history']])
+    result = dict(schema='jat-a2-aggregate-result.v1', node_id='A2', phase_status='RUNNING',
         node_status='IN_PROGRESS' if eligible and scores is None else 'AWAITING_COORDINATOR',
         outcome_class=None, outcome_class_reason='Coordinator classifies the paired scientific evidence and conditional next action.',
         config_sha256=digest, source_revision=stage, inputs=cfg['arms'], metric_protocol_sha256=cfg['metric_protocol_sha256'],
-        training={k: v['result']['training'] for k, v in arms.items()},
-        reconstruction={k: v['full']['summary'] for k, v in arms.items()},
-        generation=scores, generation_reason=None if scores is not None else 'No completed endpoint feature workload is bound; eligibility is reported separately.',
+        training={k: dict(v['result']['training'], monitor_history=v['monitor']) for k, v in arms.items()},
+        reconstruction=recon, generation=generation,
         generation_eligible=eligible, paired_reconstruction=paired,
         gradient_probes={k: v['probe'] for k, v in arms.items()},
         error_concentration=dict(fraction_images_16_higher=float(np.mean(delta > 0)),
@@ -223,12 +278,25 @@ def main():
             reason=None if positive.sum() else 'No positive per-image short-count gap.'),
         joint_pressure=interference, joint_pressure_reason=None if interference is not None else 'Conditional paired RECON results are not bound; no mechanism screen is claimed.',
         valid64_gate=dict(complete5000_checkpoint=True, finite_logged_training=True,
-            improving_fixed512DEV=generation_eligible({'NATIVE64_JOINT': [r['allocation_distortion'] for r in arms['NATIVE64_JOINT']['result']['reconstruction']['history']],
-                                                     'NATIVE16_JOINT': [r['allocation_distortion'] for r in arms['NATIVE64_JOINT']['result']['reconstruction']['history']]}),
+            improving_fixed512DEV=bool(np.isfinite(h64).all() and h64[-1] < min(h64[0], h64[-2])),
+            full_snapshot_schema_and_ema_strict_load_verified=True,
             coordinator_acceptance=None, reason='Worker evidence is not coordinator acceptance or downstream release.'),
         stable64_checkpoint=cfg['arms']['NATIVE64_JOINT']['checkpoint'],
-        costs={k: v['terminal'] for k, v in arms.items()}, confirm_consumed=False)
+        costs={k: v['terminal'] for k, v in arms.items()},
+        additional_cost_receipts=[locked_json(lock) for lock in cfg['additional_cost_receipts']],
+        analysis_job_terminal_cost=None, analysis_job_terminal_cost_reason='Reconcile this job after its Slurm terminal state.',
+        figures=None, figures_reason='Plot generation pending.', confirm_consumed=False)
     save_json(out/'results.json', result)
+    try:
+        curves(arms, out)
+        result.update(phase_status='COMPLETED', figures={name: dict(path=str(out/name), sha256=sha(out/name))
+                      for name in ('matched-curves.csv', 'matched-curves.png', 'matched-curves.pdf', 'paired-errors.csv')},
+                      figures_reason=None)
+    except Exception as exc:
+        result.update(phase_status='FAILED', error=repr(exc), figures_reason='Required plotting failed; computed metrics retained without a completed report.')
+        raise
+    finally:
+        save_json(out/'results.json', result)
     sections=[('1 Objective', 'Classify the fixed16 pilot and establish the evidence for a stable local native64 control.'),
         ('2 Setup', 'The resolved.yaml, input hashes and immutable original run artifacts bind the actual matched5000-update experiment. This CPU analysis does not train or change a model.'),
         ('3 Baseline', 'Native counts, common seed0 initialization, same FIT/flips/full64-position draws, global256 exposures, source M3 sum and fixed protocol. RECON arms, if present, are mechanism probes rather than compute-matched generation baselines.'),
