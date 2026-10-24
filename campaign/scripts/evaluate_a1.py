@@ -55,7 +55,7 @@ record={"node_id":"A1","method_id":cfg["method_id"],"seed":cfg["seed"],
         "source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
         "patch_sha256":cfg["source"]["patch_sha256"],
         "training":{},"reconstruction":{},"generation":{},
-        "plan_sha256":cfg["plan_sha256"],"plan_version":cfg["plan_version"],"extensions":cfg["extensions"],"paper_headline_gfid":2.12,"paper_appendix_gfid":2.735}
+        "plan_sha256":cfg["plan_sha256"],"plan_version":cfg["plan_version"],"extensions":cfg["extensions"],"paper_headline_gfid":2.12,"paper_appendix_gfid":2.735,"paper_headline_is":294.1,"paper_appendix_is":268.1}
 
 def sha(path):
     h=hashlib.sha256()
@@ -72,7 +72,7 @@ def save():
     sections=[
       ("1 Objective","A1 UNITE-B positive-reference effect and/or the three essential checks. Practical gate: gFID-50K<=3.1, strict load and valid reconstruction. Coordinator owns acceptance."),
       ("2 Setup",f"Method {cfg['method_id']}; seed {cfg['seed']}; config SHA256 {digest}; checkpoint SHA256 {record['checkpoint_sha256']}. Stage {record['stage']}; job {record['job_id']}; source {record['source_revision']}. Complete resolved.yaml, runtime.json and input locks are retained."),
-      ("3 Baseline","Untouched source BaseEMA,256 registers,source M14 identity and native FP32/TF32 sampling. Headline2.12 and appendix2.735 remain separate. Reference validation smokes and M3 correctness fixtures cannot replace the full reference. Required A1 reference workloads are5000 fixed reconstructions and independent balanced50000 generation."),
+      ("3 Baseline","Untouched source BaseEMA,256 registers,source M14 identity and native FP32/TF32 sampling. HeadlineFID2.12/IS294.1 and appendixFID2.735/IS268.1 remain separate. Reference validation smokes and M3 correctness fixtures cannot replace the full reference. Required A1 reference workloads are5000 fixed reconstructions and independent balanced50000 generation."),
       ("4 Results",json.dumps({k:record.get(k) for k in ("run_status","reconstruction","generation","validation","adapter_checks","gpu_hours","elapsed_seconds","error")},indent=2)),
       ("5 Interpretation","Run completion does not claim coordinator acceptance. Reference effect is distinct from exact headline reproduction; adapter correctness does not establish an allocation hypothesis."),
       ("6 Limitations","Authors' evaluation RNG states and full scientific config are absent. Paper/source ODE intervals differ; this uses native[0,1]. Reconstruction is the declared5K subset, with no matching published rFID target. Single-run metrics do not establish training-seed uncertainty. All failures and allocated hours remain in the ledger."),
@@ -335,7 +335,9 @@ try:
             nfe_total=sum(x["nfe"] for x in batches),nfe_mean_per_batch=float(np.mean([x["nfe"] for x in batches])),
             features_sha256=sha(out/"generation-features.npy"),logits_sha256=sha(out/"generation-logits.npy"),
             absolute_difference_headline=abs(record["generation"]["gfid_50k"]-2.12),
-            absolute_difference_appendix=abs(record["generation"]["gfid_50k"]-2.735))
+            absolute_difference_appendix=abs(record["generation"]["gfid_50k"]-2.735),
+            absolute_is_difference_headline=abs(record["generation"]["inception_score"]-294.1),
+            absolute_is_difference_appendix=abs(record["generation"]["inception_score"]-268.1))
         record["reference_gate_candidate"]={"gfid_le_3_1":record["generation"]["gfid_50k"]<=3.1,
             "strict_load":True,"reconstruction_complete_finite":True,"coordinator_acceptance_required":True}
         nfe_hook.remove()

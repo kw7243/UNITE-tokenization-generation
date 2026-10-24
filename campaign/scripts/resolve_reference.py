@@ -81,6 +81,11 @@ def main():
           "karl_accepted_read_only":karl,
           "adapter_patch_sha256":patch_sha,"code_sha256":code_hashes,
           "private_plan":"Only the verified digest is committed; the supplied plan remains in retained administrative outputs."}
+    pilot_path=ROOT/"campaign/locks/pilot-data.json"
+    if pilot_path.exists():
+        lock["pilot_data_accepted"]={"path":str(pilot_path),"sha256":sha(pilot_path),
+                                      "evidence":json.loads(pilot_path.read_text()),
+                                      "A1_use":"Provenance only; pilot training rows are not consumed in A1."}
     lockpath=ROOT/"campaign/locks/artifacts.json"
     if lockpath.exists():
         previous=json.loads(lockpath.read_text())

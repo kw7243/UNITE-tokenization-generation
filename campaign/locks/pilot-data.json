@@ -1,0 +1,205 @@
+{
+  "coordinator_acceptance": {
+    "accepted_utc": "2026-10-24T07:20:34.988474+00:00",
+    "node_id": "PILOT_DATA",
+    "node_status": "PASS",
+    "scope": "Section5.4 fixed pilot data only, no A1/A2 scientific pass",
+    "current_plan_version": "1.1",
+    "current_plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+    "execution_plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+    "checks": {
+      "alloc_subset_fit": true,
+      "content_bytes_hashed_once": true,
+      "coverage_complete": true,
+      "exact_class_count": 100,
+      "exact_hash_rank_membership": true,
+      "fit_dev_confirm_disjoint": true,
+      "passed": true,
+      "rows": {
+        "ALLOC": 3200,
+        "CONFIRM": 3200,
+        "CONTENT": 126689,
+        "DEV": 3200,
+        "FIT": 120289
+      },
+      "serialized_rows_equal_content": true,
+      "unique_ids": true
+    },
+    "manifest_hashes": {
+      "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+      "CONFIRM.tsv": "dad77476e3a70426f01d3592b72ccdf65cf2bdb2b45c83891903f65dfba7b882",
+      "CONTENT.tsv": "90a710bf273c7bee7818f629044221828b560dd20e85e0b3eef23f5444665f09",
+      "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+      "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+      "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115",
+      "classes.json": "4bdfa8a1e607cc5cff7498aa87fcdf755f175853954b18846eaa77ce9cbfb846"
+    },
+    "artifact_root": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+    "job_id": "2830620",
+    "terminal": "COMPLETED 0:0",
+    "gpu_hours": 0,
+    "cpu_core_hours": 0.9066666666666666,
+    "interface_sha256": "0fd3b266cf20bfdaaafc3a3cca935ec2b33eb61fd8f8c5d678347867fe2ec824",
+    "limitations": [
+      "Original archive hash unavailable; extracted bytes hashed.",
+      "No JPEG decode check performed.",
+      "CONFIRM integrity only; sealed for scientific use until D1."
+    ],
+    "canonical_writer": "unite-reproduce-20261023",
+    "evidence_sha256": {
+      "report.md": "8ee0f52b943e260b21d72715bb02b1c403068c856c2edb71ce30c9bc91c03f5b",
+      "results.json": "6aa5ece7af8077756ad624e17e0844a7177d981b3ee5b10908d6ae18057337db",
+      "interface.json": "0fd3b266cf20bfdaaafc3a3cca935ec2b33eb61fd8f8c5d678347867fe2ec824",
+      "receipts/terminal-receipt.json": "11019f79c18f4a41f3d199bae561138b1231c1b9b1c7820b4fd7d423b2d2c147"
+    }
+  },
+  "artifact_handoff": {
+    "a2_scientific_pass": false,
+    "all_owned_jobs_terminal": true,
+    "artifact_root": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+    "attempts": 1,
+    "backup": {
+      "branch": "research/jat-pilot-data-20261024",
+      "canonical_campaign_modified": false,
+      "canonical_notebook_modified": false,
+      "commit": "59cd305db450003643aa5685e7bdcf698daf581f",
+      "force_push": false,
+      "push_argv": [
+        "git",
+        "push",
+        "origin",
+        "research/jat-pilot-data-20261024"
+      ],
+      "remote": "https://github.com/kw7243/UNITE-tokenization-generation.git",
+      "remote_commit": "59cd305db450003643aa5685e7bdcf698daf581f",
+      "source": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-pilot-data-20261024",
+      "source_clean": true,
+      "verification_argv": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/research/jat-pilot-data-20261024"
+      ]
+    },
+    "canonical_lock_written": false,
+    "checks": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/checks.json",
+    "class_map": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/class_to_idx.json",
+    "compatibility": "Section 5.4 exact text equality; all pilot split artifacts remain applicable to v1.1",
+    "confirm_policy": "IDs, byte hashes and counts only; sealed for scientific use until D1 method freeze",
+    "cpu_core_hours": 0.9066666666666666,
+    "current_plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+    "current_plan_version": "1.1",
+    "data_bytes": 14495992270,
+    "execution_config_sha256": "fd1bec3f630d0da887bcab20cc8562b8ababf66aab5da4c8552e10eac6b0f00b",
+    "execution_plan_version": "1.0",
+    "failed_slurm_attempts": 0,
+    "gpu_hours": 0,
+    "interface": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/interface.json",
+    "interface_sha256": "0fd3b266cf20bfdaaafc3a3cca935ec2b33eb61fd8f8c5d678347867fe2ec824",
+    "job_id": "2830620",
+    "job_ownership_released": true,
+    "job_terminal": "COMPLETED 0:0",
+    "manifest_hashes": {
+      "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+      "CONFIRM.tsv": "dad77476e3a70426f01d3592b72ccdf65cf2bdb2b45c83891903f65dfba7b882",
+      "CONTENT.tsv": "90a710bf273c7bee7818f629044221828b560dd20e85e0b3eef23f5444665f09",
+      "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+      "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+      "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115",
+      "classes.json": "4bdfa8a1e607cc5cff7498aa87fcdf755f175853954b18846eaa77ce9cbfb846"
+    },
+    "next_owner": "research-image-tokenization coordinator accepts artifacts and informs unite-reproduce-20261023 canonical writer",
+    "notebook_entry": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/notebook-entry.md",
+    "report": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/report.md",
+    "results": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/results.json",
+    "rows": {
+      "ALLOC": 3200,
+      "CONFIRM": 3200,
+      "CONTENT": 126689,
+      "DEV": 3200,
+      "FIT": 120289
+    },
+    "sealing_receipt": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d/sealing-receipt.json",
+    "source": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-pilot-data-20261024",
+    "stage": "/data/scratch-fast/kwen1/jat-pilot-data-20261024-stages/20261024_025819-4842a9-4929e73-code"
+  },
+  "import_scope": "Administrative pointers/interface only. No manifest rows read, rehash, JPEG decode, model job or A2 launch.",
+  "confirm_sealed": true,
+  "loader_rule": "Use supplied100-class mapping; do not use full-root ImageFolder indices.",
+  "import_plan_version": "1.1",
+  "consumer_interface": {
+    "artifact_root": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+    "checks": "checks.json",
+    "class_map": "class_to_idx.json",
+    "class_order": "lexicographically sorted synsets (ImageFolder-compatible)",
+    "class_rank": "zero-based within selected synset",
+    "columns": [
+      "image_id",
+      "synset",
+      "class_index",
+      "filename",
+      "absolute_path",
+      "resolved_path",
+      "split_sha256",
+      "class_rank",
+      "content_sha256",
+      "size_bytes"
+    ],
+    "confirm_policy": "Integrity preparation only; sealed for scientific use until D1 method freeze",
+    "content_hash": "SHA256 of raw file bytes; no image decode",
+    "current_plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+    "data_root": "/data/vision/torralba/datasets/imagenet_pytorch_new/train",
+    "execution_plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+    "filenames": [
+      "CONTENT.tsv",
+      "FIT.tsv",
+      "ALLOC.tsv",
+      "DEV.tsv",
+      "CONFIRM.tsv",
+      "class_to_idx.json",
+      "classes.json"
+    ],
+    "format": "UTF-8 TSV with header, LF, no BOM",
+    "hashes": {
+      "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+      "CONFIRM.tsv": "dad77476e3a70426f01d3592b72ccdf65cf2bdb2b45c83891903f65dfba7b882",
+      "CONTENT.tsv": "90a710bf273c7bee7818f629044221828b560dd20e85e0b3eef23f5444665f09",
+      "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+      "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+      "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115",
+      "classes.json": "4bdfa8a1e607cc5cff7498aa87fcdf755f175853954b18846eaa77ce9cbfb846"
+    },
+    "image_id": "synset/filename relative to data_root",
+    "imagefolder_compatibility": "Use the provided 100-class subset map. ImageFolder on the full shared root discovers 1000 classes and has different labels.",
+    "integer_columns": [
+      "class_index",
+      "class_rank",
+      "size_bytes"
+    ],
+    "memberships": {
+      "ALLOC": "[64,96), subset of FIT",
+      "CONFIRM": "[32,64)",
+      "DEV": "[0,32)",
+      "FIT": "[64,N)"
+    },
+    "plan_compatibility": "Section 5.4 exact text equality; all pilot split artifacts remain applicable to v1.1",
+    "preprocessing": {
+      "third_party/unite/utils/crop.py": "c5de5f0e78dbe4fd2ffed7cd2271cc79c95fc63768beec81d18dd39dc3b4f3fe",
+      "third_party/unite/utils/data.py": "58b1e47483db648925bf28bf4e62f3e527dc5b8bf1191756a7cf6c3397828f35"
+    },
+    "row_order": "synset ascending, then (split_sha256, image_id) ascending",
+    "rows": {
+      "ALLOC": 3200,
+      "CONFIRM": 3200,
+      "CONTENT": 126689,
+      "DEV": 3200,
+      "FIT": 120289
+    },
+    "run_id": "PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+    "split_hash": "SHA256(UTF-8(\"split-v1|\" + image_id)), no newline",
+    "terminal_receipt": "receipts/terminal-receipt.json",
+    "tie_break": "image_id ascending at exact digest tie",
+    "training_sampler_implemented": false,
+    "version": "pilot-splits-v1"
+  }
+}
