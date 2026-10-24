@@ -346,3 +346,26 @@ This limited grid is not a quantitative full-dataset quality claim.
 The5Ksubset has no matching published rFID value;paper120epoch reconstruction differs from released240epoch Base.
 50000 independent balanced generation remains active;FID/IS and actual terminal reservation cost are pending.
 No full A1 pass or training result is claimed.
+
+## 2026-10-24 A2 implementation preparation: PREPARATION_ONLY
+
+- Branch research/jat-a2-20261024; parent51a29b63aaba705a23a9de0e39ed8818b74a77ec; tested code a367fca5a1cb9b597826d5ffda26d5d1d0c13cca.
+- Source /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024. Approved fork https://github.com/kw7243/UNITE-tokenization-generation; official upstream2389f2c65fedbd43ada851e69b2b810efd23af7d is an ancestor.
+- Plan1.1 SHA256 4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5.
+- Report /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/report.md; results /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/results.json; terminal receipts /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/receipts/terminal-summary.json; final backup receipt /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/receipts/backup.json.
+- Final stage /data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_044035-153234-a367fca-code. All earlier stages and outputs are preserved.
+- Implemented native16/64 joint and conditional RECON recipes,exact class-balanced paired streams,source M3 loss/optimizer partition,BF16/FP32 protocol,update LR/EMA,complete optimizer-boundary snapshots,monitoring,DEV evaluation,and last-block probes.
+- No selector,prefix training,count embeddings,B1 converter,KARL/ALIT changes,scientific features,or quality scoring.
+- Nine focused CPU check groups passed on three completed4-core jobs:2831152,2831187,2831201. Total 0.423333333 actual CPU core-hours. No GPU submissions or main-model updates.
+- One normal-QoS CPU request was rejected before allocation; csail/tig-main/tig-cpu matches partition policy and the completed pilot-data precedent. All accepted requests used literal --export=NIL. No allocated job failed.
+- Read-only environment /data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1; package-lock SHA256 fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253; freeze--all SHA256 41b5c4ee15094b54d9151687fb091d654ed6ca9d0adc53612d6e46218668010f. No environment mutation.
+- Resolved config hashes: {"NATIVE16_JOINT": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb", "NATIVE16_RECON": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8", "NATIVE64_JOINT": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17", "NATIVE64_RECON": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c"}.
+- Code bundle 2599d8857a1a2914f77525a59db782a7796445cfc2898143bd6d03e84b080a55; tested patch 7642a8d589cd841fe93a82f930d989c88acb35e26854e09ab2eb6530395f9dff; metric protocol 20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873.
+- Interfaces/schema /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/interface.json; launch/remaining checks /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/README.md.
+- A1 full-reference acceptance still belongs to unite-reproduce-20261023. Repeat affected native GPU correctness/BF16/DDP/memory/full-checkpoint checks before the separate training assignment. The unchanged accepted256 proof remains reusable until its affected source changes.
+- Scientific A2 is unrun,not passed or negative. CONFIRM is sealed. B1 still needs a future stable NATIVE64_JOINT complete checkpoint. Pilot FIT features/hash remain an endpoint-metric prerequisite.
+- Canonical notebook writer: unite-reproduce-20261023. This entry is a handoff only; this worker did not modify main or its canonical notebook.
+
+- Accepted preparation backup: [c80973b1b3f30a139c6a633325e0ec23c1173db2](https://github.com/kw7243/UNITE-tokenization-generation/commit/c80973b1b3f30a139c6a633325e0ec23c1173db2); tested code: [a367fca5a1cb9b597826d5ffda26d5d1d0c13cca](https://github.com/kw7243/UNITE-tokenization-generation/commit/a367fca5a1cb9b597826d5ffda26d5d1d0c13cca).
+- Accepted report SHA256 9110425f5c34b20c53ca5600303cbca3e2c10b6354c7442b39876d1a10dbfff1; results SHA256 8e8845c6dadb702713c91fdf1895aa8a18747e58566e11940435460b988ab1f0; terminal summary SHA256 601e9f786d13f9d5f8367010c1d1bf78a276aa339c45fea58cb608d51342a221.
+- Coordinator acceptance is PREPARATION_ONLY, scientific_a2_pass=false. Retained administrative copy in the A1 campaign: outputs/a2-preparation-acceptance.json, SHA256 8047616f53a138ee790b710fcdfb5e8db44409f436741a753766504f774d5f31.
