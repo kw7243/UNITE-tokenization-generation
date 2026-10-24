@@ -32,6 +32,10 @@ class PrefixAdapter(nn.Module):
         super().__init__()
         if core.num_latent_tokens != 64:
             raise ValueError("The prefix adapter requires exactly 64 candidates")
+        if core.flow_steps_per_recon != 3 or core.flow_mini_batch != 3:
+            raise ValueError("The new prefix paths require PILOT_M3 with chunk3")
+        if core.perceptual_weight != 1.0 or core.gen_loss_weight != 1.0:
+            raise ValueError("The plan fixes both source loss coefficients at1")
         self.core = core
         install_register_only(self.core.encoder)
         width = self.core.encoder.hidden_size
@@ -93,6 +97,8 @@ class PrefixAdapter(nn.Module):
         return self.core.encoder_layer_norm(registers)
 
     def decode(self, full_latents, counts):
+        if full_latents.shape != (len(counts), 64, 32):
+            raise ValueError("Expected64 normalized candidates per image")
         outputs, order = [], []
         for count, indices in self._groups(counts):
             retained = full_latents.index_select(0, indices)[:, :count]
@@ -125,6 +131,10 @@ class PrefixAdapter(nn.Module):
         return per_image, decoded
 
     def generation_losses(self, latents, counts, labels, noises, times, class_drop_mask):
+        if latents.shape != (len(counts), 64, 32):
+            raise ValueError("Expected64 candidates per image")
+        if noises.shape != (3, len(counts), 64, 32) or times.shape != (3, len(counts)):
+            raise ValueError("Exactly3 complete independent draws are required")
         target = latents.detach()
         draws = []
         for noise, time in zip(noises, times):
