@@ -339,3 +339,22 @@ PrefixAdapter correctness methods and check_adapter.py are available for indepen
 - Revisionr2, preserved unexecuted, adds all-rank hardware identities and first200 real-update throughput/memory forecasts. It does not change forward/backward, optimizer,EMA or checkpoint behavior.
 - Final current configurations are `campaign/a2/configs/r3-explicit-device/index.json`; all prior configuration bytes and failed stages remain preserved. The unchanged native single-GPU proof remains valid.
 - Diagnostic, terminal receipt, old/new config identities and proposed same-endpoint rerun are retained under `outputs/A2/engineering/receipts/diagnostic-ddp-1.json`.
+
+## 2026-10-24 A2 stopped at repeated distributed correctness blocker
+
+The explicit-device counterfactual failed again with CUDA error 101 at the first NCCL barrier.
+Job 2834097 failed with exit 1:0 after 33 reserved seconds on four RTX 3090 GPUs.
+All four processes reported one visible CUDA device and four distinct physical GPU UUIDs.
+The proposed device-inference explanation is insufficient; the cause remains unresolved.
+The worker rule requires coordinator help after the same obstacle twice. No third GPU attempt is launched.
+
+The full seven-section engineering report is `outputs/A2/engineering/report.md`; the null-with-reason result record is `outputs/A2/engineering/results.json`.
+All owned jobs are terminal: 2834061 completed; 2834080 and 2834097 failed before distributed model execution.
+Total engineering reservation is 0.127222 RTX 3090 device-hours and 0.508889 allocated CPU core-hours.
+There are zero scientific updates, no trained joint endpoints, no pilot FIT features and no stable64 checkpoint.
+The direct denoiser-output comparison, four-rank reduction, clipping, EMA and complete snapshot continuation remain required.
+The passed native single-GPU checks and exact initial parameter byte receipt remain valid for their stated scope.
+Only the accepted 256-token reference has established scientific stability. This does not classify unrun native64 as unstable.
+The current code revision is `5d44e35fd122a0de537531da5624aa03e1e0f530`; all prior stages and configuration identities remain preserved.
+The canonical notebook receives the same outcome under the transferred single-writer role.
+The coordinator owns the bounded recovery direction and later acceptance; no B1 work begins here.
