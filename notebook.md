@@ -666,3 +666,31 @@ No DEV quality trajectory or scientific native64 pass is established yet.
 - Coordinator owns A2 acceptance, configuration binding, future allocation/experiment ownership and scientific next-node decisions. A2 owner remains sole main-notebook writer; this entry is for that writer to consolidate.
 
 - Final backup revision: `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`. Executable code and configs remain identical to the tested implementation.
+
+## 2026-10-24 Local NoMistakes policy adopted; service context unresolved
+
+The user adopted NoMistakes local validation for future tokenizer experiments and coherent experiment-affecting revisions.
+Use `--skip=push,pr,ci`; retain every other required local stage, relevant actual-environment tests, clean final source and a fresh full stage.
+Ordinary experiment backups remain separate. No `--yes`, scientific trial expansion, publication, merge, shared Firstmate change or Codex update is authorized.
+Ask-user findings go to the coordinator; the pipeline owns fixes while active and offered guarded branch synchronization owns recovery.
+
+The first A2 review must include reused unreviewed training/native/data/optimizer/checkpoint/evaluation/sampling/feature/metric and relevant staging helpers, not an empty or documentation-only diff.
+The complete finite-plan intent and planned test reconciliation are retained under `outputs/A2/no-mistakes-local-20261024/` in the A2 source.
+Changed affected code invalidates inherited approval. A partial pipeline's generic passed outcome does not establish all required stages or scientific correctness.
+
+The installed CSAIL CLI is v1.40.1-3-g4ba40ae. From the login host, the configured socket `/data/scratch-fast/kwen1/.no-mistakes-dev/socket` refuses connections; the repository is uninitialized.
+This does not establish whether a service exists on another host. Primary owns host/endpoint/service reconciliation; no worker starts, restarts, updates or duplicates the daemon.
+No validation run has started and no validation stage is marked passed.
+The two immutable joint jobs 2834281/2834282 and FIT job 2834488 may finish unchanged as pre-policy runs. Their stages remain untouched.
+Supervision and ordinary documentation continue while the service context is resolved. The next launch or new reported analysis using affected code waits for the required validation.
+The accepted B1 CPU preparation entry was already consolidated in canonical notebook commit b7db4185dd4821776dc56ad18484967abc7f84bb; B1 scientific execution remains NOT_STARTED.
+
+## 2026-10-24 - B1 local validation policy adopted; setup blocked
+
+- Accepted preparation and its source are preserved at `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`.
+- The new NoMistakes local path uses --skip=push,pr,ci; no --yes, PR, CI publication, merge or scientific trial expansion.
+- Installed CSAIL version: `v1.40.1-3-g4ba40ae (4ba40ae) 2026-07-21T02:46:25Z`. Current help and skill were read.
+- From the login host, the configured socket `/data/scratch-fast/kwen1/.no-mistakes-dev/socket` is unreachable with connection refused. Service host/ownership remains unresolved and primary-owned. The B1 repository is not initialized yet.
+- No validation run or new Slurm test started. No source/environment changes, scientific updates or GPU-hours.
+- Firstmate owns shared daemon repair. After repair, review substantive B1 and relevant reused helpers/evaluation, run required local stages and justified actual technical tests, then freeze and fully stage corrected source.
+- B1 remains NOT_STARTED. Trained checkpoint/real conversion and scientific release remain separate prerequisites. A2 retains canonical notebook ownership.
