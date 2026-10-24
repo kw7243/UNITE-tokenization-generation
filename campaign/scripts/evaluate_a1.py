@@ -266,11 +266,13 @@ try:
             "encode_ms_per_image":None,"encode_ms_per_image_reason":"Encoding latency was not measured separately from reconstruction and metrics.",
             "real_features_sha256":sha(out/"real-features.npy"),
             "reconstruction_features_sha256":sha(out/"reconstruction-features.npy")}
+        record["reconstruction"].update(peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
         save()
         del alex,real_features,recon_features,actual_real,actual_recon,real_np,inception
         torch.cuda.empty_cache()
         # Source engine performs the actual50Kloop. Instrumentation retains outputs only.
         phase="GENERATION_REFERENCE"
+        torch.cuda.reset_peak_memory_stats()
         seed_all()
         features_file=np.lib.format.open_memmap(out/"generation-features.npy",mode="w+",dtype=np.float32,shape=(50000,2048))
         logits_file=np.lib.format.open_memmap(out/"generation-logits.npy",mode="w+",dtype=np.float32,shape=(50000,1008))
@@ -325,6 +327,7 @@ try:
             num_images=50000,num_classes=1000,batch_size=cfg["sampling"]["batch_size"],
             log_to_wandb=False,log_fid_best=False,current_best_cfg_scale=cfg["sampling"]["cfg"])
         features_file.flush();logits_file.flush()
+        record["generation"].update(peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())
         assert captured[0]==50000
         (out/"generation-batches.json").write_text(json.dumps(batches,indent=2)+"\n")
         record["generation"].update(sample_count=50000,images_per_class=50,expected_mean_tokens=256.0,

@@ -91,10 +91,16 @@ def main():
     correctness_path=ROOT/"campaign/locks/essential-checks.json"
     if correctness_path.exists():
         correctness=json.loads(correctness_path.read_text())
+        instrumentation_path=ROOT/"campaign/locks/reference-instrumentation.json"
+        instrumentation=json.loads(instrumentation_path.read_text()) if instrumentation_path.exists() else None
         for name,expected in correctness["source_hashes"].items():
-            assert sha(ROOT/name)==expected,"Result-critical path changed since5.11: "+name
+            actual=sha(ROOT/name)
+            if actual!=expected and instrumentation and name==instrumentation["path"]:
+                assert instrumentation["before_sha256"]==expected and instrumentation["after_sha256"]==actual
+            else:
+                assert actual==expected,"Result-critical path changed since5.11: "+name
         lock["essential_checks"]={"path":str(correctness_path),"sha256":sha(correctness_path),
-                                  "evidence":correctness}
+                                  "evidence":correctness,"reference_memory_instrumentation":instrumentation}
     lockpath=ROOT/"campaign/locks/artifacts.json"
     if lockpath.exists():
         previous=json.loads(lockpath.read_text())

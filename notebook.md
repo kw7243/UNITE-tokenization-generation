@@ -320,3 +320,17 @@ Only metadata resolver adds the RTX3090 hardware enum and24GB mapping.
 Section15.2 reason,old/new endpoint/config references,unaffected controls,forecasts and terminal-cost placeholders are retained in outputs/controlled-replacement-018-plan.json and the new config.
 H100 job2831095 remains pending until a fresh state check;cancel only this owned pending job,record terminal zero-GPU accounting and owner exit,then stage and submit one replacement.
 Do not submit duplicate jobs or run a new benchmark campaign.
+
+## 2026-10-24 H100 request terminal and separate phase memory accounting
+Owned H100 job2831095 was confirmedPENDING and cancelled with --state=PENDING --user=kwen1.
+Terminal sacct:CANCELLED by28131,0:0,ElapsedRaw0,AllocCPUS0,no AllocTRES,no assigned node;0GPU-hours and0samples.
+The attached owner exited0 before replacement submission;original stage/submission/report/results are preserved.
+Coordinator019 requested separate actual reconstruction and generation memory peaks.
+The evaluator adds two torch.cuda allocator high-water reads and one stats reset between those phases.
+Exact reversal of these three metadata insertions restores the accepted evaluator bytes;AST parses;no numerical,RNG,model,sampling or metric change.
+Provenance delta:campaign/locks/reference-instrumentation.json;accepted evaluator3df4f29314f049b2fb731bb10e0da34657dd098b7c86642d71aa3afb4ee5c519;instrumented5cc773112e67b70c7215b050b6922fee8ac27c63d12bfe40129a23df48bb9a0c.
+The accepted adapter/check source files remain byte-identical. Original Section5.11 proof keeps its producer identity.
+Final prepared RTX3090 config:campaign/configs/reference-aeafc85486b8.yaml,SHA256aeafc85486b84d51295c99e8b3d83aa7f50695759c98045e6762a7730983b94f.
+The prior preparedc43d8bbaa2d5 config was never submitted;it remains retained.
+After terminal execution,compute overall allocator peak as the maximum of the recorded reconstruction and generation phase peaks;the payload's post-reset unqualified peak covers generation.
+No A2 training or new GPU benchmark is added.

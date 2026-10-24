@@ -343,13 +343,13 @@
       "new_execution": false
     }
   },
-  "adapter_patch_sha256": "daee3db8a335e0321bdf5fc8312154ecec211f6db66e294455894c9262f75faf",
+  "adapter_patch_sha256": "7cd6706c2e0d233dd97d75c3e05c3a9e52b7e7b8bec5583c6953ffbf725d9694",
   "code_sha256": {
     "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
     "campaign/scripts/check_adapter.py": "ba6bf92ccd9144dc7ba8ee685fa4c5544747cb21158138e05af6f1c295ecfc1a",
-    "campaign/scripts/evaluate_a1.py": "3df4f29314f049b2fb731bb10e0da34657dd098b7c86642d71aa3afb4ee5c519",
+    "campaign/scripts/evaluate_a1.py": "5cc773112e67b70c7215b050b6922fee8ac27c63d12bfe40129a23df48bb9a0c",
     "campaign/scripts/reference.sbatch": "1d5e21433c4e458d4a2c16dda86114b46f2bbc6667d259a2393b6b2514edbd3a",
-    "campaign/scripts/resolve_reference.py": "46243e35ebf16cd51903f6b75f9c46e4e04ac94ca767f0ea81d348a22e4c88b6"
+    "campaign/scripts/resolve_reference.py": "b746dd2b0fd2de46e4780a3b4fc4ba300c7671aa791f9b63085d8982ebe5b970"
   },
   "private_plan": "Only the verified digest is committed; the supplied plan remains in retained administrative outputs.",
   "pilot_data_accepted": {
@@ -688,6 +688,15 @@
         "Start": "2026-10-24T07:50:43Z",
         "End": "2026-10-24T07:51:20Z"
       }
+    },
+    "reference_memory_instrumentation": {
+      "path": "campaign/scripts/evaluate_a1.py",
+      "before_sha256": "3df4f29314f049b2fb731bb10e0da34657dd098b7c86642d71aa3afb4ee5c519",
+      "after_sha256": "5cc773112e67b70c7215b050b6922fee8ac27c63d12bfe40129a23df48bb9a0c",
+      "reason": "019 asks actual reconstruction and generation memory peaks. Add two allocator high-water reads and reset stats between phases;no computation,RNG,model,protocol or metric changes.",
+      "validation": "Exact reversal of the three declared metadata insertions restores byte-identical accepted evaluator;AST parses;adapter and check source hashes remain identical.",
+      "diff": "--- accepted-evaluate_a1.py\n+++ instrumented-evaluate_a1.py\n@@ -266,11 +266,13 @@\n             \"encode_ms_per_image\":None,\"encode_ms_per_image_reason\":\"Encoding latency was not measured separately from reconstruction and metrics.\",\n             \"real_features_sha256\":sha(out/\"real-features.npy\"),\n             \"reconstruction_features_sha256\":sha(out/\"reconstruction-features.npy\")}\n+        record[\"reconstruction\"].update(peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())\n         save()\n         del alex,real_features,recon_features,actual_real,actual_recon,real_np,inception\n         torch.cuda.empty_cache()\n         # Source engine performs the actual50Kloop. Instrumentation retains outputs only.\n         phase=\"GENERATION_REFERENCE\"\n+        torch.cuda.reset_peak_memory_stats()\n         seed_all()\n         features_file=np.lib.format.open_memmap(out/\"generation-features.npy\",mode=\"w+\",dtype=np.float32,shape=(50000,2048))\n         logits_file=np.lib.format.open_memmap(out/\"generation-logits.npy\",mode=\"w+\",dtype=np.float32,shape=(50000,1008))\n@@ -325,6 +327,7 @@\n             num_images=50000,num_classes=1000,batch_size=cfg[\"sampling\"][\"batch_size\"],\n             log_to_wandb=False,log_fid_best=False,current_best_cfg_scale=cfg[\"sampling\"][\"cfg\"])\n         features_file.flush();logits_file.flush()\n+        record[\"generation\"].update(peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved())\n         assert captured[0]==50000\n         (out/\"generation-batches.json\").write_text(json.dumps(batches,indent=2)+\"\\n\")\n         record[\"generation\"].update(sample_count=50000,images_per_class=50,expected_mean_tokens=256.0,\n",
+      "affected_adapter_checks": false
     }
   }
 }
