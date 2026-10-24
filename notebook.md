@@ -171,3 +171,21 @@
 - Canary full stage /data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_062106-ed7829-8bc4374-code;252-file/link/Git verification. Retained run outputs/A1__LAUNCH_NIL_CPU__s20261023__0d8d0039dc3d includes exact argv, latch, owner log, resolved config, report, results and accounting.
 - Initial A1 allowance19.2H100-hours; coordinator retains4.8 reserve and owns gates. Legacy0.483333device-hours remain separate. This worker is sole campaign source/artifact-lock, UNITE canonical notebook, submission and terminal owner.
 - CPU environment/artifact reconciliation is starting from a new complete stage. Actual GPU software identity and every A1 scientific result remain unverified.
+
+## 2026-10-24: A1 operational proof and prepared reference checks
+
+- A1 launch canary `2830341` completed `0:0` on `groenig-3`, 06:21:25–06:21:30 UTC. One CPU, 1 GiB, zero GPUs; MaxRSS 39952 KB.
+- Its full stage is `/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_062106-ed7829-8bc4374-code`. Both first-script markers, stripped sentinel, explicit environment and Git fsck passed.
+- Retained canary report: `outputs/A1__LAUNCH_NIL_CPU__s20261023__0d8d0039dc3d/report.md`; terminal accounting and submission receipts are alongside it. This validates a CPU launch only.
+- CPU environment/artifact job `2830382` was accepted from `/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_062617-3317c5-ea61231-code`. Request: four CPUs, 24 GiB, one hour, csail/tig-cpu/tig-main, literal NIL, attached sbatch --wait owner.
+- Setup output: `outputs/A1__ENVIRONMENT_LOCK__s20261023__ac02febdf65c/`. It remains queued at 06:49 UTC; no duplicate was submitted. The compute-node environment and hashes must pass before any GPU request.
+- Local wrappers reuse the untouched source. The isolated register hook removes patch outputs for counts below256; physical count groups restore image order. Reconstruction uses source VGG loss; denoising detaches target/input and sums three draws per image.
+- `campaign/scripts/check_adapter.py` prepares only Section5.11 checks: 256-register identity, inactive/grouped/per-image reduction checks, and gradient/generation boundaries. The FP32 fixture disables TF32/compile and makes no training claim. These checks are not yet executed.
+- `campaign/scripts/evaluate_a1.py` delegates 50K generation to the unchanged training evaluator, retaining its features/logits and actual NFE. It prepares the required fixed5K reconstruction L1/AlexLPIPS/rFID workload. Validation and full-reference configs have different method IDs.
+- `campaign/scripts/resolve_reference.py` requires completed CPU accounting and fixed artifact/environment hashes. Native M14/256 reference settings remain distinct from the isolated M3/64 correctness fixture.
+- The coordinator accepted the separate KARL reference. Read-only retained pointers/hashes are in `outputs/karl-accepted-pointers.json`. No KARL repository was changed; this does not complete A1.
+- A separate CPU lane owns pilot FIT/ALLOC/DEV/sealed-CONFIRM construction. This source prepares only A1 five-per-class validation and balanced50K labels.
+- New GPU use remains zero. Initial allowance is19.2 H100 hours; coordinator reserve4.8. Legacy0.483333 RTX-device hours remain separate.
+- Next action: finish CPU preparation, inspect current compatible resources/account usage, then submit the smallest useful GPU validation. Full A1 remains unrun; A2/training are outside this worker scope.
+
+- Campaign source backup: `117b3fea71a6975bf77501d40763487c23459b0b` on `research/joint-adaptive-tokenization-20261024`; no experimental code is merged into main.
