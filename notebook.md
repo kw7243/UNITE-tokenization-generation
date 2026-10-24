@@ -525,3 +525,21 @@ No conditional reconstruction-only or B1 experiment is eligible yet.
 Full evidence and preserved terminal receipts are under the A2 source's `outputs/A2/engineering/` directory.
 The seven-section engineering report is `report.md`; `results.json` separates technical STOP from null scientific outcome fields.
 The coordinator must direct the bounded recovery before this worker resumes.
+
+## 2026-10-24 A2 bounded communication recovery submitted
+
+The coordinator authorized a distinct launch-boundary counterfactual after the repeated failure.
+The detailed first error is NCCL shared-memory handle import, `transport/shm.cc:590`, after communicator initialization completed.
+The next probe uses one Slurm launcher per node, with both allocated GPUs visible, and torchrun creates two workers with local ranks 0/1.
+This is a hypothesis test; the launch boundary is not yet an established cause.
+No transport-disable flag, library, environment or system setting is changed.
+
+Job 2834145 was submitted from source `ce1cf35db0392146981326d06ad352f08b318997`.
+Stage: `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_160438-f01559-ce1cf35-code`.
+The request is four RTX 3090 GPUs across two nodes, 16 CPUs total (eight per node), 32 GiB host memory per node and 20 minutes.
+A CUDA tensor allocation, known-sum all-reduce and barrier must pass before the same allocation runs direct denoiser and full distributed model checks.
+A communication pass alone does not pass native model validation or authorize scientific training.
+The current matched configuration index is `campaign/a2/configs/r5-shared-visible-tolerances/index.json` in the A2 source.
+Snapshot, RNG, sampler and exposure restoration remain exact; floating next-update checks use the plan's numerical tolerances.
+The original blocked report is preserved. Its separate correction confirms that the earlier jobs also used 16 CPUs total, eight per node; the recorded CPU core-hours were correct.
+All earlier failures and stages remain retained. CONFIRM remains sealed.
