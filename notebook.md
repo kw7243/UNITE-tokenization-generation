@@ -2,21 +2,23 @@
 
 ## Current state
 
-- Date: 2026-10-23 UTC.
-- Role: Released-checkpoint reproduction under way; sole owner unite-reproduce-20261023.
+- Date: 2026-10-24 UTC.
+- Role: A2 joint training and pilot FIT reference extraction are active; sole canonical notebook writer jat-a2-20261024.
 - Official upstream: https://github.com/ShivamDuggal4/UNITE-tokenization-generation.
 - Public fork: https://github.com/kw7243/UNITE-tokenization-generation.
 - Pinned upstream source: `2389f2c65fedbd43ada851e69b2b810efd23af7d`.
 - Canonical retained clone: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-tokenization-generation`.
 - SSH access: `kwen1@slurm-login.csail.mit.edu` (observed `slurm-login-0.csail.mit.edu`).
 - The authenticated GitHub account is `kw7243`. GitHub API confirms the fork parent is `ShivamDuggal4/UNITE-tokenization-generation`.
-- Initial source setup changed only this notebook. CPU setup has completed and input hashes are locked. Later research changes are recorded in dated entries below; no numerical result or GPU allocation exists yet.
+- A1 is accepted: full 50K gFID 2.1035501172, strict loading and finite reconstruction. Native GPU correctness is accepted. A2 joint jobs 2834281/2834282 and pilot FIT job 2834488 are active; trained native64 quality is not established. B1 CPU preparation is accepted, with no scientific execution release.
 
 ## Branch index
 
-- `main`: canonical source plus this documentation-only setup commit; fork and upstream default branches remain `main`.
+- `main`: canonical source and consolidated research notebook; experiment code remains on its research branch. Fork and upstream default branches remain `main`.
 - `upstream/main`: official source at setup revision `2389f2c65fedbd43ada851e69b2b810efd23af7d`.
 - `research/unite-released-20261023`: independent released-checkpoint branch, parent de27e4a, implementation receipt dfc1e30.
+- `research/jat-a2-20261024`: A2 joint training and pilot reference; running training source `7a492f54a1974931d5d603b14b150263a8891f44`, current backup `c8ee11ebad0d56c692debc2f4bfd96cae99e1fb7`.
+- `research/jat-b1-screen-prepare-20261024`: accepted CPU preparation only; tested `1b0f251ef3552592d4f407cb156562c07354d71f`, backup `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`. B1 scientific execution remains NOT_STARTED.
 - No existing divergent branch was changed. No force push was used.
 
 ## Storage and next step
@@ -24,8 +26,8 @@
 - Retained source stays under `/data/vision/torralba/u/kwen1/image-tokenization-20261023`.
 - Performance copies, environments, and caches belong under `/data/scratch-fast/kwen1`.
 - Stage a complete repository copy before any later experiment, as required by the research reproducibility skill.
-- The next reproduction worker must inspect the pinned README, configuration, training, and evaluation source before selecting the scientific protocol. No experiments have run.
-- Start with `README.md` at the pinned source. Checkpoint URLs and evaluation notes are source references, not verified downloads.
+- Continue the owned A2 jobs under their exact accepted configurations and frozen full stages. Review native64 first-200 throughput, pilot FIT extraction, and the scheduled DEV endpoints before any conditional experiment.
+- Exact source, checkpoint, environment, data and metric identities are recorded in the dated accepted receipts below. Preserve the original setup and failed-attempt history.
 - CSAIL GitHub SSH authentication was unavailable during setup. This notebook was committed through the authenticated GitHub API and then fetched into the retained clone. No credential was copied to CSAIL.
 
 
@@ -650,3 +652,17 @@ The extraction code and metric/data/precision controls are unchanged from r1; no
 The failed one-second RTX 3080 preflight remains accounted for and retained.
 The progress report, exact submissions, first-200 record and owner ledger are in `outputs/A2/training-receipts-r6/` and `outputs/A2/fit-feature-receipts-r{1,2}/`.
 No DEV quality trajectory or scientific native64 pass is established yet.
+
+## 2026-10-24 - B1 SCREEN preparation PASS; experiments not started
+
+- Branch `research/jat-b1-screen-prepare-20261024`, parent `7a492f54a1974931d5d603b14b150263a8891f44`, tested code `1b0f251ef3552592d4f407cb156562c07354d71f`.
+- Source manifest patch `4a5060a678f63046994c4abd3c9e5f4fb3ba0dbd027a287bf74d0e2c64a61213`; literal implementation patch `8f7922192dd9a00c1072c108d2b2175c1cefcb0897b9e492bcee2d663510ffd6`.
+- Implemented only PREFIX16,PREFIX64,NESTED_RANDOM: one64candidate encoding, physical16/64prefixes, source M3 losses, independent exact NESTED40 quotas, three zero length tables, explicit AdamW/EMA registration, strict accepted-trained-A2 conversion contract.
+- CPU jobs2834299(failed unused KARL validation),2834302(passed),2834485(final pass). All terminal. Total reserved CPU0.107222222core-hours; no GPU-hours, scientific updates, scientific conversion or image evaluation.
+- Retained clone: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024`. Reports/evidence: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/final`. Stage: `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_170251-75d085-1b0f251-code`. All three stages and attempts are preserved.
+- Environment unchanged: locked SHA256 `fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253`; no installs.
+- B1 NOT_STARTED. No SCREEN_PREFIX or COMMON_PREFIX. Trained checkpoint/hash/acceptance, real full-model GPU/DDP/ODE/resume checks and verified pilot FIT feature manifest remain prerequisites.
+- Three complete draft configs remain disabled with trained input fields null. No PAIRED/RATE/selector/C2/later node or CONFIRM access.
+- Coordinator owns A2 acceptance, configuration binding, future allocation/experiment ownership and scientific next-node decisions. A2 owner remains sole main-notebook writer; this entry is for that writer to consolidate.
+
+- Final backup revision: `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`. Executable code and configs remain identical to the tested implementation.
