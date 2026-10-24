@@ -24,6 +24,7 @@ from utils.fid import get_inception_model, extract_inception_features, compute_f
 from engines import eval as evaluation
 from PIL import Image
 from torchvision.transforms import ToTensor
+from torchvision.utils import make_grid
 sys.path.insert(0,str(root))
 from campaign.scripts.check_adapter import check_essential
 
@@ -54,7 +55,7 @@ record={"node_id":"A1","method_id":cfg["method_id"],"seed":cfg["seed"],
         "source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
         "patch_sha256":cfg["source"]["patch_sha256"],
         "training":{},"reconstruction":{},"generation":{},
-        "plan_sha256":cfg["plan_sha256"],"paper_headline_gfid":2.12,"paper_appendix_gfid":2.735}
+        "plan_sha256":cfg["plan_sha256"],"plan_version":cfg["plan_version"],"extensions":cfg["extensions"],"paper_headline_gfid":2.12,"paper_appendix_gfid":2.735}
 
 def sha(path):
     h=hashlib.sha256()
@@ -80,6 +81,11 @@ def save():
                          "Inspect terminal accounting and give complete A1 evidence and essential checks to the coordinator. Do not start A2."))]
     (out/"report.md").write_text("# "+run_id+": A1\n\n"+"\n\n".join("## "+name+"\n"+text for name,text in sections)+"\n")
 save()
+
+def save_grid(name,images):
+    grid=make_grid(images.detach().cpu(),nrow=4,padding=2)
+    pixels=(grid*255).clamp(0,255).to(torch.uint8).permute(1,2,0).numpy()
+    Image.fromarray(pixels).save(out/name)
 
 def image_batch(rows,device):
     transform=CenterCropTransform(256)
@@ -197,6 +203,8 @@ try:
             assert reconstruction.shape==real.shape and torch.isfinite(reconstruction).all()
         np.savez(out/"validation-images.npz",generated=np.stack(smoke),labels=labels.cpu().numpy(),
                  real=real.cpu().numpy(),reconstruction=reconstruction.cpu().numpy())
+        save_grid("validation-generation.png",torch.from_numpy(smoke[0]))
+        save_grid("validation-reconstruction.png",torch.stack([real,reconstruction],dim=1).flatten(0,1))
         record["validation"]={"paper_metric":False,"generation_smoke_samples":32,"reconstruction_smoke_samples":3,
                               "per_rank_batch_size":16,"world_size":1,"sampling_seconds_per_call":times,
                               "nfe_per_call":nfes,"reconstruction_nfe":reconstruction_nfe,"native_peak_allocated_bytes":torch.cuda.max_memory_allocated(),
@@ -235,6 +243,7 @@ try:
                 lpips_values.extend(alex(real*2-1,reconstruction*2-1).flatten().cpu().tolist())
                 if offset==0:
                     np.savez(out/"reconstruction-samples.npz",real=real[:16].cpu().numpy(),reconstruction=reconstruction[:16].cpu().numpy())
+                    save_grid("reconstruction-samples.png",torch.stack([real[:16],reconstruction[:16]],dim=1).flatten(0,1))
                 record["images_seen"]+=len(real)
                 (out/"reconstruction-progress.json").write_text(json.dumps({"completed_images":record["images_seen"],"required":5000})+"\n")
         actual_real=torch.cat(real_features);actual_recon=torch.cat(recon_features)
@@ -290,6 +299,7 @@ try:
                 (out/"generation-batches.partial.json").write_text(json.dumps(batches)+"\n")
             if len(batches)==1:
                 np.savez(out/"generation-samples.npz",images=images.clamp(0,1).cpu().numpy(),labels=keywords["y_given"].cpu().numpy())
+                save_grid("generation-samples.png",images.clamp(0,1))
             return images
         def retain_fid(features,reference):
             assert features.shape==(50000,2048) and captured[0]==50000
@@ -320,6 +330,7 @@ try:
             gen_ms_per_image=1000*sum(x["seconds"] for x in batches)/50000,
             gen_images_per_s=50000/sum(x["seconds"] for x in batches),
             timing_batch_size=16,timing_scope="Native quality sampling+decode at batch16; no batch64 timing comparison is claimed.",
+            nfe_definition="ODE denoiser invocations; conditional/null CFG halves are evaluated in the same forward batch.",
             nfe=float(np.mean([x["nfe"] for x in batches])),
             nfe_total=sum(x["nfe"] for x in batches),nfe_mean_per_batch=float(np.mean([x["nfe"] for x in batches])),
             features_sha256=sha(out/"generation-features.npy"),logits_sha256=sha(out/"generation-logits.npy"),

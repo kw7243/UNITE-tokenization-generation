@@ -1,5 +1,5 @@
 {
-  "plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
   "branch": "research/joint-adaptive-tokenization-20261024",
   "parent": "a19c1501ed9d28e251a90950349bf2a739c9a9f3",
   "remote": "https://github.com/kw7243/UNITE-tokenization-generation",
@@ -94,5 +94,9 @@
       "utils/misc.py": "76f83e1eced84df7301d7e089d0eaedc712c58e5c72d019cb60e6e2e78b4b742",
       "utils/pos_embed.py": "e6ed75af89eb5cf41b360acbbde3fc066f369a83b6135eb5fd0310ee32769ee7"
     }
-  }
+  },
+  "plan_version": "1.1",
+  "source_setup_plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "unchanged_imports": true,
+  "previous_manifest_sha256": "8978cc81d4f6e024f1fe2bddb6c539986e3834a6826de3523e5ab85e185f3765"
 }

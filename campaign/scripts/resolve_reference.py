@@ -6,7 +6,8 @@ import json
 import subprocess
 
 ROOT=Path(__file__).resolve().parents[2]
-PLAN="71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b"
+PLAN="4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5"
+PLAN_VERSION="1.1"
 
 def sha(path):
     h=hashlib.sha256()
@@ -46,7 +47,9 @@ def main():
     assert sha(envrun/"metric-protocol.json")==artifacts["metric_protocol_sha256"]
     karl=json.loads(args.karl_evidence.read_text())
     assert karl["coordinator_decision"]["coordinator_decision"]=="PASS"
-    assert karl["coordinator_decision"]["plan_sha256"]==PLAN
+    assert karl["coordinator_decision"]["plan_sha256"] in {PLAN,"71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b"}
+    assert karl["revision_compatibility"]["current_plan_sha256"]==PLAN
+    assert karl["revision_compatibility"]["accepted"]
     code_paths=["campaign/adapters/prefix.py","campaign/scripts/check_adapter.py",
                 "campaign/scripts/evaluate_a1.py","campaign/scripts/reference.sbatch",
                 "campaign/scripts/resolve_reference.py"]
@@ -61,10 +64,13 @@ def main():
     }[args.gpu]
     resolved_gen_tok=dict(state["gen_tok"])
     resolved_gen_tok.update(cfg_norm_order="norm_first",gradient_checkpointing_denoiser=True)
-    lock={"plan_sha256":PLAN,"source_imports":imports,
+    lock={"plan_sha256":PLAN,"plan_version":PLAN_VERSION,"source_imports":imports,
           "source_import_manifest_sha256":sha(ROOT/"campaign/locks/source-imports.json"),
           "reference_inputs":artifacts,
           "cpu_setup":{"job_id":setup["job_id"],"stage":setup["stage"],
+                       "execution_plan_sha256":"71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+                       "compatible_current_plan_sha256":PLAN,
+                       "compatibility_basis":"Section5.3 environment,6 reference protocol and5.11 checks unchanged; retain submitted stage/config identity.",
                        "results_path":str(envrun/"results.json"),"results_sha256":sha(envrun/"results.json")},
           "environment":{"path":setup["environment"],"packages":str(envrun/"packages.txt"),
                          "packages_sha256":sha(envrun/"packages.txt"),"package_versions":artifacts["runtime"]["packages"],
@@ -84,7 +90,7 @@ def main():
     cfg={
         "node_id":"A1",
         "method_id":"UNITE_B_VALIDATE_ESSENTIAL" if args.workload=="VALIDATION_AND_ESSENTIAL_CHECKS" else "UNITE_B_REFERENCE",
-        "seed":20261023,"plan_sha256":PLAN,"workload":args.workload,
+        "seed":20261023,"plan_sha256":PLAN,"plan_version":PLAN_VERSION,"workload":args.workload,
         "output_parent":str(ROOT/"outputs"),
         "source":{"official_commit":imports["unite_commit"],"third_party_untouched":True,
                   "source_import_manifest_sha256":lock["source_import_manifest_sha256"],
@@ -126,9 +132,13 @@ def main():
                              "note":"BaseEMA cropped positional fixture. It is not a trained pilot model."},
         "runtime_mount_paths":[str(ROOT),str(envrun),setup["environment"],
                                "/data/vision/torralba/datasets/imagenet_pytorch_new/val",checkpoint["path"]],
-        "budget":{"h100_allowance_hours":19.2,"coordinator_reserve_hours":4.8,
-                  "non_h100_conversion":None,
-                  "non_h100_conversion_reason":"Actual device hours and measured projection require coordinator revision; theoretical FLOPs are not used."},
+        "compute_guidance":{"a1_initial_h100_hours":24.0,"advisory_only":True,
+                            "hard_cap":None,"fixed_reserve":None,
+                            "estimate_exceedance":"Does not change status or trigger a stop/approval.",
+                            "extension_protocol":"Section15.2 evidence, revised config/endpoints, affected controls, forecasts and actual costs.",
+                            "actual_resource_constraints":[],
+                            "device_accounting":"Actual reserved hours by device; measured throughput forecasts, no theoretical FLOP conversion."},
+        "extensions":[],
         "gate":{"name":"CHECKPOINT_EFFECT_REPRODUCTION","gfid_50k_maximum":3.1,
                 "strict_load":True,"required_reconstruction":True,"coordinator_acceptance_required":True},
         "training":{"main_updates":0,"optimizer":None,"learning_rate":None},

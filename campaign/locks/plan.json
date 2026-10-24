@@ -1,0 +1,24 @@
+{
+  "version": "1.1",
+  "sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "current_retained_copy": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/immutable-plan.md",
+  "historical_v1_0_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "historical_copy": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/historical-plan-v1.0-71728da427a6.md",
+  "scope": "A1 UNITE-B reference plus Section5.11 essential checks; no A2/training",
+  "owners": {
+    "campaign_source_artifact_lock": "unite-reproduce-20261023",
+    "canonical_UNITE_notebook": "unite-reproduce-20261023",
+    "submission_terminal": "unite-reproduce-20261023",
+    "acceptance_next_node": "research-image-tokenization"
+  },
+  "compute_policy": "All figures advisory. No19.2+4.8split, hard cap, reserve, estimate-triggered stop or approval. Extensions require Section15.2 evidence/records.",
+  "compatible_active_job": {
+    "job_id": 2830643,
+    "execution_plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+    "stage": "/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_070159-5f2a64-6d07622-code",
+    "config_sha256": "da7c044db1c64d6480ab2a1dc0c0f8a892968ff7c255305ac2303fff7fd097e3",
+    "disposition": "Continue unchanged. Environment/artifacts/source/reference prerequisites unchanged; no relabel,cancellation or duplicate."
+  },
+  "karl": "Accepted read-only evidence keeps original execution identity; Section6 gates unchanged.",
+  "later_nodes": "B1 SCREEN_PREFIX NESTED40 does not train count4 or enable B2/C1; budget-ready COMMON_PREFIX comes after RATE or exact C2 route. Section5.12/16.2 applies to later work, not new A1 training."
+}
