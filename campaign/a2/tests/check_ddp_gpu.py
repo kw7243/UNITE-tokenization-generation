@@ -57,9 +57,12 @@ def main():
     assert (Path.cwd()/'STAGING_MANIFEST.json').is_file() and os.environ.get('SLURM_JOB_ID')
     cfg=json.loads(args.config.read_text());verify_config(cfg)
     digest=sha(args.config)
-    dist.init_process_group('nccl')
-    rank=dist.get_rank();assert dist.get_world_size()==4
     device=torch.device('cuda',int(os.environ['LOCAL_RANK']));torch.cuda.set_device(device)
+    print(json.dumps(dict(preinit_rank=os.environ['RANK'], local_device=str(device),
+        visible_devices=os.environ.get('CUDA_VISIBLE_DEVICES'), device_count=torch.cuda.device_count(),
+        uuid=str(torch.cuda.get_device_properties(device).uuid))),flush=True)
+    dist.init_process_group('nccl', device_id=device)
+    rank=dist.get_rank();assert dist.get_world_size()==4
     assert torch.cuda.is_bf16_supported()
     torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
     torch.set_float32_matmul_precision('highest');torch.set_num_threads(4)

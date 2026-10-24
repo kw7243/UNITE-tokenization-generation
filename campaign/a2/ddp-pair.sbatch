@@ -9,6 +9,6 @@ set -euo pipefail
 # Each invocation runs all four ranks from this immutable full repository stage.
 for count in 64 16; do
   bash campaign/a2/distributed.sbatch campaign/a2/tests/check_ddp_gpu.py \
-    --config "campaign/a2/configs/r1-rtx3090-2nodes/NATIVE${count}_JOINT.yaml" \
+    --config "campaign/a2/configs/r3-explicit-device/NATIVE${count}_JOINT.yaml" \
     --output "$1/native${count}"
 done

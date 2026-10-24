@@ -1,0 +1,30 @@
+{
+  "NATIVE64_JOINT": {
+    "path": "campaign/a2/configs/r3-explicit-device/NATIVE64_JOINT.yaml",
+    "sha256": "238fd9134207fcb022e72ffcf99c504cb0c7e72e8f1abbeea7e8b1edbbbf412d",
+    "run_id": "A2__NATIVE64_JOINT__s0__238fd9134207",
+    "original_config_sha256": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+    "prior_revision_config_sha256": "13d44542c5d2db7d90ebc001d77a055a66ea5f4c95a364d2b82bd95a1cfe9206"
+  },
+  "NATIVE64_RECON": {
+    "path": "campaign/a2/configs/r3-explicit-device/NATIVE64_RECON.yaml",
+    "sha256": "621608438c0890070771c5af9d665eef1126c58ee2d055fcd09c096a3af7770e",
+    "run_id": "A2__NATIVE64_RECON__s0__621608438c08",
+    "original_config_sha256": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+    "prior_revision_config_sha256": "065f5c9b95ff5023f2b3704ff014159c6c3be4b70d31b22569e91d8ce286b6a7"
+  },
+  "NATIVE16_JOINT": {
+    "path": "campaign/a2/configs/r3-explicit-device/NATIVE16_JOINT.yaml",
+    "sha256": "4def68414aa3679347447ad09492ef39189a19f559563bc2194a15982aca59d7",
+    "run_id": "A2__NATIVE16_JOINT__s0__4def68414aa3",
+    "original_config_sha256": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+    "prior_revision_config_sha256": "fab57c9865704716e18559828e2b4a145bfea402175391c6bfc92bbbd49e6fb5"
+  },
+  "NATIVE16_RECON": {
+    "path": "campaign/a2/configs/r3-explicit-device/NATIVE16_RECON.yaml",
+    "sha256": "be1a971b52b324aa9c604b77eb84a8516ae8f5fe28b421dc4cb214e52ab8daf6",
+    "run_id": "A2__NATIVE16_RECON__s0__be1a971b52b3",
+    "original_config_sha256": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8",
+    "prior_revision_config_sha256": "a42238644e98e693a3641c042f41f54d2c2b8566be7db6b4e878b8bb9b77234f"
+  }
+}

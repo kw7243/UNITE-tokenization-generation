@@ -330,3 +330,12 @@ PrefixAdapter correctness methods and check_adapter.py are available for indepen
 - Matched revision `campaign/a2/protocol-revision-r1.json` preserves all scientific controls, endpoints, micro16/accumulation4/global256 and four ranks. It declares four homogeneousRTX3090 GPUs across two nodes with two ranks each. Existing four H100 configurations remain preserved.
 - This uses the smallest measured adequate memory class. The hardware assertion now checks the declared model/minimum memory. The four-rank numerical,EMA and checkpoint continuation proof remains required before training; these changes do not waive coordinator acceptance.
 - Proposed engineering request:2nodes x2RTX3090,4CPUs/rank,32GiB host memory/node,20minutes. Maximum reservation1.3333RTX3090device-hours; actual runtime and all failures will be recorded. No main training forecast is claimed from the one-microbatch smoke.
+
+## 2026-10-24 Four-rank initialization defect and bounded correction
+
+- Job2834080 failed1:0 after72reserved seconds on improbablex001/003,4RTX3090 GPUs,16CPUs,64GiB combined host memory. Cost0.08RTX3090device-hours and0.32allocatedCPU core-hours. No full native forward or optimizer update ran.
+- Slurm exposed one distinctGPU per process. NCCL warned that it guessed device IDs from global ranks, then every rank failed its first barrier with invalid device ordinal. This is operational failure, not a scientific outcome.
+- InstalledTorch2.10 source documents explicit device_id for communicator creation. Revisionr3 selects localCUDA0 before initialization and passes device_id explicitly. The next run is the counterfactual with the same resource layout. If this ordinal failure repeats, stop and report it rather than submit again.
+- Revisionr2, preserved unexecuted, adds all-rank hardware identities and first200 real-update throughput/memory forecasts. It does not change forward/backward, optimizer,EMA or checkpoint behavior.
+- Final current configurations are `campaign/a2/configs/r3-explicit-device/index.json`; all prior configuration bytes and failed stages remain preserved. The unchanged native single-GPU proof remains valid.
+- Diagnostic, terminal receipt, old/new config identities and proposed same-endpoint rerun are retained under `outputs/A2/engineering/receipts/diagnostic-ddp-1.json`.

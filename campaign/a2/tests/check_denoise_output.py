@@ -18,7 +18,7 @@ torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=Fals
 torch.set_float32_matmul_precision('highest')
 results={}
 for k in (64,16):
- cfg=json.loads((ROOT/f'campaign/a2/configs/r1-rtx3090-2nodes/NATIVE{k}_JOINT.yaml').read_text())
+ cfg=json.loads((ROOT/f'campaign/a2/configs/r3-explicit-device/NATIVE{k}_JOINT.yaml').read_text())
  model=build_native(cfg).cuda().eval()
  with torch.no_grad():
   torch.manual_seed(118);model.core.encoder.final_layer.linear.weight.normal_(0,.01)

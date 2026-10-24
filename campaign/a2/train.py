@@ -91,11 +91,11 @@ def main():
     assert (Path.cwd()/'STAGING_MANIFEST.json').is_file()
     assert os.environ.get('SLURM_JOB_ID')
     verify_config(cfg)
-    dist.init_process_group('nccl')
-    rank, world = dist.get_rank(), dist.get_world_size()
-    assert world == 4
     device = torch.device('cuda', int(os.environ['LOCAL_RANK']))
     torch.cuda.set_device(device)
+    dist.init_process_group('nccl', device_id=device)
+    rank, world = dist.get_rank(), dist.get_world_size()
+    assert world == 4
     assert torch.cuda.is_bf16_supported()
     props = torch.cuda.get_device_properties(device)
     assert cfg['hardware']['device_name_substring'] in props.name
@@ -118,6 +118,13 @@ def main():
                        authorization_sha256=sha(args.authorization), configuration_sha256=digest)
         append(out/'runtime.jsonl', runtime)
     dist.barrier()
+    rank_runtime = dict(rank=rank, node=os.uname().nodename, gpu=props.name,
+                        uuid=str(props.uuid), vram_bytes=props.total_memory,
+                        local_rank=int(os.environ['LOCAL_RANK']))
+    rank_runtimes = [None]*world
+    dist.all_gather_object(rank_runtimes, rank_runtime)
+    if rank == 0:
+        append(out/'rank-runtime.jsonl', dict(job_id=os.environ['SLURM_JOB_ID'], ranks=rank_runtimes))
     process_training_start = time.perf_counter()
     splits = read_interface(cfg['data'])
     sampler, streams = FitQueue(splits['FIT'], 0), Streams(0)
@@ -157,6 +164,7 @@ def main():
         (out/'evaluation-image-ids.json').write_text(json.dumps(dict(
             dev512=[r['image_id'] for r in dev512], probe32=[r['image_id'] for r in probe32],
             dev_full=[r['image_id'] for r in splits['DEV']]), indent=2)+'\n')
+    torch.cuda.reset_peak_memory_stats(device)
     first200_start = time.perf_counter()
     try:
         for update in range(sampler.updates+1, 5001):
@@ -229,7 +237,24 @@ def main():
             if update <= 200:
                 counters['first200_update_seconds'] += elapsed.item()
             if update == 200 and not args.resume:
-                counters['first200_update_seconds'] = time.perf_counter()-first200_start
+                first200 = torch.tensor([time.perf_counter()-first200_start,
+                        torch.cuda.max_memory_allocated(device), torch.cuda.max_memory_reserved(device)],
+                        dtype=torch.float64, device=device)
+                dist.all_reduce(first200, op=dist.ReduceOp.MAX)
+                counters['first200_update_seconds'] = first200[0].item()
+                counters['first200_peak_allocated_bytes'] = int(first200[1].item())
+                counters['first200_peak_reserved_bytes'] = int(first200[2].item())
+                counters['first200_projected_5000_training_seconds'] = first200[0].item()*25
+                if rank == 0:
+                    (out/'first200-forecast.json').write_text(json.dumps(dict(
+                        completed_updates=200, images_seen=51200,
+                        seconds=first200[0].item(), images_per_s=51200/first200[0].item(),
+                        peak_allocated_bytes=int(first200[1].item()), peak_reserved_bytes=int(first200[2].item()),
+                        projected_5000_training_device_hours=first200[0].item()*25*4/3600,
+                        gpu_model=props.name, gpu_count=world,
+                        scope='Measured first200 real updates, including synchronization and training logging; endpoint evaluation is additional.',
+                        uncertainty='Initial warmup, evolving training, data stalls, and endpoint evaluation can change this forecast.'),
+                        indent=2)+'\n')
             if rank == 0:
                 append(out/'exposure.jsonl', dict(optimizer_update_completed=update))
             if update % 100 == 0:
