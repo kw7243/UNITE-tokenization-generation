@@ -7,6 +7,7 @@
   "confirm_sealed_until": "D1 method freeze",
   "data_root": "/data/vision/torralba/datasets/imagenet_pytorch_new/train",
   "dev_per_class": 32,
+  "execution_binding": "Current source configuration only; not submitted or executed. Completed CPU2830620 uses archived v1.0 configuration.",
   "fit": "all rows at ranks >=64",
   "gpu_count": 0,
   "hash_workers": 4,
@@ -15,7 +16,8 @@
   "model_training": false,
   "node_id": "PILOT_DATA",
   "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z",
-  "plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "plan_version": "1.1",
   "preprocessing_implementation_owner": "canonical campaign training worker; this script records source hashes only",
   "preprocessing_pointers": [
     "third_party/unite/utils/crop.py",

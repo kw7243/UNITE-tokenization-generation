@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "pilot_data/prepare.py",
+    "--config",
+    "pilot_data/resolved.yaml"
+  ],
+  "cpus": "4",
+  "cuda_visible_devices": null,
+  "external_packages_used": [],
+  "git_commit": "4929e73eaae477d1f77c5a5ea4078ee160836b9c",
+  "host": "groenig-1.novalocal",
+  "job_id": "2830620",
+  "platform": "Linux-5.15.0-198-generic-x86_64-with-glibc2.35",
+  "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+  "python_executable": "/usr/bin/python3.10",
+  "python_sha256": "a2f33a6e006989270f4340528eb61f8f97366e00a5d1b602ac8672ea44fc56ae",
+  "stage": "/data/scratch-fast/kwen1/jat-pilot-data-20261024-stages/20261024_025819-4842a9-4929e73-code",
+  "stdlib_only": true
+}

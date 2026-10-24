@@ -1,0 +1,75 @@
+{
+  "artifact_root": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+  "checks": "checks.json",
+  "class_map": "class_to_idx.json",
+  "class_order": "lexicographically sorted synsets (ImageFolder-compatible)",
+  "class_rank": "zero-based within selected synset",
+  "columns": [
+    "image_id",
+    "synset",
+    "class_index",
+    "filename",
+    "absolute_path",
+    "resolved_path",
+    "split_sha256",
+    "class_rank",
+    "content_sha256",
+    "size_bytes"
+  ],
+  "confirm_policy": "Integrity preparation only; sealed for scientific use until D1 method freeze",
+  "content_hash": "SHA256 of raw file bytes; no image decode",
+  "current_plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "data_root": "/data/vision/torralba/datasets/imagenet_pytorch_new/train",
+  "execution_plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "filenames": [
+    "CONTENT.tsv",
+    "FIT.tsv",
+    "ALLOC.tsv",
+    "DEV.tsv",
+    "CONFIRM.tsv",
+    "class_to_idx.json",
+    "classes.json"
+  ],
+  "format": "UTF-8 TSV with header, LF, no BOM",
+  "hashes": {
+    "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+    "CONFIRM.tsv": "dad77476e3a70426f01d3592b72ccdf65cf2bdb2b45c83891903f65dfba7b882",
+    "CONTENT.tsv": "90a710bf273c7bee7818f629044221828b560dd20e85e0b3eef23f5444665f09",
+    "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+    "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+    "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115",
+    "classes.json": "4bdfa8a1e607cc5cff7498aa87fcdf755f175853954b18846eaa77ce9cbfb846"
+  },
+  "image_id": "synset/filename relative to data_root",
+  "imagefolder_compatibility": "Use the provided 100-class subset map. ImageFolder on the full shared root discovers 1000 classes and has different labels.",
+  "integer_columns": [
+    "class_index",
+    "class_rank",
+    "size_bytes"
+  ],
+  "memberships": {
+    "ALLOC": "[64,96), subset of FIT",
+    "CONFIRM": "[32,64)",
+    "DEV": "[0,32)",
+    "FIT": "[64,N)"
+  },
+  "plan_compatibility": "Section 5.4 exact text equality; all pilot split artifacts remain applicable to v1.1",
+  "preprocessing": {
+    "third_party/unite/utils/crop.py": "c5de5f0e78dbe4fd2ffed7cd2271cc79c95fc63768beec81d18dd39dc3b4f3fe",
+    "third_party/unite/utils/data.py": "58b1e47483db648925bf28bf4e62f3e527dc5b8bf1191756a7cf6c3397828f35"
+  },
+  "row_order": "synset ascending, then (split_sha256, image_id) ascending",
+  "rows": {
+    "ALLOC": 3200,
+    "CONFIRM": 3200,
+    "CONTENT": 126689,
+    "DEV": 3200,
+    "FIT": 120289
+  },
+  "run_id": "PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+  "split_hash": "SHA256(UTF-8(\"split-v1|\" + image_id)), no newline",
+  "terminal_receipt": "receipts/terminal-receipt.json",
+  "tie_break": "image_id ascending at exact digest tie",
+  "training_sampler_implemented": false,
+  "version": "pilot-splits-v1"
+}

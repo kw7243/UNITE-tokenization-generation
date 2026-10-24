@@ -1,0 +1,720 @@
+{
+  "alloc_subset_fit": true,
+  "content_bytes_hashed_once": true,
+  "coverage_complete": true,
+  "exact_class_count": 100,
+  "exact_hash_rank_membership": true,
+  "fit_dev_confirm_disjoint": true,
+  "passed": true,
+  "per_class": {
+    "n01558993": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01692333": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01729322": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01735189": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01749939": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01773797": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01820546": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01855672": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01978455": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01980166": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n01983481": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02009229": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02018207": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02085620": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02086240": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02086910": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02087046": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 860,
+      "DEV": 32,
+      "FIT": 796
+    },
+    "n02089867": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1025,
+      "DEV": 32,
+      "FIT": 961
+    },
+    "n02089973": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 754,
+      "DEV": 32,
+      "FIT": 690
+    },
+    "n02090622": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02091831": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02093428": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02099849": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02100583": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02104029": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02105505": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02106550": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02107142": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02108089": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02109047": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02113799": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02113978": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 755,
+      "DEV": 32,
+      "FIT": 691
+    },
+    "n02114855": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02116738": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02119022": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02123045": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02138441": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02172182": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02231487": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02259212": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02326432": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02396427": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02483362": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02488291": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02701002": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02788148": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02804414": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02859443": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02869837": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02877765": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n02974003": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03017168": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03032252": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03062245": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1154,
+      "DEV": 32,
+      "FIT": 1090
+    },
+    "n03085013": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03259280": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03379051": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03424325": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03492542": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03494278": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03530642": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03584829": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03594734": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03637318": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03642806": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03764736": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1097,
+      "DEV": 32,
+      "FIT": 1033
+    },
+    "n03775546": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03777754": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1149,
+      "DEV": 32,
+      "FIT": 1085
+    },
+    "n03785016": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03787032": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03794056": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03837869": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03891251": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03903868": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1156,
+      "DEV": 32,
+      "FIT": 1092
+    },
+    "n03930630": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n03947888": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1118,
+      "DEV": 32,
+      "FIT": 1054
+    },
+    "n04026417": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04067472": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04099969": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04111531": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04127249": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1259,
+      "DEV": 32,
+      "FIT": 1195
+    },
+    "n04136333": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04229816": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04238763": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1162,
+      "DEV": 32,
+      "FIT": 1098
+    },
+    "n04336792": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04418357": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1264,
+      "DEV": 32,
+      "FIT": 1200
+    },
+    "n04429376": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 976,
+      "DEV": 32,
+      "FIT": 912
+    },
+    "n04435653": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04485082": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1160,
+      "DEV": 32,
+      "FIT": 1096
+    },
+    "n04493381": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04517823": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04589890": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n04592741": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n07714571": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n07715103": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n07753275": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n07831146": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n07836838": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n13037406": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    },
+    "n13040303": {
+      "ALLOC": 32,
+      "CONFIRM": 32,
+      "CONTENT": 1300,
+      "DEV": 32,
+      "FIT": 1236
+    }
+  },
+  "rows": {
+    "ALLOC": 3200,
+    "CONFIRM": 3200,
+    "CONTENT": 126689,
+    "DEV": 3200,
+    "FIT": 120289
+  },
+  "serialized_rows_equal_content": true,
+  "unique_ids": true
+}

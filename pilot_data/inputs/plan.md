@@ -1,12 +1,14 @@
 # 1 Joint adaptive tokenization and generation
 
-**Research plan · 23 October 2026 · Version 1.0**
+**Research plan · Updated 24 October 2026 · Version 1.1**
 
 Train an image tokenizer, an image-specific token selector, and a latent generator in one training run. Start from UNITE and transfer the supervised allocation idea from KARL. Test whether useful allocation survives a fixed average token budget, joint training, and generation from noise.
 
-**Recommended first route:** A1 → A2 → B1 → B2. These nodes establish the references, classify the low-token problem, and measure whether image-specific allocation has enough value to justify learning a selector. B3 builds the joint adaptive system. C1 tests the strongest proposed contribution: allocation that considers both reconstruction and generative error. C2 is a conditional interface experiment. D1 and D2 confirm the result.
+**Recommended first route:** A1 → A2 → B1 → B2. These nodes establish the references, classify the low-token problem, test Matryoshka token training at 16 and 64 tokens, and measure whether image-specific allocation has enough value to justify learning a selector. B1 trains the 4-token prefix only after the two-length screen passes. B3 builds the joint adaptive system. C1 tests the strongest proposed contribution: allocation that considers both reconstruction and generative error. C2 is a conditional interface experiment. D1 and D2 confirm the result.
 
-This is an experiment protocol, not a report of completed model runs. Code and paper inspection are complete enough to define the experiments. Checkpoint bytes, dataset files, package installation, and GPU speed have not been verified here. All proposed thresholds and GPU limits are project decisions, not predicted results.
+**Version 1.1 change:** B1 now has a 16/64 Matryoshka screen, a conditional paired-prefix test, and a separate continuation at the intended token budget. The shared loss definitions, checkpoint prerequisites, C2 return paths, report fields, and compute estimates include these changes. All GPU-hour figures are optional planning guides; they do not impose spending limits or automatic stop rules. No model experiment has been executed for this revision.
+
+This is an experiment protocol, not a report of completed model runs. Code and paper inspection are complete enough to define the experiments. Checkpoint bytes, dataset files, package installation, and GPU speed have not been verified here. All proposed scientific thresholds are project decisions, not predicted results. GPU-hour figures are rough, optional planning estimates. Extend useful experiments when evidence or a required fair comparison warrants more compute; use Section 15.2 to record the change.
 
 ## 1.1 The intended contribution
 
@@ -15,6 +17,8 @@ The main question is:
 > Can image-specific capacity allocation improve a shared tokenizer–generator under a fixed token-count distribution?
 
 A stronger result would show that reconstruction error alone gives the wrong assignments. The proposed selector would then use the effect of denoising errors after image decoding.
+
+The preliminary question is whether joint training at several prefix lengths improves low-token learning. Matryoshka training supplies representations at several counts. Image-specific allocation chooses among them. A positive result for the first question does not establish a positive result for the second.
 
 The target is **joint learning from random initialization**, with both reconstruction and generation losses active from the first update. A common warm start is permitted for screening. It cannot establish the final from-scratch claim. Hard token selection is trained with online supervision; the first method does not differentiate through the discrete selection itself.
 
@@ -44,6 +48,9 @@ A rising latent denoising loss alone does not establish divergence. The target d
 | Candidate count | Number of registers processed before selection. |
 | Active count | Number of latent vectors retained after selection. |
 | Prefix | The first `k` tokens in a fixed order. |
+| Matryoshka token training | Train useful prefixes of one token sequence at several counts. Latent width remains fixed. |
+| Stochastic prefix training | Use one randomly selected prefix per image and update. |
+| Paired-prefix training | Use both the short and long prefix of the same image and average their losses. |
 | Distortion | A specified difference between two images. |
 | Counterfactual score | Error obtained by evaluating another allowed token count. |
 | Oracle assignment | Assignment computed from measured counterfactual errors. It is a diagnostic, not the deployed selector. |
@@ -61,6 +68,7 @@ Use these hypothesis IDs:
 
 | ID | Hypothesis | Main test |
 |---|---|---|
+| `H_NESTED` | Training short and long prefixes together improves low-token joint learning while preserving useful long representations. | B1; separate from the later allocation claim |
 | `H_ALLOC` | Image-specific allocation improves the joint model beyond random length variation. | B2 → B3 |
 | `H_GEN` | Allocation based on reconstruction and decoded denoising error improves generation over reconstruction-only allocation. | C1 |
 | `H_CONFLICT` | Low capacity increases conflict between the shared tasks on particular images. | Small probes in A2, B3, and C1 |
@@ -83,6 +91,7 @@ This plan uses continuous UNITE latents and a contiguous prefix. It transfers KA
 | Prior work | Relevant established idea | Role here |
 |---|---|---|
 | UNITE [S1]–[S5] | Shared joint tokenization and latent generation. | Main implementation and fixed-count baseline. |
+| Matryoshka Representation Learning [S19] | Train nested coordinate prefixes of one embedding. | Conceptual precedent. This plan varies token count, with latent width fixed at 32. |
 | KARL [S6]–[S8] | Single-pass, error-conditioned adaptive tokenization. | Positive allocation reference and supervision design. |
 | ALIT [S9] | Recurrent allocation of image tokens. | Background; no full reproduction is required. |
 | FlexTok [S10] | Ordered variable-length representations and a generative decoder. | Prefix baseline precedent; token counts across architectures are not equal information budgets. |
@@ -91,7 +100,7 @@ This plan uses continuous UNITE latents and a contiguous prefix. It transfers KA
 | DC-DiT [S14] | Adaptive token computation inside diffusion. | Compare scope: persistent image representation versus temporary denoiser compression. |
 | KATok [S15] | Continuous adaptive video tokenization and generation of position information. | Supports the need to specify a generative length or mask distribution; the data domain differs. |
 | EOSTok [S16] | Joint tokenizer–generator training with decoded generative feedback. | Decoded error itself is established; allocation using it is the proposed test. |
-| NesTok [S17] | Training and alignment across full and short representations. | A generic full-to-short consistency loss is not a new contribution. |
+| NesTok [S17] | Same-image training at full and short lengths, plus feature alignment. | Neither paired-prefix training nor a generic full-to-short alignment loss is sufficient novelty. |
 
 **Candidate publication claim:** generation-aware, image-specific capacity allocation improves joint shared-weight learning under matched token distributions and measured compute.
 
@@ -116,13 +125,15 @@ H_GEN adds a second reason to allocate capacity: codes that reconstruct well can
 
 H_CONFLICT supplies a possible mechanism. At low count, reconstruction and denoising may require different updates to the shared weights. Allocation could reduce pressure on the images with the largest conflict. The small gradient probes test this association. They do not justify adding gradient surgery or several new loss terms before the allocation effect exists.
 
+H_NESTED tests whether long-prefix supervision changes how the shared model learns a short representation. It cannot add capacity to the retained 16-token code. A gain can come from shared-task learning or a change in gradient variance; it need not imply an image-specific allocation effect. Evidence for this mechanism must include generated-image quality, useful additional information at 64 tokens, and the stated exposure and cost controls. Generic nested token training is established by FlexTok and related work. [S10], [S17], [S19]
+
 # 4 Decision tree
 
 | Node | Question | Continue when | Otherwise |
 |---|---|---|---|
 | A1 | Can the two required reference effects be verified? | Applicable reference passes. | Diagnose or mark the affected route blocked. |
 | A2 | What kind of failure occurs at fixed 16? | A valid stable high-count control exists. | Resolve reference or numerical problems first. |
-| B1 | Does one joint model support several lengths? | The common prefix model supports a useful quality range. | C2 if the interface is implicated; otherwise stop this configuration. |
+| B1 | Does joint Matryoshka training support useful 16/64 prefixes, then the allocation count set? | The two-length screen and the budget continuation pass. | Conditional paired-prefix test, C2 with interface evidence, or stop this configuration. |
 | B2 | Is there useful image-specific reconstruction allocation signal? | Held-out benefit over shuffled assignments; attainable mean budget. | Stop REC at that budget, test the one relaxed budget, or screen GEN in C1. |
 | B3 | Can an online selector retain that benefit during joint training? | Better generation or a clear quality/cost gain over matched controls. | Classify selector failure versus lack of allocation benefit. |
 | C1 | Does generative error improve the allocation rule? | Better actual generation than reconstruction-only allocation. | Retain the simpler reconstruction-only method. |
@@ -133,10 +144,11 @@ H_CONFLICT supplies a possible mechanism. At low count, reconstruction and denoi
 ```mermaid
 flowchart TD
   A1["A1: Reference results"] --> A2["A2: Fixed-count diagnosis"]
-  A2 --> B1["B1: Joint variable lengths"]
-  B1 -->|Useful range| B2["B2: Allocation signal"]
+  A2 --> B1["B1: Matryoshka, then budget training"]
+  B1 -->|Budget-ready checkpoint| B2["B2: Allocation signal"]
   B1 -->|Interface evidence| C2["C2: Decoder interface"]
-  C2 -->|Pass| B2
+  C2 -->|Two-length pass| B1
+  C2 -->|Budget-ready pass| B2
   B2 -->|Pass| B3["B3: Online selector"]
   B2 -->|REC signal is weak| C1["C1: Generative allocation"]
   B3 --> C1
@@ -169,7 +181,9 @@ Keep reference checkouts unchanged under `third_party/`. Put wrappers and patche
 
 Create `locks/artifacts.json` with source commits, checkpoint SHA-256 values, data manifest hashes, metric weight hashes, environment lock, and each applied patch. Unresolved fields block only the experiment that needs them. Never substitute a changing branch name or invent an artifact hash.
 
-`COMMON_PREFIX` is the complete model/optimizer/EMA snapshot from B1's `RANDOM_QUOTA` endpoint. If C2 changes the interface and passes, its `QUERY_RANDOM_QUOTA` endpoint becomes the new `COMMON_PREFIX`. Record the producing node and hash. All dependent screens use that exact snapshot.
+`SCREEN_PREFIX` is the complete model/optimizer/EMA snapshot from B1's passing 16/64 screen. Its 4-token path has not been trained. It cannot replace `COMMON_PREFIX`.
+
+`COMMON_PREFIX` is the complete snapshot after B1's budget continuation passes, or after C2 passes using that same allocation count set. Record the producing node, phase, method, budget ID, allowed counts, and checkpoint hash. B2, B3, and C1 use this exact snapshot. A two-length C2 pass returns to B1's budget continuation before those nodes may start.
 
 ## 5.2 Source details that change the experiment
 
@@ -178,7 +192,7 @@ The following are findings from the pinned source, not assertions about the user
 | Finding | Required action |
 |---|---|
 | UNITE’s encoder ends with a fixed `:256` slice. At a smaller register count, image-patch outputs can enter the returned tensor. [S3] | Record the register length before adding patches; return exactly that many register outputs after removing context tokens. Verify unchanged output at 256. |
-| The decoder reshapes latent count to a square grid, then interpolates to 16 × 16. [S4] | Start with `KSET = [4,16,64]`. Counts such as 8 or 32 need a different interface. |
+| The decoder reshapes latent count to a square grid, then interpolates to 16 × 16. [S4] | Keep the global count order `KSET = [4,16,64]`. B1 first enables only 16/64. Counts such as 8 or 32 need a different interface. |
 | The decoder still processes 256 image tokens plus its class token. [S4] | Do not infer proportional decoder savings from fewer latents. |
 | The public UNITE YAML uses 3 denoising draws, while the released headline checkpoints used 14. [S2], [S5] | Separate `PILOT_M3` from the checkpoint reference. Never compare them as the same training recipe. |
 | The source sums denoising draws, uses velocity-weighted error, and uses a mixture for reconstruction noise. [S3] | Use the equations below; do not substitute the paper’s simplified loss description. |
@@ -332,7 +346,7 @@ $$
 
 The total main-model loss is `L_r + L_g`. This preserves the source sum over denoising draws. Also log `L_g/M` for interpretation. Changing M changes both compute and effective loss weighting in the source; never treat it as a neutral microbatch setting. [S3]
 
-For the causal pilot, `M=3` and the flow chunk size is 3. D2 retains M=3 unless an explicitly matched M=14 confirmation is funded. The published checkpoint reference uses its actual M=14 training metadata.
+For the causal pilot, `M=3` and the flow chunk size is 3. D2 retains M=3 unless an explicitly matched M=14 confirmation is selected. The published checkpoint reference uses its actual M=14 training metadata.
 
 The clean latent branch gets no denoising gradient through its target or noised input. GE still gets denoising gradients through the second forward pass. Keep that distinction in code and reports. Source class dropout is 0.1 in denoising and 1.0 in encoding; do not drop the length condition.
 
@@ -371,7 +385,9 @@ For shared-start branch comparisons, load the same model, optimizer, and EMA sna
 
 ## 5.8 Allocation, quotas, and the deployed selector
 
-Use `KSET=[4,16,64]`. The default operating point is `RATE16`.
+Use the global output/count order `KSET=[4,16,64]`. B1 first uses `NESTED40`, with pilot microbatch quotas `[0,32,32]`, optimizer-batch quotas `[0,128,128]`, and image-independent assignments. Thus `E[K]=40` and `E[K^2]=2176`. It is a two-length learning screen, not a mean-16 experiment. Keep all three count-embedding rows, but do not evaluate count 4 as a trained operating point during that screen.
+
+The default allocation operating point, after the B1 screen, is `RATE16`.
 
 | Active count | Images per pilot distributed microbatch | Images per optimizer batch | Probability |
 |---:|---:|---:|---:|
@@ -387,7 +403,7 @@ For training, all GPUs encode their local images once and retain only their loca
 
 D2 uses `b=256` and quotas `[128,96,32]` per distributed microbatch. Its optimizer batch has quotas `[512,384,128]`.
 
-Permit one fallback operating point, `RATE31_75`. It excludes count 4 and uses `[0,43,21]` in each pilot microbatch, or `[0,172,84]` per D2 microbatch. Its mean is **31.75**, not 32. The selector retains three outputs, but count 4 is excluded from assignment and price calibration. This fallback tests whether the forced use of 4-token codes caused a negative result. No second fallback is planned.
+Permit one fallback operating point, `RATE31_75`. It excludes count 4 and uses `[0,43,21]` in each pilot microbatch, or `[0,172,84]` per D2 microbatch. Its mean is **31.75**, not 32. The selector retains three outputs, but count 4 is excluded from assignment, target-loss reduction, and price calibration. This fallback tests a less restrictive operating point. It changes both the minimum count and the mean capacity, so it does not isolate the effect of count 4. If B1 fails at `RATE16`, it can produce a fallback-only `COMMON_PREFIX` as specified in that node; B2 and C1 must then skip `RATE16`. No second fallback is planned.
 
 For B2 and C1 scoring, form fixed 64-image evaluation blocks. Sort classes by synset and each class's 32 images by split hash. For each of four rounds, take eight images per class, then place eight classes in each full block. The final block of each round has four classes and 32 images. This covers all 3,200 images and permits within-class shuffling. `RATE16` uses `[16,12,4]` for a 32-image block. For `RATE31_75`, the first two remainder blocks use `[0,22,10]` and the last two use `[0,21,11]`. The aggregate mean remains exactly 31.75. Record all block IDs.
 
@@ -479,9 +495,9 @@ Classify results as follows:
 
 - `NUMERICAL_FAILURE`: nonfinite loss, parameter, optimizer state, or gradient before clipping.
 - `REPRESENTATION_COLLAPSE`: latent image variance below 10% of the stable same-interface control, together with at least 20% worse held-out reconstruction at two checkpoints.
-- `QUALITY_PLATEAU`: finite training; no meaningful held-out improvement over the last three measurements. This is budget-specific.
+- `QUALITY_PLATEAU`: finite training; no meaningful held-out improvement over the last three measurements. Interpret it at the actual training exposure; it does not prove that further useful learning is impossible.
 - `STABLE_PROGRESS`: finite training and improving held-out image quality.
-- `INCONCLUSIVE_BUDGET`: planned exposure or evaluation did not finish.
+- `INCONCLUSIVE_RESOURCES`: an actual resource constraint prevented the required training or evaluation. Exceeding a planning estimate alone never triggers this outcome.
 
 Monitor all main losses and gradient norms every 100 updates. Evaluate 512 fixed DEV images at 1,000-update intervals in A2/B1 and at start/end of continuation nodes. Run the full specified DEV evaluation only at node end. Generate 5K samples only at node endpoints where generation can change the next action. Do not run repeated FID sweeps during every short diagnostic.
 
@@ -494,6 +510,24 @@ Perform these once on a small fixed batch when the affected path changes. Budget
 3. **Gradient and generation boundary:** denoising targets and inputs are detached from the encoding graph; both losses update the shared GE through their intended passes. Generation accepts only class, count, noise, and sampler settings.
 
 With BF16 only, use tolerance `5e-3` and repeat a failed comparison in FP32 before concluding a defect. Do not require a test suite for every tensor helper. No training run starts before these three result-critical checks pass.
+
+## 5.12 Matryoshka token losses
+
+Keep latent width 32. Vary the number of token rows, not their channel count. For one encoded image, let `U_i: [64,32]` be its normalized code and let `P_k=[I_k 0]: [k,64]` select its first k rows. Thus `z_i,k=P_k U_i`. No new quantizer is introduced. Keep the three-row count embeddings in the global order `[4,16,64]` throughout.
+
+Let `J_i(k)` be the per-image reconstruction loss plus the **sum** of its M=3 denoising losses from Section 5.6, evaluated at count k. The latent error is divided by `k*32` before its existing time weight. The stochastic screen uses image-independent `P(K=16)=P(K=64)=1/2`. Paired-prefix training uses both prefixes of the same encoded image:
+
+$$
+\mathbb E_K[J_i(K)]=\tfrac12 J_i(16)+\tfrac12 J_i(64),
+\qquad
+J_i^{\mathrm{paired}}=\tfrac12[J_i(16)+J_i(64)].
+$$
+
+These have the same expected source-autograd update at fixed weights and matched noise laws. Paired training changes gradient estimation and compute. It does not add a new expected objective. Average across prefixes **outside** the source sum over denoising draws. Then average over images, using the distributed reduction in Section 5.5.
+
+For the paired arm, encode each image once. Draw reconstruction corruption, class dropout, denoising times, and Gaussian noise at 64 positions. Reuse their corresponding prefixes across the two losses. Decode and denoise the physically retained sequences separately. Retain each prefix's detached clean denoising target and detached noised input. Keep all source normalization rules. Both reconstruction and generation are trained at both counts.
+
+Do not add a clean-code alignment loss: `z_i,16=P_16 U_i` already holds exactly. Do not require equal generated prefixes under equal initial noise; a 64-token denoiser can use 48 additional noisy tokens. Progressive extension of the same generated sample is outside this first experiment. Nested training encourages useful ordering but does not guarantee that longer codes improve quality. Measure that improvement.
 
 # 6 A1 Verify the required references
 
@@ -523,7 +557,7 @@ With BF16 only, use tolerance `5e-3` and repeat a failed comparison in FP32 befo
 - The public KARL evaluator has incomplete return/import paths, and a per-batch attention-mask expansion needs verification. Use a minimal adapter. Record an unverified correction as such. [S7]
 - A skipped rFID evaluation, missing dependency, or checkpoint download failure is a blocked reference, not a scientific negative.
 
-**GPU budget:** at most **24 H100 GPU-hours**, including calibration, final reference sampling, and essential checks. Allow at most one rerun after a specific diagnosed cause. Stop at the cap and report what remains unresolved.
+**GPU planning estimate:** about **24 H100 GPU-hours**, including calibration, final reference sampling, and essential checks. Start with one targeted rerun after a diagnosed cause. Further diagnostic runs are permitted when new evidence supports them. Continue past the estimate when useful; report unresolved reference issues explicitly.
 
 **Outputs:** `A1/report.md`, `A1/results.json`, artifact lock, reference sample/metric hashes, and the isolated adapter patch.
 
@@ -565,67 +599,97 @@ With BF16 only, use tolerance `5e-3` and repeat a failed comparison in FP32 befo
 | Both 16 arms are poor; errors vary strongly by image | Allocation remains plausible. Proceed to B1. |
 | Both 16 arms are poor on nearly every image | Mean 16 may be too restrictive. B2 must justify any further mean-16 run. |
 | Both joint counts fail numerically | Stop and diagnose the common setup. Do not start a selector. |
-| A local code or loss defect explains the apparent failure | Correct it in all arms and rerun the affected pair once. Do not present the correction as an allocation result. |
+| A local code or loss defect explains the apparent failure | Correct it in all arms and rerun the affected pair. Additional targeted reruns are permitted when a new diagnosis supports them. Do not present the correction as an allocation result. |
 
 For the second row, let `d16_joint`, `d64_joint`, `d16_recon`, and `d64_recon` be the mean shared allocation distortion on the same images. Require `(d16_joint/d64_joint)/(d16_recon/d64_recon) >= 1.10`, with a paired bootstrap interval whose lower endpoint exceeds 1.0. Use a denominator floor of `1e-8`. This screening rule does not by itself prove task interference.
 
-**GPU budget:** **64 H100 GPU-hours** across all arms and endpoint evaluation. If 5,000 updates cannot fit, compare arms at the same completed update count and mark the planned result incomplete.
+**GPU planning estimate:** about **64 H100 GPU-hours** across all arms and endpoint evaluation. Complete the matched comparison even if it exceeds this guide when resources are available and the result remains informative. If an actual resource constraint interrupts work, compare the common completed exposure and mark the required unfinished work explicitly.
 
 **Outputs:** `A2/report.md`, `A2/results.json`, matched curves, per-image errors, a 32-image gradient probe, and the stable `NATIVE64_JOINT` checkpoint.
 
 **Next action:** B1 after a valid stable 64-token local control. If only the larger 256-token reference is stable, report the 64-token pilot as inconclusive; do not force a low-count branch.
 
-# 8 B1 Establish one joint model across lengths
+# 8 B1 Test joint Matryoshka token training
 
-**Objective:** obtain the smallest useful variable-length UNITE model before learning image-specific decisions.
+**Objective:** test H_NESTED before learning image-specific decisions. First determine whether one joint model supports useful 16/64 prefixes. Then train the token counts needed for allocation. Separate nested learning, paired-loss effects, and image-specific allocation in every claim.
 
-**Prerequisites:** A2 stable `NATIVE64_JOINT`.
+**Prerequisites:** A2 has a stable `NATIVE64_JOINT` checkpoint after 5,000 updates. This is a common-warm-start screen. It does not establish learning from random initialization.
 
-**Setup:** copy that same 5,000-update checkpoint into three arms. Add zero-initialized length embeddings to every arm. Use `PILOT_M3` for **10,000 further updates**, seed 0.
+**Shared setup:** `PILOT_M3`, ImageNet100 FIT, seed 0, constant continuation LR `1e-4`, unchanged M=3 source losses, and a 64-register image encoder in every arm. Start new count embeddings at zero. Preserve data order, augmentation, source noise laws, and optimizer/EMA state across matched starts. Use Section 5.12's losses. There is no selector in this node.
 
-| Method ID | Candidate count | Active count |
-|---|---:|---|
-| `PREFIX64` | 64 | Always 64 |
-| `PREFIX16` | 64 | Always 16 |
-| `RANDOM_QUOTA` | 64 | Random assignment of the mean-16 quotas |
+## 8.1 B1 phase SCREEN: test 16 and 64 tokens
+
+**Setup and baselines:** copy the same A2 checkpoint into these three arms.
+
+| Method ID | Candidate count | Retained count | Loss per image |
+|---|---:|---|---|
+| `PREFIX16` | 64 | Always 16 | `J_i(16)` |
+| `PREFIX64` | 64 | Always 64 | `J_i(64)` |
+| `NESTED_RANDOM` | 64 | `NESTED40`: half at 16, half at 64 | `J_i(K_i)` |
 
 **Procedure:**
 
-1. Train all three with identical data and source losses.
-2. In `RANDOM_QUOTA`, permute the fixed count multiset independently of images within each distributed microbatch.
-3. At the endpoint, evaluate every count for the mixed model. Compare its k=16 reconstruction to `PREFIX16` and its k=64 reconstruction to `PREFIX64`.
-4. Generate from the mixed model using the training count prior. Compare to fixed 16 at the same mean rate, with the same sampler.
-5. Save the mixed `RANDOM_QUOTA` endpoint as `COMMON_PREFIX` for B2, B3, and C1.
+1. Train all three arms for an initial 5,000 continuation updates. Randomly permute the nested arm's `[0,32,32]` count multiset within each distributed microbatch. Counts are independent of image content.
+2. Use the scheduled 512-image DEV checks to choose the common first endpoint. Use 5,000 if the nested arm is stable and its reconstruction meets the endpoint criteria below. Otherwise continue all three to 10,000 before applying those criteria. Further matched extensions follow Section 15.2; a GPU-hour estimate is not a stop rule.
+3. At the chosen endpoint, evaluate full DEV reconstruction. Generate 5K images from each fixed arm at its own count and from `NESTED_RANDOM` separately at 16 and 64. Use paired class/noise streams and the common sampler. Reuse features for FID and KID. No count-prior fitting or selector evaluation is needed.
+4. If the nested arm passes, save it as `SCREEN_PREFIX`. Keep both fixed controls. If a training-efficiency claim depends on a positive comparison to a cheaper fixed arm, continue that control to the nested arm's measured training GPU-hours, within 2%, and report both the image-exposure and cost comparisons. Record any extension separately; it cannot improve the original matched-exposure result retrospectively.
 
-**Baselines and controls:** `PREFIX16` is required. A native 16-register encoder is not a sufficient control for a model that processes 64 registers before truncation. `PREFIX64` provides the high-capacity endpoint. Report all encoder and decoder work.
+**Controls:** compare nested 16 with `PREFIX16`, and nested 64 with `PREFIX64`. A native 16-register encoder does not replace `PREFIX16`. The screen has `E[K]=40` and `E[K^2]=2176`; do not compare its natural mixture with fixed 16 as an equal-rate experiment. The extra candidate registers and all decoder work count toward measured cost.
 
-**Metrics:** DEV reconstruction per k, p90 errors, latent image variance per k, gFID-5K/KID-5K, histogram, mean k², NFE, GPU-hours.
+**Metrics:** numerical outcomes; reconstruction D_img, L1, LPIPS, and p90 L1 at each count; latent image variance; gFID-5K and KID-5K at each count; actual NFE and costs. Report `tail_gain=(D_img_16-D_img_64)/max(D_img_16,1e-8)` and its paired image interval. Additional tokens must provide measurable useful information before claiming a refinement hierarchy.
 
 **Pass/stop rules:**
 
-- Proceed to B2 if the mixed model is stable, its k=16 reconstruction is within 10% of `PREFIX16`, and k=64 within 10% of `PREFIX64`.
-- If mixed-length generation improves on fixed 16 but image-specific allocation later adds nothing, the supported result is mixed-length joint training.
-- If the mixed model loses more than 10% at both endpoints while the fixed arms work, go to C2. First check length reduction and conditioning; do not immediately add more losses.
-- If k=4 is poor, do not automatically stop: B2 tests whether sufficiently easy images can use it. If almost no images can use k=4, a mean-16 allocation with this count set is unlikely to help.
+- The nested arm must show `STABLE_PROGRESS`. Its D_img at each count must be no more than 10% above the corresponding fixed-prefix control. Its gFID at each count must be no more than 10% above the corresponding finite fixed control. These are screening thresholds, not proof of superiority.
+- If `PREFIX16` fails numerically while the nested arm is stable, report a stability result. Do not invent a relative gFID gain against the failed run. Require at least 5% lower nested-16 D_img than its own initial checkpoint, finite generated-image metrics without collapse, and the ordinary 64-token gates.
+- A positive H_NESTED screen needs improved stability or at least 5% better nested-16 gFID against a valid fixed-16 control, with KID in the same direction. Multi-seed evidence and appropriate cost controls are still needed for a publication claim. A shared model can pass the usability gates without establishing H_NESTED.
+- If the 64-token prefix has no positive tail gain, inspect the per-image errors before claiming a useful hierarchy. If both counts are effectively equivalent, retain the compact-model result but do not add a selector to explain an absent capacity tradeoff.
+- If both fixed endpoints work but the stochastic model fails, use phase PAIRED when its stated prerequisite holds, or C2 when there is interface evidence. If both short-count models fail, use A2's diagnosis; nesting has not resolved this configuration.
 
-**GPU budget:** **96 H100 GPU-hours**, including all three arms and endpoint sampling.
+**GPU planning estimate:** about **96 H100 GPU-hours** for the three arms, endpoint evaluation, and any indicated cost-matching check. This is advisory. Record extensions and their scientific reason.
 
-**Outputs:** `B1/report.md`, `B1/results.json`, per-length quality table, common checkpoint, and exact input/count streams.
+## 8.2 B1 phase PAIRED: conditional comparison
 
-**Next action:** B2 after pass; conditional C2 after an identified cross-length interface problem.
+**Objective and prerequisite:** test whether simultaneous supervision at both lengths improves the stochastic screen. Run this phase only if the fixed endpoints work but the stochastic model fails a usability gate, or its short-count trajectory remains unstable while the long-count trajectory progresses. Do not add it automatically to a passing screen.
+
+**Setup:** initialize `NESTED_PAIRED` from the same A2 checkpoint, with the same parameter initialization and image/augmentation stream as SCREEN. Train to SCREEN's selected 5,000- or 10,000-update endpoint, using `0.5*(J_i(16)+J_i(64))`. The three existing SCREEN arms are its matched-exposure controls; do not rerun them when their exact configurations are available. Both prefixes receive M=3 denoising draws. Count both decoding passes and all denoising work.
+
+**Procedure and controls:** compare `NESTED_PAIRED` with `NESTED_RANDOM` at equal image exposure. If paired training appears better, continue the stochastic control to the paired arm's actual training GPU-hours, within 2%, before claiming improved training efficiency. Keep the loss normalization fixed. Additional compute and a changed gradient estimate are possible explanations for a gain.
+
+**Metrics and pass/stop rules:** use SCREEN's per-length metrics and usability gates at the common exposure point. Prefer the stochastic method if both pass. Select the paired endpoint as `SCREEN_PREFIX` only when it passes and the stochastic endpoint does not, or when a paired advantage remains after the declared cost comparison. Otherwise retain the stochastic result or stop this route. The next phase returns to one prefix per image; if its benefit disappears, report that dependency rather than silently keeping paired losses in B3 or D1.
+
+**GPU planning estimate:** about **64 additional H100 GPU-hours** for the optional paired arm and any required stochastic refinement. Extensions are permitted under Section 15.2.
+
+## 8.3 B1 phase RATE: prepare the allocation count set
+
+**Objective and prerequisite:** produce `COMMON_PREFIX` from a passing `SCREEN_PREFIX`, including a trained count-4 path before testing mean-16 allocation. A passing two-length C2 result can supply `SCREEN_PREFIX`.
+
+**Setup:** start one `RANDOM_QUOTA` continuation from `SCREEN_PREFIX`. Use `PILOT_M3`, seed 0, one stochastic prefix per image, and the exact `RATE16` quotas in Section 5.8. Train for an initial 5,000 updates. This trains the previously unused 4-token count embeddings and both source tasks at count 4.
+
+**Procedure:** evaluate full DEV reconstruction at 4, 16, and 64. Evaluate fixed-count generation at 16 and 64 once at the endpoint to check retention. Compare these endpoints with the saved `SCREEN_PREFIX` metrics; this is a before/after retention diagnostic, not matched evidence of training superiority. Save the accepted endpoint and its allowed counts as `COMMON_PREFIX`.
+
+**Baselines and controls:** reuse `SCREEN_PREFIX` as the retention reference. Do not add three new fixed-count training jobs. B2 supplies within-model allocation controls, B3 supplies matched continuation controls, and D1 supplies confirmation from random initialization. B1's longer training history must remain visible in comparisons with its original fixed controls.
+
+**Metrics and pass/stop rules:** require finite losses and noncollapsed representations at all active counts. Require 16/64 reconstruction D_img and gFID to remain within 10% of their respective SCREEN_PREFIX values. Log p90 errors and tail gain. A poor but finite 4-token reconstruction is not an automatic stop; B2 tests whether some images can use it. If an unresolved failure is linked to count 4, run one fallback `RANDOM_QUOTA` continuation from the same SCREEN_PREFIX with `RATE31_75` for the same initial 5,000 updates. Apply the same retention gates. If only that route passes, label COMMON_PREFIX fallback-only, exclude count 4 from all downstream scores and selector losses, and make no mean-16 claim. If the decoder interface is implicated, use C2 with the exact failed count distribution.
+
+**GPU planning estimate:** about **32 additional H100 GPU-hours** for the initial continuation and evaluation. A scientifically useful fallback or matched extension may need more. Record it; do not stop solely because this figure is reached.
+
+**Outputs for B1:** `B1/report.md`, `B1/results.json`, phase-specific configurations and result rows, exact count streams, fixed controls, `SCREEN_PREFIX`, and, after RATE passes, `COMMON_PREFIX`. Report SCREEN, PAIRED, and RATE costs separately. The node's initial guide is **128 H100 GPU-hours without PAIRED**, or **192 with PAIRED**; both can be revised from measured throughput and evidence.
+
+**Next action:** B2 or C1 only after a budget-ready COMMON_PREFIX exists. If C2 resolves a two-length failure, return to phase RATE first. Do not call the 40-token screen a mean-16 result, and do not call successful nested learning proof of adaptive allocation.
 
 # 9 B2 Measure allocation value before a long adaptive run
 
 **Objective:** test H_ALLOC. Determine whether a learned image-specific rule improves reconstruction under a fixed count distribution. Measure the available signal before a long backbone run.
 
-**Prerequisites:** B1 pass, or a C2 interface that passes the same endpoint criteria.
+**Prerequisites:** a budget-ready `COMMON_PREFIX` from B1 phase RATE, or C2 at that allocation count set. A 16/64 `SCREEN_PREFIX` is insufficient.
 
-**Setup:** freeze the mixed-model EMA. Use all 3,200 ALLOC images for labels and all 3,200 DEV images for independent evaluation. Use one deterministic encoding-noise realization per image; reuse its prefix for all counts. Compute clean, clamped reconstructions at k=4,16,64 and the shared distortion D_img from Section 5.6. No main-model optimizer is used.
+**Setup:** freeze the mixed-model EMA. Use all 3,200 ALLOC images for labels and all 3,200 DEV images for independent evaluation. Use one deterministic encoding-noise realization per image; reuse its prefix for all counts. Compute clean, clamped reconstructions at each COMMON_PREFIX allowed count and the shared distortion D_img from Section 5.6. Use 4/16/64 for the default checkpoint; use only 16/64 for a fallback-only checkpoint. Exclude inactive head outputs from target-loss reduction. No main-model optimizer is used.
 
 **Procedure:**
 
-1. Save the three measured D_img values and detached selector features for each ALLOC and DEV image.
-2. Use the class-balanced evaluation blocks and exact `RATE16` quotas in Section 5.8. Solve `ORACLE_REC` from measured D_img. Compare it to its within-class shuffled assignment. This gives an upper-bound diagnostic for this fixed model and quota family.
+1. Save the measured D_img values at all active counts and detached selector features for each ALLOC and DEV image.
+2. Use the class-balanced evaluation blocks and exact `RATE16` quotas in Section 5.8, or start directly at `RATE31_75` for a fallback-only COMMON_PREFIX. Solve `ORACLE_REC` from measured D_img. Compare it to its within-class shuffled assignment. This gives an upper-bound diagnostic for this fixed model and quota family.
 3. Fit the selector on ALLOC scores for 2,000 head-only updates, batch 256, AdamW lr `1e-3`. Sample training rows uniformly with replacement. Use seed 0 and the common head initialization.
 4. Evaluate `PREDICTED_REC_QUOTA` on DEV from predicted costs and the same block quotas.
 5. For each block and class, record the predicted rule's counts `n[y,k]`. Re-solve a measured-error oracle within that class with those exact counts. Call it `ORACLE_REC_SAME_HIST`. Make one within-class permutation of the predicted assignments, `PREDICTED_REC_SHUFFLED`. All three now share the same class-by-count histogram.
@@ -652,9 +716,9 @@ Report the ratio only if its denominator is positive and at least 1% of the comm
 - If the oracle has little benefit, stop REC allocation at that budget. This does not reject GEN allocation.
 - A smaller oracle objective is expected from its optimization. The held-out learned rule and later generator are the scientific tests.
 - If within-class shuffling changes fewer than 20% of assignments, the observed allocation is mainly class-level. Do not claim an image-level mechanism.
-- If only the fallback passes, state that the forced use of 4-token representations prevented a mean-16 result. Do not generalize that failure to all adaptive tokenization.
+- If only the fallback passes, report that the tested 16/64 configuration at mean 31.75 passed while the tested mean-16 configuration did not. This comparison does not isolate the effect of count 4 from the increase in average capacity. Do not generalize that failure to all adaptive tokenization.
 
-**GPU budget:** **16 H100 GPU-hours** for all scores, features, head fits, and evaluation.
+**GPU planning estimate:** about **16 H100 GPU-hours** for all scores, features, head fits, and evaluation.
 
 **Outputs:** `B2/report.md`, `B2/results.json`, score tables, assignment tables, fitted head, lambda, and the same-histogram retained-gain calculation.
 
@@ -695,7 +759,7 @@ Report the ratio only if its denominator is positive and at least 1% of the comm
 - If the predicted rule drifts while the frozen B2 oracle still helps, report selector tracking failure. Do not reject allocation in general.
 - If random lengths match the adaptive rule, do not claim image-specific allocation is necessary.
 
-**GPU budget:** **128 H100 GPU-hours** across the candidate, shuffled control, needed random continuation, scoring, and evaluation.
+**GPU planning estimate:** about **128 H100 GPU-hours** across the candidate, shuffled control, needed random continuation, scoring, and evaluation.
 
 **Outputs:** `B3/report.md`, `B3/results.json`, online score/assignment history, deployed selector, length prior, endpoint checkpoints, and a matched sample sheet.
 
@@ -705,9 +769,9 @@ Report the ratio only if its denominator is positive and at least 1% of the comm
 
 **Objective:** test H_GEN. Determine whether generative difficulty changes which images should receive the limited long representations.
 
-**Prerequisites:** a useful `COMMON_PREFIX` model and both A1 references. B2 REC allocation may pass or fail. B3 may be positive, tokenizer-only, or not started.
+**Prerequisites:** a budget-ready `COMMON_PREFIX` model and both A1 references. A 16/64 SCREEN_PREFIX alone does not satisfy this prerequisite. B2 REC allocation may pass or fail. B3 may be positive, tokenizer-only, or not started.
 
-**Setup:** use `COMMON_PREFIX` for both arms; `PILOT_M3`; seed 0. First run the frozen scoring screen. Fund 10,000 continuation updates only if that screen passes. Use the B2 budget if it passed; otherwise screen `RATE16` and then the one `RATE31_75` fallback. Keep the same quota, head size, online-label schedule, and source training objectives. This node changes allocation targets, not the main loss.
+**Setup:** use `COMMON_PREFIX` for both arms; `PILOT_M3`; seed 0. First run the frozen scoring screen. Run the initial 10,000-update continuation after that screen passes. Use the B2 token budget if it passed; otherwise screen `RATE16` and then the one `RATE31_75` fallback. A fallback-only COMMON_PREFIX starts directly at RATE31_75 and never evaluates the untrained count-4 path. Keep the same quota, head size, online-label schedule, and source training objectives. This node changes allocation targets, not the main loss.
 
 For a clean EMA code z_k, define
 
@@ -759,7 +823,7 @@ $$
 - If REC is equally good, keep REC. Do not retain GEN’s extra scoring cost.
 - Decoded generative feedback is prior art. [S16] Any novelty claim concerns its allocation role and measured joint-training effect.
 
-**GPU budget:** **128 H100 GPU-hours** including both arms, probes, and endpoint evaluation.
+**GPU planning estimate:** about **128 H100 GPU-hours** including both arms, probes, and endpoint evaluation.
 
 **Outputs:** `C1/report.md`, `C1/results.json`, frozen score scales, assignment differences, per-image error analysis, checkpoints, and measured scoring overhead.
 
@@ -790,19 +854,19 @@ $$
 
 All projection matrices have total shape `[768,768]`. Split Q, K, and V' into 12 contiguous heads of width 64. Q broadcasts over the batch; transpose only the last two K axes. Softmax is over the k retained positions. Use PyTorch scaled-dot-product attention with dropout 0 and no causal mask. R has shape `[B,256,768]` and replaces the interpolation output before CLS and source positional addition. Do not pass R through `decoder_embed` again. Discarded registers and image patches are unavailable. Put Q0 in AdamW and the four projection matrices in Muon.
 
-**Procedure:** copy the B1 mixed-model endpoint into four arms. Train `QUERY_PREFIX16`, `QUERY_PREFIX64`, `QUERY_RANDOM_QUOTA`, and unchanged `GRID_RANDOM_QUOTA` for 5,000 more updates with `PILOT_M3`. Use the same new-parameter initialization in the three query arms. Keep the B1 count budget. Compare the query endpoints to each other and the two mixed models at equal exposure. A 32-image before/after count-switch test suffices for diagnosis.
+**Procedure:** copy the failing B1 mixed-model endpoint into four arms. Record its phase and count distribution: NESTED40 for a two-length failure, RATE16 or RATE31_75 for a budget-continuation failure. Train `QUERY_PREFIX16`, `QUERY_PREFIX64`, `QUERY_RANDOM_QUOTA`, and unchanged `GRID_RANDOM_QUOTA` for an initial 5,000 more updates with `PILOT_M3`. The two mixed arms use that exact distribution and one prefix per image. Use the same new-parameter initialization in the three query arms. Compare the query endpoints to each other and the two mixed models at equal exposure. A 32-image before/after count-switch test suffices for diagnosis.
 
 **Baselines and controls:** fixed-count and mixed-count versions of the new interface. A gain only against the cheaper old decoder cannot isolate the effect of allocation. Record added parameters and compute.
 
 **Metrics:** B1 per-length quality and generation metrics; resampler cost; count-switch errors.
 
-**Pass/stop rules:** require the B1 endpoint criteria and no more than 10% additional measured generation time at the same count. If only the fixed-count models improve, report a decoder improvement; do not infer adaptive benefit. Do not add a second decoder design in this node.
+**Pass/stop rules:** require B1 SCREEN's per-count usability criteria against the query fixed controls and no more than 10% additional measured generation time at the same count relative to GRID_RANDOM_QUOTA. At an allocation count set, also require finite, noncollapsed representations at every active count. If only the fixed-count models improve, report a decoder improvement; do not infer adaptive benefit. Do not add a second decoder design in this node.
 
-**GPU budget:** **64 H100 GPU-hours** including all four arms.
+**GPU planning estimate:** about **64 H100 GPU-hours** including all four arms.
 
 **Outputs:** `C2/report.md`, `C2/results.json`, one isolated interface patch, matched checkpoints, cost table.
 
-**Next action:** set `COMMON_PREFIX` to `QUERY_RANDOM_QUOTA` and run B2 if it passes. Repeat only dependent experiments whose representation changed. A failed prefix interface is not a general failure of adaptive tokenization.
+**Next action:** if the passing mixed arm used NESTED40, save it as SCREEN_PREFIX and return to B1 phase RATE. If it used RATE16 or RATE31_75, save it as budget-ready COMMON_PREFIX and proceed to B2 or C1 at that allowed count set. Repeat only dependent experiments whose representation changed. A failed prefix interface is not a general failure of adaptive tokenization.
 
 # 13 D1 Confirm the scientific claim
 
@@ -822,7 +886,7 @@ All projection matrices have total shape `[768,768]`. Split Q, K, and V' into 12
 
 Do not advance the main LR schedule during head fitting. GEN score scales are computed at the bootstrap and fixed for that run. Fixed-prefix and random-count joint controls receive the same first 2,000 k=64 updates. This is a count curriculum, not tokenizer pretraining. At `RATE16`, its nominal training-average count is 19.2 before independent-policy drift. Report the actual integrated count, not 16 for the whole run.
 
-Required joint methods are the winner, its matching `ADAPT_REC_SHUFFLED` or `ADAPT_GEN_SHUFFLED` control, and the strongest nonadaptive method from B1/B3. Keep `PREFIX16` as an additional rate anchor if random lengths are strongest. If GEN wins, also run `ADAPT_REC_EQUAL_PROBES` for all three seeds. GEN and equal-probe REC share the bootstrap EMA, score scales, and probe budget within each seed.
+Required joint methods are the winner, its matching `ADAPT_REC_SHUFFLED` or `ADAPT_GEN_SHUFFLED` control, and the strongest nonadaptive method at the declared operating point from B1 RATE/B3. Keep NESTED40 screening results separate; its mean-40 prior is not a same-rate control. Keep `PREFIX16` as an additional rate anchor if random lengths are strongest. If GEN wins, also run `ADAPT_REC_EQUAL_PROBES` for all three seeds. GEN and equal-probe REC share the bootstrap EMA, score scales, and probe budget within each seed.
 
 This gives 9–15 joint jobs, plus 1–3 staged jobs. Reuse the identical 2,000-update curriculum within a seed. Include its cost in each method's standalone training cost and once in the actual budget ledger. Reuse older runs only when their complete configurations match.
 
@@ -846,13 +910,13 @@ This gives 9–15 joint jobs, plus 1–3 staged jobs. Reuse the identical 2,000-
 - Require improvement over the candidate's shuffled control in all three seeds, with at least **5% mean gFID improvement** and consistent KID.
 - Require no more than **2% mean LPIPS loss**, **5% p90 L1 loss**, or **0.02 absolute generative-recall loss** against the strongest matched control.
 - If GEN wins, require its GEN-versus-REC advantage in all three seeds and at least **5% mean gFID improvement**. Require deployed mean counts within 2% and consistent KID. A GEN-versus-shuffle result alone does not confirm H_GEN.
-- D2 also requires a useful result against the strongest nonadaptive baseline. Require **5% better gFID** at observed comparable cost, or **10% lower generation time** within the quality margins. If only the shuffled control is beaten, report a positive allocation mechanism and stop full-scale funding.
+- D2 also requires a useful result against the strongest nonadaptive baseline. Require **5% better gFID** at observed comparable cost, or **10% lower generation time** within the quality margins. If only the shuffled control is beaten, report a positive allocation mechanism; that result alone does not satisfy the scientific prerequisite for full-scale confirmation.
 - A measured generation-cost gain of at least **10%** can replace the gFID margin at the same stated quality margins and an observed overlapping operating point.
 - If staged learning is as good or better at matched compute, remove the claim that joint learning is superior. A joint adaptive model can still be useful; state the narrower finding.
 - Budget matching uses training plus supervision/calibration time, not final metric-computation time. Require the two cost points to differ by at most 2%; otherwise report the actual costs without calling them matched.
-- A single favorable seed does not fund D2.
+- A single favorable seed does not satisfy D2's replication prerequisite.
 
-**GPU budget:** **512 H100 GPU-hours** for the **10–18 job envelope**, head fitting, evaluation, and staged refinement. A cap that prevents required confirmation yields `INCONCLUSIVE_BUDGET`.
+**GPU planning estimate:** about **512 H100 GPU-hours** for the initial **10–18 job comparison**, head fitting, evaluation, and staged refinement. Extend this estimate to complete useful required confirmation. Only an actual resource constraint can produce INCONCLUSIVE_RESOURCES; reaching the estimate does not.
 
 **Outputs:** `D1/report.md`, `D1/results.json`, frozen configuration, seed table, staged comparison, model-size accounting, and measured runtime table.
 
@@ -862,7 +926,7 @@ This gives 9–15 joint jobs, plus 1–3 staged jobs. Reuse the identical 2,000-
 
 **Objective:** test the confirmed mechanism on ImageNet-1K at 256 × 256 and measure its full cost.
 
-**Prerequisites:** D1 pass; a separate GPU allocation; locked LGM artifact revisions and hashes; method and evaluation protocol frozen.
+**Prerequisites:** D1 pass; available compute for the selected comparison; locked LGM artifact revisions and hashes; method and evaluation protocol frozen. The listed GPU-hour estimate is advisory.
 
 **Setup:** use Section 5.7's D2 configuration, 150,000 main updates, M=3, and the D1 target rate.
 
@@ -875,7 +939,7 @@ For GEN, the primary replicated comparison is GEN versus REC. Its full-scale shu
 
 For the joint adaptive jobs, use k=64 for updates 1–2,000 with both main losses active. Bootstrap the fresh selector from current EMA ALLOC scores using D1's 2,000 head-only updates. Use quotas for updates 2,001–135,000, then independent selection for 135,001–150,000. Calibrate live lambda after update 135,000 and every 1,000 updates through 149,000. Use the same online head-update rule throughout the adaptive phase. All joint controls receive the common k=64 curriculum. At `RATE16`, the nominal full-run mean is 16.64 before policy drift.
 
-If the strongest remaining baseline is staged, use 50,000 reconstruction updates and 100,000 denoiser updates. Apply D1's staged procedure with these endpoints: stage-1 bootstrap at 2,000; stage-2 GEN bootstrap at 2,000; stage-2 quotas through 90,000 and independent selection for its last 10,000 updates. Each stage has 5,000-update LR warmup and its own cosine schedule. Preserve the seed-0 exposure and compute comparison, within this node's cap.
+If the strongest remaining baseline is staged, use 50,000 reconstruction updates and 100,000 denoiser updates. Apply D1's staged procedure with these endpoints: stage-1 bootstrap at 2,000; stage-2 GEN bootstrap at 2,000; stage-2 quotas through 90,000 and independent selection for its last 10,000 updates. Each stage has 5,000-update LR warmup and its own cosine schedule. Preserve the seed-0 exposure and compute comparison. Revise the compute estimate when the measured comparison needs more work.
 
 **Procedure:**
 
@@ -885,7 +949,7 @@ If the strongest remaining baseline is staged, use 50,000 reconstruction updates
 4. Evaluate the official `LGM_XL_CORRECTED` external baseline at the exact setting below. This is a released-model comparison, not a matched training ablation.
 5. Include the A1 UNITE-B 256-token reference. Keep its different architecture exposure and training history visible.
 6. Build a quality–cost table from measured operating points. Forced counts are diagnostic points, not substitutes for the natural mixture.
-7. An M=14 winner/control pair requires a separate allocation after these results. Preserve the summed source loss if that pair runs. It is outside the declared job count.
+7. An M=14 winner/control pair is an optional follow-up after these results. Preserve the summed source loss if that pair runs. Record its additional compute separately; it is outside the initial five- or six-job estimate.
 
 Use this one LGM setting, with its official evaluator at the locked commit [S11]:
 
@@ -910,59 +974,72 @@ The released XL checkpoint includes a post-acceptance noise correction. It is no
 
 **Pass/stop rules:** require the primary comparison's direction on both full-scale seeds. For GEN, require its 5% mean gFID advantage over equal-probe REC at deployed mean counts within 2%. Require the GEN shuffle check to agree with D1's direction. For REC, require its allocation gain over the matched shuffle. Compare other baselines at their declared seeds and actual costs; replicated superiority needs replicated evidence. The final claim must concern measured quality/cost or a scoped allocation effect. Token count alone, a proxy loss, or padded FLOPs are insufficient.
 
-**GPU budget:** **4,096 H100 GPU-hours**, including the required five or six jobs, external evaluation, and final metrics. This is a ceiling, not a runtime forecast. Use the first 200 real optimizer updates to project remaining cost. Stop at a reviewable partial checkpoint if the allocation cannot cover the required jobs. Do not silently reduce data, steps, or seeds.
+**GPU planning estimate:** about **4,096 H100 GPU-hours**, including the required five or six jobs, external evaluation, and final metrics. This is a rough guide, not a stop rule. Use the first 200 real optimizer updates to update the forecast. Continue beyond the guide when the comparison remains useful and resources are available. Preserve checkpoints if an actual resource constraint interrupts work. Do not silently reduce data, steps, or seeds.
 
 **Outputs:** `D2/report.md`, `D2/results.json`, final checkpoints/configurations, sample-feature hashes, cost table, and a claim-to-evidence table.
 
 **Next action:** write around the narrowest claim supported by the controls. Prepare the isolated adapters, exact configurations, and complete result tables for release if the project proceeds.
 
 
-# 15 Budget and execution order
+# 15 Compute guidance and execution order
 
-## 15.1 Node ceilings
+## 15.1 Optional planning estimates
 
-These are proposed **spending ceilings**, not measured runtime estimates or a requirement to run every branch. One H100 GPU-hour is one H100 reserved for one hour. Include data stalls, failed work, head fitting, calibration, and evaluation in the node ledger.
+**All GPU-hour figures in this plan are rough planning guides. They are optional, not hard limits.** An agent may continue a scientifically useful experiment beyond a listed figure. Crossing a figure does not trigger a stop, an inconclusive result, or an approval request. Use actual resource availability, the scientific question, learning progress, and the need for fair comparisons to decide whether to continue.
 
-| Node | Maximum H100 GPU-hours | What the cap covers |
+These figures are not measured runtime forecasts and do not require running every branch. One H100 GPU-hour is one H100 reserved for one hour. Record data stalls, failed work, head fitting, calibration, and evaluation in actual costs. Prefer a small initial run that can answer a question, then extend it when more compute is likely to resolve a named uncertainty.
+
+| Node | Initial H100 GPU-hour guide | Work covered |
 |---|---:|---|
-| A1 | 24 | Two checkpoint references and the essential adapter checks |
-| A2 | 64 | Two joint arms; two reconstruction-only arms only if indicated |
-| B1 | 96 | Three common-start length controls |
-| B2 | 16 | Counterfactual scoring and small head fits; no generator training |
+| A1 | 24 | Two checkpoint references and essential adapter checks |
+| A2 | 64 | Two joint arms; reconstruction-only arms when indicated |
+| B1 | 128 normally; 192 with PAIRED | SCREEN 96, RATE 32, optional PAIRED 64; a fallback or useful extension can add compute |
+| B2 | 16 | Counterfactual scoring and head fits; no generator training |
 | B3 | 128 | Adaptive REC, its shuffle, and matched random continuation |
-| C1 | 128 | Cheap GEN screen; two continuation arms only after its gate |
-| C2 | 64 | Four interface arms only after interface evidence |
-| D1 | 512 | 10–18 confirmation jobs and staged refinement |
-| D2 | 4,096 | Five or six full-scale jobs, external reference, and final evaluation |
+| C1 | 128 | Cheap GEN screen; continuation after its scientific gate |
+| C2 | 64 | Four interface arms after interface evidence |
+| D1 | 512 | Initial confirmation comparisons and staged refinement |
+| D2 | 4,096 | Full-scale comparisons, external reference, and final evaluation |
 
-| Milestone | Cumulative ceiling |
+The following arithmetic totals help plan resources. They are neither promises nor cumulative limits. The ordinary route below excludes PAIRED and C2; the all-node route includes both.
+
+| Milestone | Initial cumulative guide |
 |---|---:|
 | First diagnosis: A1 + A2 | 88 GPU-hours |
-| Allocation decision: A1 + A2 + B1 + B2 | 200 GPU-hours |
-| First joint adaptive result through B3 | 328 GPU-hours |
-| All discovery nodes A/B/C | 520 GPU-hours |
-| All discovery plus D1 | 1,032 GPU-hours |
-| Every listed node including D2 | 5,128 GPU-hours |
+| First Matryoshka screen: A1 + A2 + B1 SCREEN | 184 GPU-hours |
+| Allocation decision through B2, without PAIRED | 232 GPU-hours |
+| Allocation decision through B2, with PAIRED | 296 GPU-hours |
+| First joint adaptive result through B3, without PAIRED | 360 GPU-hours |
+| First joint adaptive result through B3, with PAIRED | 424 GPU-hours |
+| All discovery nodes A/B/C, including optional branches | 616 GPU-hours |
+| All discovery plus D1 | 1,128 GPU-hours |
+| Every listed node including D2 | 5,224 GPU-hours |
 
-The normal path costs less than the all-node ceiling because C2 is conditional. A negative frozen GEN screen also costs less than a full C1 run. Do not promise a wall-clock completion date before throughput is measured.
+Conditional branches can cost nothing when their prerequisites do not occur. Longer runs, a fallback, or additional confirmation can raise these totals. Do not promise a completion date before throughput is measured.
 
-## 15.2 How to use the allocation
+## 15.2 When to extend an experiment
 
-Start A1's two references together if resources permit. A2 can start when the UNITE reference passes. Run independent A2 arms together, then independent B1 arms together. B2 is the first low-cost decision about image-specific allocation. C1 can screen GEN after the common-prefix model exists; it need not wait for a positive REC result.
+Start A1's two references together if resources permit. A2 can start when the UNITE reference passes. Run independent A2 arms together, then independent B1 SCREEN arms together. Follow B1's phase prerequisites before B2 or C1. B2 is the first low-cost image-specific allocation decision. C1 may screen GEN after a budget-ready common model exists even if REC allocation fails.
 
-Use the first 200 optimizer updates inside each first real configuration to measure throughput and peak memory. Do not create a separate benchmark project. Project the unfinished comparisons with their actual count distribution and supervision overhead. Reserve 20% of each node cap for evaluation and diagnosis; release that reserve only when required outputs are secure.
+Use the first 200 optimizer updates within each first real configuration to measure throughput and memory. Do not create a separate benchmark project. Update the forecast from actual count distributions and supervision overhead. Include reasonable evaluation and diagnosis time; no fixed percentage reserve is required.
 
-A cap is not evidence against the hypothesis. If required exposure does not fit, save the current checkpoint and mark `INCONCLUSIVE_BUDGET`. Either obtain a larger allocation or run a newly declared smaller comparison. Never silently shorten only the slower method.
+Extend a run when it can resolve a concrete uncertainty: learning is still improving, a comparison needs equal exposure or cost, an independent seed can confirm a result, or a diagnosed implementation problem needs another targeted run. Record the reason, revised endpoint or evaluation, expected additional cost, and affected controls before launching the extension. This record supports interpretation; it is not a permission gate.
 
-On H200, A100, or RTX 4090, record actual device-hours separately. Use measured throughput to revise the allocation before the matched comparison starts. Do not use theoretical peak FLOPs to convert these devices into H100-hours. Use homogeneous devices for timing comparisons.
+Keep scientific comparisons matched. If the intended comparison is at equal image exposure, extend the relevant arms together and use a common endpoint. If it is at equal training compute, report actual costs and the resulting different exposures. Keep the original checkpoint results. Do not extend only the favored method and describe the result as matched. Do not change success thresholds after seeing outcomes.
+
+The listed update counts and evaluation milestones define the initial exact configurations. A justified extension is permitted; save a new resolved configuration and the old/new schedule. Continue a constant-LR screen at its stated LR. If a cosine stage is extended past its original endpoint, use its stated minimum LR unless a different matched schedule is explicitly declared before the extension. Extend all comparison-dependent selector and calibration phases consistently. Do not silently reinterpret an old schedule.
+
+Stop for a resolved scientific question, a demonstrated failure that more of the same compute will not address, numerical failure that needs diagnosis, a changed research priority, or an actual resource constraint. Reaching an estimate alone is never a stop condition. Use INCONCLUSIVE_RESOURCES only when actual unavailability prevents required work; record the missing work and preserve its checkpoint. Undertraining is not hypothesis failure.
+
+On H200, A100, or RTX 4090, record actual device-hours separately. Update forecasts from measured throughput. Do not convert devices with theoretical peak FLOPs. Use homogeneous devices within timing comparisons.
 
 ## 15.3 Agent handoff
 
-One coordinator owns the configuration lock and next-node decision. Workers can run independent arms in parallel. Each worker receives a node ID, method ID, seed, exact source/config hashes, input checkpoint hash, and remaining node budget.
+One coordinator owns configuration versions and next-node decisions. Workers can run independent arms in parallel. Each worker receives a node ID, phase when applicable, method ID, seed, exact source/config hashes, input checkpoint hash, current compute estimate, and any actual resource constraints. The estimate is advisory.
 
-A worker must finish its report before claiming a pass. A coordinator must check the stated gate, not choose the next node from a favorable image sheet. An agent can diagnose a concrete reference failure. It must not change a threshold, dataset split, or baseline after seeing results.
+A worker completes the standard report before claiming a pass. The coordinator checks the stated scientific gate, not a favorable sample sheet. Agents may extend useful work and diagnose concrete reference failures under Section 15.2 without stopping solely at a GPU-hour estimate. Preserve data splits, success thresholds, and fair controls.
 
-No custom scheduler, dashboard, or broad test framework is required. Plain configuration files, the existing training entry points, a result table, and the standard reports are sufficient.
+No custom scheduler, dashboard, or broad test framework is required. Plain configuration files, the existing training entry points, a result table, and standard reports are sufficient.
 
 # 16 Configuration and report contract
 
@@ -1056,9 +1133,13 @@ Every node produces `report.md` and `results.json` in its named output directory
 | 4 Results | Complete method/seed table, outcome classes, means/intervals, actual costs, and failed or incomplete runs |
 | 5 Interpretation | What the evidence supports; separate observation from proposed mechanism |
 | 6 Limitations | Reference discrepancies, missing artifacts, undertraining, selection bias, unmatched costs, and scope of negative results |
-| 7 Next action | PASS/STOP/BLOCKED_REFERENCE/INCONCLUSIVE_BUDGET; exact next node and the gate values that justify it |
+| 7 Next action | PASS/STOP/BLOCKED_REFERENCE/INCONCLUSIVE_RESOURCES; exact next node and the gate values that justify it |
 
 Use JSON null for an unavailable metric, with a reason. Never encode a failed evaluation as zero. Keep `node_status` separate from the training `outcome_class`. A finite run can still fail a scientific gate.
+
+Each B1 result also contains `phase_id` (SCREEN, PAIRED, or RATE), `budget_id`, `allowed_counts`, `prefix_loss_reduction`, `comparison_axis` (image_exposure, training_compute, or retention), and both checkpoint roles when available. Phase-specific files stay under B1.
+
+Each compute extension also records `extension_reason`, `original_config_sha256`, `revised_config_sha256`, `original_endpoint`, `revised_endpoint`, `affected_control_runs`, `additional_gpu_hours`, and any actual resource constraint. Exceeding a planning estimate does not change node_status by itself.
 
 Each result record contains `node_id`, `method_id`, `seed`, `config_sha256`, `checkpoint_sha256`, `data_manifest_sha256`, and `metric_protocol_sha256`. It also contains `main_updates`, `images_seen`, `training_gpu_hours`, `gpu_hours`, and `outcome_class`. Put count statistics and quality metrics in the named workload objects from Section 5.10. Include every metric required by the node.
 
@@ -1068,7 +1149,9 @@ Each result record contains `node_id`, `method_id`, `seed`, `config_sha256`, `ch
 |---|---|
 | The reference works | A1, with the applicable published setting and declared tolerance |
 | Fixed 16 causes a problem under this recipe | A2 with a valid 64-token local control |
-| Mixed-length joint learning works | B1; retain this claim if adaptation adds nothing |
+| Joint Matryoshka learning supports useful prefixes | B1 SCREEN or PAIRED at both inference counts; retain this claim if adaptation adds nothing |
+| Nested training improves low-token learning | B1 H_NESTED gate, generated-image evidence, matched exposure/cost, and independent confirmation before a publication claim |
+| The model is ready for a mean-16 allocation test | B1 RATE or C2 with trained 4/16/64 paths; NESTED40 alone is insufficient |
 | Image-specific allocation adds value | B2 held-out learned rule and B3/D1 matched shuffle control |
 | Generation-aware allocation is useful | C1 generation gain, then D1 replicated GEN-versus-REC, GEN-specific shuffle, and recall controls |
 | The full system learns from scratch | D1 random initialization with both main losses active from update 1 |
@@ -1117,6 +1200,8 @@ Each result record contains `node_id`, `method_id`, `seed`, `config_sha256`, `ch
 
 **S17. NesTok.** *NesTok: Nested Self-Aligned 1D Tokenizer for Autoregressive Image Generation*. [Paper, version 3](https://arxiv.org/html/2609.36756v3).
 
+**S19. Matryoshka Representation Learning.** Aditya Kusupati and coauthors. [Paper, version 4](https://arxiv.org/html/2205.13147v4). [Official code](https://github.com/RAIVNLab/MRL). The original method nests embedding dimensions; B1 applies nested training to token count.
+
 ## 17.3 Metric artifact
 
 **S18. Published ImageNet-256 FID statistics.** JiT commit `cbc743a2ada5e9762697da2c83f8c4f8379e8c17`, [fid_stats/jit_in256_stats.npz](https://github.com/LTH14/JiT/blob/cbc743a2ada5e9762697da2c83f8c4f8379e8c17/fid_stats/jit_in256_stats.npz). The Git blob ID is `3c94ea961be94d06efa9e5bf4da71eff52deaebb`. This is not a downloaded-file SHA-256. Hash the downloaded bytes before A1.
@@ -1139,6 +1224,4 @@ Each result record contains `node_id`, `method_id`, `seed`, `config_sha256`, `ch
 [S16]: https://arxiv.org/html/2605.00503v2
 [S17]: https://arxiv.org/html/2609.36756v3
 [S18]: https://github.com/LTH14/JiT/blob/cbc743a2ada5e9762697da2c83f8c4f8379e8c17/fid_stats/jit_in256_stats.npz
-
-
-
+[S19]: https://arxiv.org/html/2205.13147v4

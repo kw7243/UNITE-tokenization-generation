@@ -1,0 +1,805 @@
+{
+  "actual_resource_constraint": null,
+  "allocated_cpu_core_hours": 0.9066666666666666,
+  "attempts": [
+    {
+      "allocated_cpu_core_hours": 0.9066666666666666,
+      "elapsed_seconds": 816,
+      "exit_code": "0:0",
+      "gpu_hours": 0,
+      "job_id": "2830620",
+      "kind": "CPU data preparation",
+      "status": "COMPLETED"
+    }
+  ],
+  "b1_phase_fields": null,
+  "b1_phase_fields_reason": "Data preparation only; no B1 phase or checkpoint",
+  "checkpoint_sha256": null,
+  "checkpoint_sha256_reason": "No model is used",
+  "checks": {
+    "alloc_subset_fit": true,
+    "content_bytes_hashed_once": true,
+    "coverage_complete": true,
+    "exact_class_count": 100,
+    "exact_hash_rank_membership": true,
+    "fit_dev_confirm_disjoint": true,
+    "passed": true,
+    "per_class": {
+      "n01558993": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01692333": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01729322": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01735189": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01749939": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01773797": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01820546": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01855672": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01978455": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01980166": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n01983481": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02009229": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02018207": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02085620": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02086240": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02086910": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02087046": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 860,
+        "DEV": 32,
+        "FIT": 796
+      },
+      "n02089867": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1025,
+        "DEV": 32,
+        "FIT": 961
+      },
+      "n02089973": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 754,
+        "DEV": 32,
+        "FIT": 690
+      },
+      "n02090622": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02091831": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02093428": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02099849": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02100583": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02104029": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02105505": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02106550": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02107142": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02108089": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02109047": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02113799": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02113978": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 755,
+        "DEV": 32,
+        "FIT": 691
+      },
+      "n02114855": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02116738": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02119022": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02123045": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02138441": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02172182": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02231487": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02259212": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02326432": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02396427": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02483362": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02488291": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02701002": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02788148": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02804414": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02859443": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02869837": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02877765": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n02974003": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03017168": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03032252": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03062245": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1154,
+        "DEV": 32,
+        "FIT": 1090
+      },
+      "n03085013": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03259280": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03379051": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03424325": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03492542": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03494278": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03530642": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03584829": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03594734": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03637318": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03642806": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03764736": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1097,
+        "DEV": 32,
+        "FIT": 1033
+      },
+      "n03775546": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03777754": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1149,
+        "DEV": 32,
+        "FIT": 1085
+      },
+      "n03785016": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03787032": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03794056": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03837869": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03891251": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03903868": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1156,
+        "DEV": 32,
+        "FIT": 1092
+      },
+      "n03930630": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n03947888": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1118,
+        "DEV": 32,
+        "FIT": 1054
+      },
+      "n04026417": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04067472": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04099969": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04111531": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04127249": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1259,
+        "DEV": 32,
+        "FIT": 1195
+      },
+      "n04136333": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04229816": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04238763": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1162,
+        "DEV": 32,
+        "FIT": 1098
+      },
+      "n04336792": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04418357": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1264,
+        "DEV": 32,
+        "FIT": 1200
+      },
+      "n04429376": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 976,
+        "DEV": 32,
+        "FIT": 912
+      },
+      "n04435653": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04485082": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1160,
+        "DEV": 32,
+        "FIT": 1096
+      },
+      "n04493381": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04517823": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04589890": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n04592741": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n07714571": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n07715103": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n07753275": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n07831146": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n07836838": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n13037406": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      },
+      "n13040303": {
+        "ALLOC": 32,
+        "CONFIRM": 32,
+        "CONTENT": 1300,
+        "DEV": 32,
+        "FIT": 1236
+      }
+    },
+    "rows": {
+      "ALLOC": 3200,
+      "CONFIRM": 3200,
+      "CONTENT": 126689,
+      "DEV": 3200,
+      "FIT": 120289
+    },
+    "serialized_rows_equal_content": true,
+    "unique_ids": true
+  },
+  "class_list_sha256": "fb731c451e012a2b0dddb258634c806561ea22aaf55f1bb593f3a267c4604813",
+  "compute_extensions": [],
+  "config_sha256": "fd1bec3f630d0da887bcab20cc8562b8ababf66aab5da4c8552e10eac6b0f00b",
+  "current_plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "current_plan_version": "1.1",
+  "data_bytes": 14495992270,
+  "data_manifest_sha256": {
+    "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+    "CONFIRM.tsv": "dad77476e3a70426f01d3592b72ccdf65cf2bdb2b45c83891903f65dfba7b882",
+    "CONTENT.tsv": "90a710bf273c7bee7818f629044221828b560dd20e85e0b3eef23f5444665f09",
+    "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+    "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+    "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115",
+    "classes.json": "4bdfa8a1e607cc5cff7498aa87fcdf755f175853954b18846eaa77ce9cbfb846"
+  },
+  "elapsed_preparation_seconds": 814.6921558380127,
+  "environment": {
+    "argv": [
+      "pilot_data/prepare.py",
+      "--config",
+      "pilot_data/resolved.yaml"
+    ],
+    "cpus": "4",
+    "cuda_visible_devices": null,
+    "external_packages_used": [],
+    "git_commit": "4929e73eaae477d1f77c5a5ea4078ee160836b9c",
+    "host": "groenig-1.novalocal",
+    "job_id": "2830620",
+    "platform": "Linux-5.15.0-198-generic-x86_64-with-glibc2.35",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "python_executable": "/usr/bin/python3.10",
+    "python_sha256": "a2f33a6e006989270f4340528eb61f8f97366e00a5d1b602ac8672ea44fc56ae",
+    "stage": "/data/scratch-fast/kwen1/jat-pilot-data-20261024-stages/20261024_025819-4842a9-4929e73-code",
+    "stdlib_only": true
+  },
+  "environment_sha256": "fbf05f8ced408f8a0e761f80c78b4f4ad7a0608fa38cfea60e0ed9ab0d12d75f",
+  "execution_plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "execution_plan_version": "1.0",
+  "generation": null,
+  "gpu_hours": 0,
+  "images_seen": 0,
+  "images_seen_reason": "No model input; bytes hashed without decoding",
+  "job_ownership_released": true,
+  "main_updates": 0,
+  "method_id": "SPLIT_V1",
+  "metric_protocol_sha256": null,
+  "metric_protocol_sha256_reason": "No model metrics",
+  "model_metrics_reason": "Data preparation only",
+  "node_id": "PILOT_DATA",
+  "node_status": "DATA_PREPARATION_COMPLETE",
+  "outcome_class": null,
+  "outcome_class_reason": "No model training or evaluation; not an A2 scientific pass",
+  "plan_compatibility": "Section 5.4 exact text equality; all pilot split artifacts remain applicable to v1.1",
+  "preprocessing_pointers": {
+    "third_party/unite/utils/crop.py": "c5de5f0e78dbe4fd2ffed7cd2271cc79c95fc63768beec81d18dd39dc3b4f3fe",
+    "third_party/unite/utils/data.py": "58b1e47483db648925bf28bf4e62f3e527dc5b8bf1191756a7cf6c3397828f35"
+  },
+  "reconstruction": null,
+  "script_sha256": "0b9d8581484345e449569eef8d3d7f1bdc8dfbb761fcac15bcb36ccdf53ce99e",
+  "seed": null,
+  "seed_reason": "Deterministic identifier hashing; no RNG",
+  "source_hashes_sha256": "b50174a8ac21d0483ba099b18003340821f728a863506528072dd3f612a10312",
+  "staging_manifest_sha256": "7065d001daf2c8cb00e673c6133611deb16cb5824c3cbc3ecc5690e50e358ad2",
+  "terminal_receipt": "receipts/terminal-receipt.json",
+  "training": null,
+  "training_gpu_hours": 0
+}

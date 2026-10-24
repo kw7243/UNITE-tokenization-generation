@@ -1,0 +1,39 @@
+{
+  "alloc_per_class": 32,
+  "class_list_path": "third_party/karl/create_imagenet100.py",
+  "class_list_sha256": "fb731c451e012a2b0dddb258634c806561ea22aaf55f1bb593f3a267c4604813",
+  "class_order": "synset lexicographic",
+  "confirm_per_class": 32,
+  "confirm_sealed_until": "D1 method freeze",
+  "data_root": "/data/vision/torralba/datasets/imagenet_pytorch_new/train",
+  "dev_per_class": 32,
+  "fit": "all rows at ranks >=64",
+  "gpu_count": 0,
+  "hash_workers": 4,
+  "karl_commit": "5c1a5693edf87228f988f363b2acdb7eb826a889",
+  "method_id": "SPLIT_V1",
+  "model_training": false,
+  "node_id": "PILOT_DATA",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z",
+  "plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "preprocessing_implementation_owner": "canonical campaign training worker; this script records source hashes only",
+  "preprocessing_pointers": [
+    "third_party/unite/utils/crop.py",
+    "third_party/unite/utils/data.py"
+  ],
+  "seed": null,
+  "slurm": {
+    "account": "csail",
+    "cpus_per_task": 4,
+    "export": "NIL",
+    "mem": "4G",
+    "nodes": 1,
+    "ntasks": 1,
+    "partition": "tig-cpu",
+    "qos": "tig-main",
+    "time": "01:00:00"
+  },
+  "split_rank": "SHA256 UTF-8 split-v1|synset/filename without newline; image_id ascending for digest tie",
+  "split_version": "split-v1",
+  "unite_commit": "2389f2c65fedbd43ada851e69b2b810efd23af7d"
+}
