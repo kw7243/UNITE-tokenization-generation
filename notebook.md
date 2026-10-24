@@ -369,3 +369,71 @@ No full A1 pass or training result is claimed.
 - Accepted preparation backup: [c80973b1b3f30a139c6a633325e0ec23c1173db2](https://github.com/kw7243/UNITE-tokenization-generation/commit/c80973b1b3f30a139c6a633325e0ec23c1173db2); tested code: [a367fca5a1cb9b597826d5ffda26d5d1d0c13cca](https://github.com/kw7243/UNITE-tokenization-generation/commit/a367fca5a1cb9b597826d5ffda26d5d1d0c13cca).
 - Accepted report SHA256 9110425f5c34b20c53ca5600303cbca3e2c10b6354c7442b39876d1a10dbfff1; results SHA256 8e8845c6dadb702713c91fdf1895aa8a18747e58566e11940435460b988ab1f0; terminal summary SHA256 601e9f786d13f9d5f8367010c1d1bf78a276aa339c45fea58cb608d51342a221.
 - Coordinator acceptance is PREPARATION_ONLY, scientific_a2_pass=false. Retained administrative copy in the A1 campaign: outputs/a2-preparation-acceptance.json, SHA256 8047616f53a138ee790b710fcdfb5e8db44409f436741a753766504f774d5f31.
+
+## 2026-10-24 Full UNITE-B reference complete: native FID-50K 2.103550117192
+
+This entry supersedes the earlier nonterminal2831212 snapshot.
+The complete5000reconstruction and independent50000generation workload completed0:0; no training or A2 scientific result is claimed.
+The predeclared practical CHECKPOINT_EFFECT_REPRODUCTION candidate passes gFID<=3.1, strict loading and intact finite reconstruction.
+Coordinator acceptance is recorded separately from the producer evidence.
+
+| Metric | Actual | Paper Table1 | Absolute difference | Paper appendix | Absolute difference |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| FID-50K | 2.1035501171916167 | 2.12 | 0.016449882808383443 | 2.735 | 0.6314498828083832 |
+| IS | 295.81353759765625 | 294.1 | 1.7135375976562273 | 268.1 | 27.713537597656227 |
+
+IS split standard deviation3.021472454071045 describes ten contiguous splits; it is not a confidence interval or training-seed uncertainty.
+No author RNG state, matching paper uncertainty or additional fidelity threshold is supplied.
+This supports the released-checkpoint reference effect under the native protocol; it does not settle the headline/appendix discrepancy.
+
+- Job2831212: COMPLETED0:0,2026-10-24T08:46:36Z–19:19:42Z,torralba-3090-3.
+- Sole attached owner exited0; all this assignment's jobs are terminal.
+- Resources:1RTX3090,4CPU,24GiB,12h; actual reservation37986s=10.551666666666666RTX3090-hours and42.20666666666666CPUcore-hours.
+- Payload runtime37976.45966713503s; generation pipeline37850.255699014s; native sampling/decode37785.58664617827s.
+- Generation at batch16:755.7117329235655ms/image,1.3232558877065133images/s,meanNFE121.99424,total381232.
+- Host MaxRSS10014372KiB.
+- Reconstruction CUDA peak allocated2792183808B,reserved4357881856B.
+- Generation CUDA peak allocated1895939584B,reserved2774532096B.
+- Whole-run allocator peak=max(phases)=2792183808B. Original unqualified final payload peaks covered generation only after the declared reset; original results.payload.json/report.payload.md remain byte-preserved. This metadata correction changes no metric.
+- New A1 allocations including setup/validation:10.565277777777778heterogeneousGPU-hours and44.0325CPUcore-hours; legacy1740GPU-seconds remain separate. No hardware conversion or sibling/A2 cost is added.
+- Reconstruction5000:rFID4.15449338310998,meanL10.0339586476677563,p90L10.056375064328312886,meanexternalAlexLPIPS0.08381803412204608;114.07195800699992s.
+- Same-subset rFID has no matching published target; paper120epoch reconstruction differs from releasedBase240epoch.
+- All5000per-image rows,50000features/logits,3125generation batches and50labels/class are verified complete and finite.
+- Section5.11 FP32 correctness is accepted independently; zerooptimizerupdates. Its original proof source remains e80c229dc4bd494e0eabf0c6bdeb4dc936fdbf19.
+
+Execution uses releasedBaseEMA256/d32/M14,epoch240,step316000,savedCFG2.0,seed20261023,FP32/TF32 and compiled default decoder.
+Native dopri5[0,1],atol1e-6,rtol1e-3,50outputtimes,shift0.5,norm_first,CFGinterval[0.1,1],batch16/world1.
+Reconstruction uses first5lexicographicvalidationfilenames/class,sourcecrop/no flip/clean path.
+The unchanged training evaluation engine and source FID/IS implement the numerical path.
+Source[0,1] differs from paper prose; only savedCFG2.0 was evaluated.
+No shortened sample count, alternate FID implementation or from-scratch training is substituted.
+
+Executed source: [8b3c14d132768edf4c760fba3e0c28e5bf3cdec9](https://github.com/kw7243/UNITE-tokenization-generation/commit/8b3c14d132768edf4c760fba3e0c28e5bf3cdec9).
+Official upstream:2389f2c65fedbd43ada851e69b2b810efd23af7d; research parent:a19c1501ed9d28e251a90950349bf2a739c9a9f3.
+Stage:/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_084608-ede7a1-8b3c14d-code.
+ConfigSHA256:aeafc85486b84d51295c99e8b3d83aa7f50695759c98045e6762a7730983b94f.
+BasecheckpointSHA256:7b7f40dd37111196cad6e4401bf9737156268612e001c29cb0a760ae416bff4b.
+ManifestSHA256:d31e573bba422ea6626552e1b2e717bffbabf2a9f6adea777514e5ff85085b0d;metricprotocolSHA256:693aa2cca24f2ae03238cef3453b9b6f95f39120da9a2575b04415afc87e0971.
+GenerationfeaturesSHA256:d743a2a201da79174fa41c6d4d01cf00a44625219fd66916fdd0d4d9e39feecd;logitsSHA256:bb6f7a592aa312b3d3e2eb2621919fd62137346fd4a95c7ddf780daed5ad923d.
+Terminal payload resultsSHA256:ead270fb289596be14b5de28c2ee191cdec8c60b5b445b2dde52dfc0f6e644db.
+Run reportSHA256:572c26746cddf4a344142357d6c05ee6530c9b3ec865b4271023e00161096e49;resultsSHA256:2251d31767c06e98622fb4942ff753d81240b39d74d18b6edeb917490663012d;artifactindexSHA256:efcf7e0e92c6deb1e68e74ddf6034500b08bfabf01681415cd564d95e284b682.
+A1 aggregate reportSHA256:7493d5c3d3e4e4c1167a18b3be679bb58117d45cb26d34cd2f516a80ba64f0dd;resultsSHA256:925a099bc4aa3e2cabdb33fb8a8a7a1a50a95388f1b014136f028ba13c344113;artifactindexSHA256:9e4f8e6392654d39a45f2605b469766743a2ccd34f3fe990a4357a825c47e66f.
+
+Retained complete node bundle:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1.
+Retained full run:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__UNITE_B_REFERENCE__s20261023__aeafc85486b8.
+Exact commands and resources:submission.json,argv.shell and campaign/scripts/reference.sbatch.
+Per-image values,feature/logit arrays,grids,failed attempts,terminal-accounting.txt,terminal-receipt.json,terminal-verification.json and artifacts.json are retained.
+Environment: /data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1;Torch2.10.0+cu128,CUDA12.8,torch-fidelity0.3.0;completepackage/build/metricweight locks remain linked.
+Paper: https://arxiv.org/html/2603.22283v1.
+
+| Branch index | Scope | Retained result |
+| --- | --- | --- |
+| research/joint-adaptive-tokenization-20261024 | This A1 reference and accepted adapter checks; parent a19c1501ed9d28e251a90950349bf2a739c9a9f3 | /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1 |
+| main | Canonical notebook-only publication | Notebook; no experiment-code merge |
+| research/jat-a2-20261024 | Separate accepted CPU preparation; backup c80973b1b3f30a139c6a633325e0ec23c1173db2 | Separate A2 source/outputs; scientific_a2_pass=false |
+
+KARL and pilot data remain separate accepted evidence; CONFIRM stays sealed.
+Large checkpoint inspection remains recorded; its actual113epochs differ from advertised120. FullLarge50K is outside this later boundedA1-B scope.
+The full-training scale remains8H200140GB at26minutes/epoch,about832H200GPU-hours for240epochs; no such run was started.
+Next action: coordinator acceptance of A1, then scope a separate A2 GPU preparation/training assignment.
+This worker submits no A2 job and imports no A2 experiment code.
