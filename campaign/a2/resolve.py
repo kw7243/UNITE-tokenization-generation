@@ -13,13 +13,15 @@ def main():
     reference = json.loads((ROOT/'campaign/configs/validation-400d3bce3a02.yaml').read_text())
     pilot = json.loads((ROOT/'campaign/locks/pilot-data.json').read_text())['consumer_interface']
     files = sorted((ROOT/'campaign/a2').glob('*.py'))+sorted((ROOT/'campaign/a2/tests').glob('*.py'))
-    files += [ROOT/'campaign/adapters/prefix.py', ROOT/'campaign/a2/metric-protocol.json', ROOT/'campaign/a2/cpu.sbatch',
+    files += [ROOT/'campaign/adapters/prefix.py', ROOT/'campaign/a2/metric-protocol.json', ROOT/'campaign/a2/cpu.sbatch', ROOT/'campaign/a2/optimizer-structure.json', ROOT/'campaign/a2/asset-lock.json',
               ROOT/'reproduction/tools/stage_and_run.sh', ROOT/'reproduction/tools/verify_stage.py']
     hashes = {str(p.relative_to(ROOT)): sha(p) for p in files}
     patch = hashlib.sha256(json.dumps(hashes, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
     gen = reference['model']['gen_tok'].copy()
     gen.update(flow_steps_per_recon=3, flow_mini_batch=3, gradient_checkpointing_denoiser=False)
     index = {}
+    structure = json.loads((ROOT/'campaign/a2/optimizer-structure.json').read_text())
+    assets = json.loads((ROOT/'campaign/a2/asset-lock.json').read_text())
     for count in (64, 16):
         for joint in (True, False):
             method = f'NATIVE{count}_{"JOINT" if joint else "RECON"}'
@@ -45,7 +47,10 @@ def main():
                        model=dict(family='UNITE_BASE_BASE', num_classes=100, native_count=count, candidate_count=count,
                                   active_count=count, latent_width=32, selector=False, prefix_truncation=False,
                                   length_embeddings=False, decoder_interface='source grid interpolation,256image tokens plusCLS',
-                                  gen_tok=gen, latent_layer_norm=dict(eps=1e-5, elementwise_affine=True, variance='population')),
+                                  gen_tok=gen, latent_layer_norm=dict(eps=1e-5, elementwise_affine=True, variance='population'),
+                                  encoder=dict(width=768,blocks=12,heads=12,mlp_ratio=4.,swiglu=True,rope=True,rmsnorm=True,block_norm=True,wo_shift=False,in_context_start=4,in_context_len=32,class_dropout=.1,learn_sigma=False),
+                                  decoder=dict(input_width=768,width=768,blocks=12,heads=12,mlp_width=3072,activation='gelu',hidden_dropout=0.,attention_dropout=0.,layer_norm_eps=1e-12,qkv_bias=True,gradient_checkpointing=False),
+                                  transport=dict(train_eps=.05,sample_eps=.05,use_cosine_loss=True,use_lognorm=True,partial_ratio=1.,partitial_train=None,shift_lg=False)),
                        training=dict(main_updates=5000, global_batch=256, gpu_count=4, microbatch_per_gpu=16, accumulation=4,
                                      denoising_draws=3, flow_chunk_size=3, main_lr=1e-4, warmup_updates=500,
                                      schedule='p*u/500 foru1..500;constant1e-4 after', implicit_lr_multiplier=1.,
@@ -53,6 +58,8 @@ def main():
                                                muon_adjust_lr_fn='match_rms_adamw', muon_weight_decay=0.),
                                      adamw=dict(type='adamw', lr=1e-4, betas=[.9,.999], eps=1e-6, weight_decay=0.),
                                      parameter_partition='source get_learnable_params;exactly once;frozen LPIPS excluded',
+                                     optimizer_parameter_names=structure[f'NATIVE{count}_JOINT'],
+                                     optimizer_internal_defaults=dict(muon=dict(nesterov=True,ns_coefficients=[3.4445,-4.775,2.0315],ns_steps=5,adjust_lr_fn='match_rms_adamw'),adamw=dict(amsgrad=False,maximize=False,foreach=None,capturable=False,differentiable=False,fused=True,decoupled_weight_decay=True)),
                                      gradient_clip_global_norm=3., ema_decay=.9978, mixed_precision='bf16',
                                      parameter_precision='fp32', reduction_precision='fp32', reporting_sums_precision='fp64',
                                      tf32=False, compile=False, checkpoint_every_updates=1000,
@@ -72,7 +79,7 @@ def main():
                                        ode_atol=1e-6,ode_rtol=1e-3,output_grid_points=50,output_grid_shift=.5,
                                        cfg_norm_order='norm_first', guidance_search=False,
                                        metric_protocol_sha256=sha(ROOT/'campaign/a2/metric-protocol.json'),
-                                       metric_weights=reference['metrics']['inception'],
+                                       metric_weights=reference['metrics']['inception'], asset_lock=assets,
                                        pilot_fit_features=None,pilot_fit_features_reason='Separate future feature extraction required'),
                        environment=reference['environment'], hardware=dict(model='H100 80GB minimum',gpu_count=4,
                        alternate='Declare and resolve a revised matched protocol for all arms before execution'),

@@ -21,9 +21,9 @@ import numpy as np
 import torch
 from torch import nn
 from campaign.a2.data import FitQueue, Streams, local_indices, read_interface, sha
-from campaign.a2.native import NativeA2, backward_mean, build_native, executed_lr, parameter_groups, slice_register_table
+from campaign.a2.native import NativeA2, backward_mean, build_native, executed_lr, make_optimizers, parameter_groups, slice_register_table
 from campaign.a2.train import verify_config
-from campaign.a2.evaluate import generation_eligible, paired_interference_interval
+from campaign.a2.evaluate import generation_eligible, paired_interference_interval, generation_inputs
 
 
 class FrozenFixture(nn.Module):
@@ -159,6 +159,14 @@ def run(output):
         with patch('models.unite.LPIPS', FrozenFixture), torch.device('meta'):
             model = build_native(configs[method]).to('meta')
         groups,names = parameter_groups(model)
+        assert names == configs[method]['training']['optimizer_parameter_names']
+        optimizers,_ = make_optimizers(model, configs[method]['training'])
+        for key, optimizer in optimizers.items():
+            for name, expected in configs[method]['training']['optimizer_internal_defaults'][key].items():
+                actual = optimizer.param_groups[0][name]
+                assert (list(actual) if isinstance(actual, tuple) else actual) == expected, (key,name,actual,expected)
+            assert not optimizer.state, 'No main optimizer update is permitted'
+        del optimizers
         assert all(p.is_meta for p in model.parameters())
         assert not any('lpips_loss' in name for group in names.values() for name in group)
         assert model.core.latent_tokens.shape[1] == configs[method]['model']['native_count']
@@ -224,6 +232,11 @@ def run(output):
     results['scientific_gates_and_execution_boundary'] = dict(passed=True, training_refused_without_later_authorization=True)
 
     output.mkdir(parents=True, exist_ok=False)
+    labels, noise = generation_inputs()
+    assert torch.equal(labels, torch.arange(100).repeat_interleave(50))
+    np.save(output/'generation-labels.npy',labels.numpy())
+    np.save(output/'generation-noise.npy',noise.numpy())
+    (output/'common-generation-inputs.json').write_text(json.dumps(dict(seed=20261023,labels_sha256=sha(output/'generation-labels.npy'),noise_sha256=sha(output/'generation-noise.npy'),shape=list(noise.shape),dtype='float32',scope='Random inputs only;zero model generation or feature extraction'),indent=2)+'\n')
     versions = {name:importlib.metadata.version(name) for name in configs['NATIVE64_JOINT']['environment']['package_versions']}
     record=dict(preparation_status='PREPARATION_ONLY',checks=results,passed=True,main_updates=0,images_seen=0,
                 gpu_hours=0.,cpu_core_hours=None,cpu_core_hours_reason='Awaiting terminal Slurm allocation accounting.',
@@ -238,7 +251,11 @@ def run(output):
     (output/'checks.json').write_text(json.dumps(record,indent=2,allow_nan=False)+'\n')
     packages=subprocess.check_output([sys.executable,'-m','pip','freeze','--all'],text=True)
     (output/'packages.txt').write_text(packages)
+    locked=Path(cfg['environment']['packages']).read_text().splitlines()
+    normalized=[line for line in packages.splitlines() if not line.startswith(('pip==','setuptools=='))]
+    assert normalized == locked, 'Package content changed beyond freeze --all bootstrap tools'
     (output/'environment-sha256.json').write_text(json.dumps(dict(packages_sha256=sha(output/'packages.txt'),
+                            exact_locked_package_content_match=True, freeze_difference='--all additionally records pip25.3 and setuptools79.0.1; no environment mutation',
                             locked_packages_sha256=cfg['environment']['packages_sha256']),indent=2)+'\n')
     print(json.dumps(dict(passed=True,checks=len(results),output=str(output),elapsed_seconds=record['elapsed_seconds'])))
 

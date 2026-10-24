@@ -48,6 +48,23 @@ def verify_config(cfg):
     for package, version in cfg['environment']['package_versions'].items():
         assert importlib.metadata.version(package) == version, package
     assert sha(ROOT/'campaign/a2/metric-protocol.json') == cfg['evaluation']['metric_protocol_sha256']
+    assets = cfg['evaluation']['asset_lock']
+    for value in assets['metric_weight_files'].values():
+        assert sha(value['path']) == value['sha256']
+    for path, expected in assets['model_cache_files'].items():
+        assert sha(path) == expected
+
+
+def save_report(out, cfg, record):
+    sections = [
+        ('1 Objective', 'A2 fixed-count diagnosis. A stable64-token joint control is required. The conditional reconstruction ratio threshold is1.10 with paired95% lower bound>1.0.'),
+        ('2 Setup', f"{cfg['method_id']};seed0;resolved.yaml and optimizer-parameter-names.json fix the recipe. ConfigSHA256 {record['config_sha256']}. Runtime, source, and authorization receipts are in runtime.jsonl."),
+        ('3 Baseline', 'Paired random initialization,images,flips,full64-position noise,updates,and losses. Native encoders process only their stated count. Reconstruction-only arms are conditional mechanism probes, not compute-matched generation baselines.'),
+        ('4 Results', json.dumps(record,indent=2,allow_nan=False)),
+        ('5 Interpretation', 'This arm cannot establish the paired A2 conclusion alone. Coordinator classification and the exact sharedDEV comparisons are required.'),
+        ('6 Limitations', 'Endpoint generation requires both joint arms to be finite and improving. Feature extraction and quality scoring are separate workloads. Terminal allocation time must reconcile all phase times,failures,and overhead. An unrun or incomplete comparison is not a scientific negative.'),
+        ('7 Next action', 'Await coordinator comparison. PASS to B1 requires a valid stable NATIVE64_JOINT complete snapshot; otherwise STOP and diagnose the common setup or record the actual reference/resource constraint.')]
+    (out/'report.md').write_text('\n\n'.join('## '+title+'\n\n'+body for title,body in sections)+'\n')
 
 
 def main():
@@ -100,6 +117,7 @@ def main():
                        authorization_sha256=sha(args.authorization), configuration_sha256=digest)
         append(out/'runtime.jsonl', runtime)
     dist.barrier()
+    process_training_start = time.perf_counter()
     splits = read_interface(cfg['data'])
     sampler, streams = FitQueue(splits['FIT'], 0), Streams(0)
     model = build_native(cfg).to(device).train()
@@ -112,9 +130,13 @@ def main():
     counters = dict(main_updates=0, images_seen=0, training_seconds=0., evaluation_seconds=0.,
                     first200_update_seconds=0., attempted_images_this_process=0)
     history = []
+    prior_training_seconds = 0.
+    prior_evaluation_seconds = 0.
     if args.resume:
         counters, history = checkpoint.load(args.resume, model, ema, optimizers, names, sampler, streams, digest)
         assert sampler.updates < 5000
+        prior_training_seconds = counters['training_seconds']
+        prior_evaluation_seconds = counters['evaluation_seconds']
     if rank == 0:
         ledger = out/'exposure.jsonl'
         previous = [json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
@@ -134,6 +156,7 @@ def main():
         (out/'evaluation-image-ids.json').write_text(json.dumps(dict(
             dev512=[r['image_id'] for r in dev512], probe32=[r['image_id'] for r in probe32],
             dev_full=[r['image_id'] for r in splits['DEV']]), indent=2)+'\n')
+    first200_start = time.perf_counter()
     try:
         for update in range(sampler.updates+1, 5001):
             torch.cuda.synchronize(device)
@@ -192,9 +215,11 @@ def main():
             torch.cuda.synchronize(device)
             elapsed = torch.tensor(time.perf_counter()-start, device=device, dtype=torch.float64)
             dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
-            counters['training_seconds'] += elapsed.item()
+            counters['training_seconds'] = prior_training_seconds + time.perf_counter()-process_training_start-(counters['evaluation_seconds']-prior_evaluation_seconds)
             if update <= 200:
                 counters['first200_update_seconds'] += elapsed.item()
+            if update == 200 and not args.resume:
+                counters['first200_update_seconds'] = time.perf_counter()-first200_start
             if rank == 0:
                 append(out/'exposure.jsonl', dict(optimizer_update_completed=update))
             if update % 100 == 0:
@@ -242,11 +267,12 @@ def main():
                               gpu_hours_reason='Terminal allocated-time accounting is required, including failures.',
                               training_gpu_hours=counters['training_seconds']*4/3600,
                               evaluation_gpu_hours=counters['evaluation_seconds']*4/3600,
-                              cost_basis='Phase wall time times four GPUs; terminal reservation overhead must also be reconciled.',
+                              cost_basis='Process wall time minus evaluation, times four GPUs; terminal allocation setup/tail overhead must also be reconciled.',
                               training=dict(**counters, first200_images_per_s=51200/counters['first200_update_seconds'] if update >= 200 else None),
                               reconstruction=dict(history=history), generation=dict(gfid_5k=None, kid_5k=None,
                               reason='Both joint arms must pass the finite/improving gate before a separate endpoint workload.'))
                 (out/'results.json').write_text(json.dumps(result, indent=2, allow_nan=False)+'\n')
+                save_report(out, cfg, result)
     except Exception as exc:
         if rank == 0:
             append(out/'failures.jsonl', dict(main_updates=counters['main_updates'], attempted_update=sampler.updates,

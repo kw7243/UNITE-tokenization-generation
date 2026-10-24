@@ -49,6 +49,8 @@ def gradient_probe(model, rows, device, seed, output):
     named = sorted(model.core.encoder.blocks[-1].named_parameters())
     parameters = [p for _, p in named if p.requires_grad]
     records = []
+    import lpips
+    alex = lpips.LPIPS(net='alex', version='0.1').to(device).eval().requires_grad_(False)
     for row in rows:
         images = load_images([row], [False], device)
         labels = torch.tensor([row['class_index']], device=device)
@@ -61,6 +63,11 @@ def gradient_probe(model, rows, device, seed, output):
         gr = torch.autograd.grad(rec.sum(), parameters, allow_unused=True)
         gr = torch.cat([(g.float() if g is not None else torch.zeros_like(p)).flatten()
                         for g, p in zip(gr, parameters)])
+        with torch.no_grad(), torch.autocast(device.type, dtype=torch.bfloat16):
+            clean = model.core.decode(z.detach(), representation_phase=False).float().clamp(0, 1)
+        with torch.no_grad(), torch.autocast(device.type, enabled=False):
+            difficulty_l1 = (clean-images).abs().mean().item()
+            difficulty_lpips = alex(2*clean-1, 2*images-1).item()
         for t in (.25, .5, .75):
             with torch.autocast(device.type, dtype=torch.bfloat16):
                 gen = model.generation(z.detach(), labels, draws, fixed_time=t, disable_dropout=True)/3
@@ -68,11 +75,21 @@ def gradient_probe(model, rows, device, seed, output):
             gg = torch.cat([(g.float() if g is not None else torch.zeros_like(p)).flatten()
                             for g, p in zip(gg, parameters)])
             cosine = (torch.dot(gr, gg)/(gr.norm()*gg.norm()+1e-12)).item()
-            records.append(dict(image_id=row['image_id'], t=t, reconstruction_gradient_norm=gr.norm().item(),
+            records.append(dict(image_id=row['image_id'], t=t, recon_l1=difficulty_l1, recon_lpips=difficulty_lpips,
+                                allocation_distortion=difficulty_l1+difficulty_lpips, reconstruction_gradient_norm=gr.norm().item(),
                                 generation_gradient_norm=gg.norm().item(), grad_cos_last_block=cosine))
     result = dict(parameter_names=[n for n, p in named if p.requires_grad], per_image=records,
                   by_time={str(t): float(np.mean([r['grad_cos_last_block'] for r in records if r['t'] == t]))
                            for t in (.25, .5, .75)})
+    result['difficulty_cosine_correlation_by_time'] = {}
+    for t in (.25, .5, .75):
+        pairs = [r for r in records if r['t'] == t]
+        x = [r['allocation_distortion'] for r in pairs]
+        y = [r['grad_cos_last_block'] for r in pairs]
+        valid = np.std(x)>0 and np.std(y)>0
+        result['difficulty_cosine_correlation_by_time'][str(t)] = dict(
+            correlation=float(np.corrcoef(x,y)[0,1]) if valid else None,
+            reason=None if valid else 'Zero variance makes correlation undefined.')
     result['grad_cos_last_block'] = float(np.mean(list(result['by_time'].values())))
     Path(output).write_text(json.dumps(result, indent=2)+'\n')
     return result
@@ -105,3 +122,11 @@ def paired_interference_interval(joint16, joint64, recon16, recon64, classes, se
     low, high = np.quantile(samples, [.025, .975])
     return dict(ratio=estimate, ci95=[float(low), float(high)],
                 joint_pressure_screen=bool(estimate >= 1.10 and low > 1.0))
+
+
+def generation_inputs(seed=20261023):
+    from campaign.a2.data import derive_seed
+    generator = torch.Generator().manual_seed(derive_seed(seed, 'generation_noise'))
+    labels = torch.arange(100, dtype=torch.long).repeat_interleave(50)
+    noise = torch.randn((5000,64,32), generator=generator, dtype=torch.float32)
+    return labels, noise
