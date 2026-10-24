@@ -2,15 +2,15 @@
 
 ## Current state
 
-- Date: 2026-10-23 UTC.
-- Role: Released-checkpoint reproduction under way; sole owner unite-reproduce-20261023.
+- Date: 2026-10-24 UTC.
+- Role: A2 joint training and pilot FIT reference are active; experiment owner and sole canonical notebook writer jat-a2-20261024.
 - Official upstream: https://github.com/ShivamDuggal4/UNITE-tokenization-generation.
 - Public fork: https://github.com/kw7243/UNITE-tokenization-generation.
 - Pinned upstream source: `2389f2c65fedbd43ada851e69b2b810efd23af7d`.
 - Canonical retained clone: `/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-tokenization-generation`.
 - SSH access: `kwen1@slurm-login.csail.mit.edu` (observed `slurm-login-0.csail.mit.edu`).
 - The authenticated GitHub account is `kw7243`. GitHub API confirms the fork parent is `ShivamDuggal4/UNITE-tokenization-generation`.
-- Initial source setup changed only this notebook. CPU setup has completed and input hashes are locked. Later research changes are recorded in dated entries below; no numerical result or GPU allocation exists yet.
+- Initial source setup changed only this notebook. CPU setup has completed and input hashes are locked. Later research changes and accepted results are recorded below. Pre-policy A2 joint and FIT jobs are active; trained native64 quality is not yet established.
 
 ## Branch index
 
@@ -488,3 +488,21 @@ The extraction code and metric/data/precision controls are unchanged from r1; no
 The failed one-second RTX 3080 preflight remains accounted for and retained.
 The progress report, exact submissions, first-200 record and owner ledger are in `outputs/A2/training-receipts-r6/` and `outputs/A2/fit-feature-receipts-r{1,2}/`.
 No DEV quality trajectory or scientific native64 pass is established yet.
+
+## 2026-10-24 Local NoMistakes policy adopted; service context unresolved
+
+The user adopted NoMistakes local validation for future tokenizer experiments and coherent experiment-affecting revisions.
+Use `--skip=push,pr,ci`; retain every other required local stage, relevant actual-environment tests, clean final source and a fresh full stage.
+Ordinary experiment backups remain separate. No `--yes`, scientific trial expansion, publication, merge, shared Firstmate change or Codex update is authorized.
+Ask-user findings go to the coordinator; the pipeline owns fixes while active and offered guarded branch synchronization owns recovery.
+
+The first A2 review must include reused unreviewed training/native/data/optimizer/checkpoint/evaluation/sampling/feature/metric and relevant staging helpers, not an empty or documentation-only diff.
+The complete finite-plan intent and planned test reconciliation are retained under `outputs/A2/no-mistakes-local-20261024/` in the A2 source.
+Changed affected code invalidates inherited approval. A partial pipeline's generic passed outcome does not establish all required stages or scientific correctness.
+
+The installed CSAIL CLI is v1.40.1-3-g4ba40ae. From the login host, the configured socket `/data/scratch-fast/kwen1/.no-mistakes-dev/socket` refuses connections; the repository is uninitialized.
+This does not establish whether a service exists on another host. Primary owns host/endpoint/service reconciliation; no worker starts, restarts, updates or duplicates the daemon.
+No validation run has started and no validation stage is marked passed.
+The two immutable joint jobs 2834281/2834282 and FIT job 2834488 may finish unchanged as pre-policy runs. Their stages remain untouched.
+Supervision and ordinary documentation continue while the service context is resolved. The next launch or new reported analysis using affected code waits for the required validation.
+The accepted B1 CPU preparation entry was already consolidated in canonical notebook commit b7db4185dd4821776dc56ad18484967abc7f84bb; B1 scientific execution remains NOT_STARTED.
