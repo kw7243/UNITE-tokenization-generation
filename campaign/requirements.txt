@@ -1,0 +1,13 @@
+timm==0.9.16
+torchdiffeq==0.2.5
+transformers==4.56.2
+omegaconf==2.3.0
+numpy==1.26.0
+scipy==1.15.3
+einops==0.8.1
+lpips==0.1.4
+PyYAML==6.0.2
+torch-fidelity==0.3.0
+wandb
+torchmetrics
+clean-fid

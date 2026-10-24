@@ -1,0 +1,23 @@
+{
+  "node_id": "A1",
+  "method_id": "ENVIRONMENT_LOCK",
+  "seed": 20261023,
+  "plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024",
+  "bootstrap_python": "/data/scratch-fast/kwen1/envs/unite-released-20261023/bin/python",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs",
+  "checkpoint_sha256": "7b7f40dd37111196cad6e4401bf9737156268612e001c29cb0a760ae416bff4b",
+  "resources": {
+    "cpus": 4,
+    "memory_gib": 24,
+    "time_seconds": 3600,
+    "gpu_count": 0
+  },
+  "code_sha256": {
+    "campaign/scripts/environment.sbatch": "058e0baba8b829728920aa721ac8541c3952af8053a1c2a1c240024c15184d8b",
+    "campaign/scripts/launch_canary.py": "13011b44d0d1d54bdf3733e7f51d8c280e4eb8e1e9e40402135b478850d34753",
+    "campaign/scripts/launch_canary.sbatch": "a64a52afb439b9f2d6f3ea0e785f7a47c12dc71367fb7f61ee7216dc24810808",
+    "campaign/scripts/prepare_environment.py": "a7374c3050d64c2c7174dd08357b5072f78192d97de1b812a321401995e8e1a4",
+    "campaign/scripts/verify_artifacts.py": "0a2cf17c729be14d1432be6609288daf7bb2c924d3f5231bf061919ea5309ba3"
+  }
+}
