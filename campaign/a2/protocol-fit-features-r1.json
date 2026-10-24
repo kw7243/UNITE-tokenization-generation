@@ -1,0 +1,15 @@
+{
+  "schema": "jat-a2-feature-protocol-revision.v1",
+  "at_utc": "2026-10-24T20:54:23.402546+00:00",
+  "reason": "Implement authorized pilot FIT extraction through unchanged source metric and pilot data functions.",
+  "scientific_controls": "FIT manifest/order, supplied class map, no flips, source crop/pixel conversion/Inception weights; FP32 TF32off; same immutable reference for both endpoints.",
+  "training_code_changed": false,
+  "training_configs_changed": false,
+  "running_stages_unchanged": true,
+  "source_script_sha256": "9769a2ae19bbdc3c61032bf40193ee41280180f3e847b41d8eb7fad9aac8711b",
+  "patch_sha256": "2f2d7a09bef314688286666dd4f4e96cbe9fdd90060d3258dea10b7de00e3d6c",
+  "feature_config_sha256": "84d3d64d6686dc01b8e7f475fd55daa31a837b8c4944d6e9d83f97cceedb96c0",
+  "cost": "One RTX3080 GPU,4CPU,16GiB,2h initial request; unmeasured duration, measured within full run. No H100 conversion or fixed reserve.",
+  "sealed": "CONFIRM never opened",
+  "r6_training_source_patch": "f18eb9c75f00da255b0940e6b2bacda1474e5d9ff36fb328036c3873618745ea"
+}

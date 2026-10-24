@@ -426,3 +426,32 @@ The proposed initial request is 23 hours per arm on the validated layout. It is 
 No scientific optimizer update has run. Engineering snapshots are not stable64 handoff checkpoints.
 Only the accepted 256-token reference has established scientific quality.
 Main training awaits coordinator acceptance of this receipt; no scientific A2 pass or downstream branch decision is claimed.
+
+## 2026-10-24 A2 joint runs started; independent pilot reference prepared
+
+The coordinator accepted the complete native GPU checks at 20:45 UTC and released the exact r6 joint configurations.
+The acceptance SHA256 is `0ea7955ec81f3de9920d24506eb5335d3108ddf5fddb27667c8a74db0d93380c`.
+Exact per-arm receipts are retained in the A2 source under `outputs/A2/coordinator-releases/a2-training-release-r6/`.
+Both scientific arms start from fresh common seed 0 initialization and target 5000 optimizer updates with global batch 256.
+No engineering checkpoint is used.
+
+Native64 job 2834281 runs on improbablex001 and improbablex003 from `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_164742-bce608-7a492f5-code`.
+Native16 job 2834282 runs on torralba-3090-1 and torralba-3090-2 from `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_164819-13fc0e-7a492f5-code`.
+Both full stages use source `7a492f54a1974931d5d603b14b150263a8891f44`; only notebook.md differs from the tested implementation.
+Each job has four RTX 3090 GPUs across two nodes, 16 CPUs total, 32 GiB host memory per node and a 23-hour initial request.
+The actual four-rank GPU UUIDs, VRAM, CUDA, mounts and authorization hashes are recorded in each run.
+The validated per-node torchrun launch is used; the older distributed.sbatch is not used.
+All permitted partitions and available classes, including Vision Shared and older GPUs, were inspected before submission.
+The exact commands, owner ledger, resource selection and full-stage proofs are retained under `outputs/A2/training-receipts-r6/`.
+The worker owns submission and terminal reconciliation for both jobs.
+Real first-200-update throughput and memory forecasts remain pending and will replace the engineering proxy.
+
+A separate pilot FIT feature entrypoint reuses the pinned source Inception extractor and the unchanged pilot image loader.
+The config `campaign/a2/configs/fit-features-r1.json` and `campaign/a2/protocol-fit-features-r1.json` bind the new script and patch hashes.
+It will process all 120289 FIT images in manifest order, without flips, at FP32 with TF32 off, and retain immutable feature and FP64 N-1 statistic hashes.
+It uses no learned checkpoint or CONFIRM image.
+The initial independent request is one RTX 3080 GPU, four CPUs, 16 GiB host memory and two hours; extraction timing is unmeasured and will be updated within the full workload.
+This request is not a cost cap. The metric path is already used by the accepted A1 reference.
+The independent feature source addition does not change any r6 code/config byte or running stage.
+Generation still requires both joint arms to be finite and improving; conditional RECON remains unreleased.
+No B1 scientific execution is included.

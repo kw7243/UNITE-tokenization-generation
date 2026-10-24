@@ -1,0 +1,38 @@
+{
+  "batch_size": 64,
+  "compile": false,
+  "confirm_consumed": false,
+  "coordinator_acceptance": {
+    "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/coordinator-releases/a2-native-gpu-acceptance.json",
+    "sha256": "0ea7955ec81f3de9920d24506eb5335d3108ddf5fddb27667c8a74db0d93380c"
+  },
+  "forecast": {
+    "device_hours": null,
+    "initial_request_hours": 2,
+    "reason": "No isolated FIT extraction timing exists. Measure progress in this full extraction; no separate benchmark. Request is advisory, not a cap."
+  },
+  "hardware": {
+    "cpus": 4,
+    "gpu_count": 1,
+    "memory_gib": 16,
+    "minimum_vram_bytes": 9000000000,
+    "name_substring": "RTX 3080"
+  },
+  "method_id": "PILOT_FIT_INCEPTION",
+  "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2",
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "precision": "FP32_TF32_OFF",
+  "schema": "jat-a2-fit-features-config.v1",
+  "seed": 20261023,
+  "source": {
+    "parent_revision": "7a492f54a1974931d5d603b14b150263a8891f44",
+    "patch_sha256": "2f2d7a09bef314688286666dd4f4e96cbe9fdd90060d3258dea10b7de00e3d6c",
+    "reference_config": "campaign/a2/configs/r6-source-ddp-unused/NATIVE64_JOINT.yaml",
+    "reference_config_sha256": "115e15e348d2c928aaba88a4c2654cb37cfd8d19d22580117bac9213b525c7b6",
+    "reference_patch_sha256": "f18eb9c75f00da255b0940e6b2bacda1474e5d9ff36fb328036c3873618745ea",
+    "script_sha256": "9769a2ae19bbdc3c61032bf40193ee41280180f3e847b41d8eb7fad9aac8711b"
+  },
+  "split": "FIT",
+  "training_change": false
+}
