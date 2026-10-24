@@ -470,3 +470,19 @@ All owned jobs are terminal and all source/stages/data/results remain retained.
 Publication completes this worker's bounded A1 assignment and releases its terminal,campaign/source and canonical notebook writer ownership to the coordinator.
 The coordinator assigns the next writer explicitly.
 The separate A2 assignment is prepared and coordinator-owned; this worker starts no A2 job.
+
+## 2026-10-24 A2 native checks started
+
+A1 is accepted: full50K gFID2.1035501171916167, strict loading and finite5K reconstruction, terminal0:0.
+The coordinator transferred sole canonical notebook ownership to A2 after A1 publication closed.
+The A2 experiment source is `/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024`, branch `research/jat-a2-20261024`.
+Its focused native-check revision is `e17bc14740cecf97de086078b621783e4ecfe6ba`, backed up on the approved fork.
+Existing CPU checks and the unchanged accepted256 adapter proof are reused.
+Job2834061 owns oneRTX3090,4CPUs,32GiB host memory,20minutes for full native16/64 parameter bytes, numerical boundaries and realBF16 micro16 memory fit.
+Stage: `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_153129-322f68-e17bc14-code`.
+Retained evidence: experiment-source `outputs/A2/engineering`, including the submission and owner ledger.
+Engineering equality/gradient checks use nonzero perturbed weights because source final outputs start atzero; the separate micro16 smoke rebuilds exactseed0 initialization.
+No engineering state is a scientific checkpoint.
+Four-rank accumulation, complete resume and the coordinator check receipt remain prerequisites for matched5000-update training.
+The current inventory has no healthy single node with four freeGPUs; resource availability is a scheduling fact, not a scientific result.
+CONFIRM stays sealed. No downstream node starts in this assignment.
