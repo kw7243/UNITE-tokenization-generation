@@ -27,11 +27,10 @@ df -PT "$PWD" /data/scratch-fast/kwen1 /data/vision/torralba/datasets/imagenet_p
 srun --nodes=2 --ntasks=2 --ntasks-per-node=1 --cpus-per-task=8 --gres=gpu:rtx_3090:2 --gpu-bind=none --kill-on-bad-exit=1 \
   bash campaign/a2/node-launch.sh campaign/a2/tests/check_collective.py --output "$1/collective"
 # set -e prevents any model execution after a failed communication probe.
-srun --nodes=1 --ntasks=1 --ntasks-per-node=1 --cpus-per-task=4 --gres=gpu:rtx_3090:1 --gpu-bind=single:1 \
-  python campaign/a2/tests/check_denoise_output.py --output "$1/direct-denoiser.json"
+# Reuse passed unchanged direct denoiser predictions from job2834145.
 for count in 64 16; do
   export A2_MASTER_PORT=$((A2_MASTER_PORT+1))
   srun --nodes=2 --ntasks=2 --ntasks-per-node=1 --cpus-per-task=8 --gres=gpu:rtx_3090:2 --gpu-bind=none --kill-on-bad-exit=1 \
     bash campaign/a2/node-launch.sh campaign/a2/tests/check_ddp_gpu.py \
-      --config "campaign/a2/configs/r5-shared-visible-tolerances/NATIVE${count}_JOINT.yaml" --output "$1/native${count}"
+      --config "campaign/a2/configs/r6-source-ddp-unused/NATIVE${count}_JOINT.yaml" --output "$1/native${count}"
 done

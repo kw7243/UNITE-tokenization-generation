@@ -377,3 +377,25 @@ Snapshot/RNG/sampler/exposure restoration is exact; floating next-update compari
 Revision r4 is preserved unexecuted; r5 corrects the prelaunch test comparison requirement and binds the final source.
 The separate note `outputs/A2/engineering/recovery-shared-visible-1/report-correction.md` clarifies the earlier CPU wording without altering its original report or correct costs.
 Scientific training still requires the coordinator's acceptance after complete evidence.
+
+## 2026-10-24 Communication recovered; source DDP setting restored
+
+Job 2834145 completed the minimal CUDA collective on all four RTX 3090 ranks.
+Every worker saw both node-local GPUs, selected local device 0/1, returned the expected sum 10 and passed the barrier.
+The run used improbablex003 and torralba-3090-1; the host pair differs from the earlier failures, so this supports the launch-boundary remedy but does not isolate GPU visibility alone as a universal cause.
+Direct denoiser predictions also passed: native64/native16 FP32 relative L2 1.72e-7/2.45e-7 and BF16 0.002549/0.001905.
+These passed unchanged paths are retained and will not be rerun as a model test.
+
+The full native64 check then failed before its optimizer step: DDP reported unused trainable parameter index 6.
+A metadata-only mapping identifies `core.encoder.t_embedder.special_time_emb`.
+The pinned source defines that legacy parameter but never reads it, and its main_train.py already sets `find_unused_parameters=True`.
+A2 omitted that DDP setting. Revision r6 restores it in both training and check wrappers, without freezing/removing parameters or changing optimizer membership.
+The new check records missing-gradient names and rejects unexpected names.
+All scientific forward/loss/data/initialization/update controls are unchanged.
+The communication preflight runs in the next allocation, then only the remaining full native64/native16 distributed checks.
+
+Job 2834145 ended FAILED 1:0 after 172 reserved seconds: 0.191111 RTX 3090 device-hours and 0.764444 allocated CPU core-hours.
+All owned jobs are terminal. Cumulative engineering cost is 0.318333 RTX 3090 device-hours and 1.273333 CPU core-hours.
+No scientific optimizer update or checkpoint exists.
+The diagnosed same-endpoint retry is recorded in `outputs/A2/engineering/receipts/diagnostic-recovery-1.json`; the exact matched configuration index is `campaign/a2/configs/r6-source-ddp-unused/index.json`.
+The original blocked report and CPU-wording correction remain unchanged.

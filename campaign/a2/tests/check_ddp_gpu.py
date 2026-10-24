@@ -104,7 +104,7 @@ def main():
     ema=build_native(cfg).to(device).eval().requires_grad_(False);ema.load_state_dict(model.state_dict(),strict=True)
     opts,names=make_optimizers(model,cfg['training'])
     assert names==cfg['training']['optimizer_parameter_names']
-    ddp=DDP(model,device_ids=[device.index],broadcast_buffers=False)
+    ddp=DDP(model,device_ids=[device.index],broadcast_buffers=False, find_unused_parameters=True)
     params=[p for p in model.parameters() if p.requires_grad]
     counters=dict(main_updates=0,images_seen=0);history=[];records=[]
     def state():
@@ -129,6 +129,8 @@ def main():
                 assert torch.isfinite(values['per_image']).all()
                 backward_mean(values['per_image']).backward()
             losses.append(values['per_image'].detach().mean().item())
+        unused=[name for name,p in model.named_parameters() if p.requires_grad and p.grad is None]
+        assert set(unused)<=set(cfg['distributed']['expected_unused_trainable_parameters']),unused
         reduction_error=None
         if verify_reduction:
             expected=[p.grad.detach().cpu().clone() if p.grad is not None else None for p in params]
@@ -171,7 +173,7 @@ def main():
         counters.update(main_updates=number,images_seen=number*256)
         result=dict(update=number,preclip_norm=norm.item(),postclip_norm=clipped,
             ddp_vs_explicit_mean_relative_l2=reduction_error,ema_exact_error=ema_error,
-            local_micro16_losses=losses,exposure_chain=sampler.exposure_chain,draw_sha256=fingerprint(draws))
+            local_micro16_losses=losses,unused_parameter_names=unused,exposure_chain=sampler.exposure_chain,draw_sha256=fingerprint(draws))
         del inputs,before,values
         return result
     torch.cuda.reset_peak_memory_stats();started=time.perf_counter()

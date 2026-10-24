@@ -156,7 +156,7 @@ def main():
         elif not args.resume:
             assert not previous, 'Existing exposure cannot be overwritten.'
     dist.barrier()
-    ddp = DDP(model, device_ids=[device.index], broadcast_buffers=False)
+    ddp = DDP(model, device_ids=[device.index], broadcast_buffers=False, find_unused_parameters=True)
     trainable = [p for p in model.parameters() if p.requires_grad]
     dev512 = eval_rows(splits['DEV'], 512, cfg['evaluation']['seed'])
     probe32 = eval_rows(splits['DEV'], 32, cfg['evaluation']['seed'])
