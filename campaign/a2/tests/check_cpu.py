@@ -21,7 +21,7 @@ import numpy as np
 import torch
 from torch import nn
 from campaign.a2.data import FitQueue, Streams, local_indices, read_interface, sha
-from campaign.a2.native import NativeA2, backward_mean, build_native, executed_lr, make_optimizers, parameter_groups, slice_register_table
+from campaign.a2.native import NativeA2, backward_mean, build_native, executed_lr, clip_gradients, make_optimizers, parameter_groups, slice_register_table
 from campaign.a2.train import verify_config
 from campaign.a2.evaluate import generation_eligible, paired_interference_interval, generation_inputs
 
@@ -220,6 +220,13 @@ def run(output):
         loss=sum(backward_mean((w*x[local_indices(rank,acc)]-1)**2) for acc in range(4))
         rank_grad.append(torch.autograd.grad(loss,w)[0])
     torch.testing.assert_close(torch.stack(rank_grad).mean(),global_grad,atol=1e-7,rtol=1e-6)
+    test_parameter=torch.tensor(1.,requires_grad=True)
+    test_parameter.grad=torch.tensor(float('nan'))
+    try:
+        clip_gradients([test_parameter])
+        raise AssertionError('Nonfinite gradient was not rejected')
+    except FloatingPointError:
+        pass
     results['ddp_accumulation_image_mean'] = dict(passed=True,world_size=4,accumulation=4,micro=16)
 
     assert not generation_eligible({})

@@ -77,7 +77,7 @@ class NativeA2(nn.Module):
             perceptual = self.core.lpips_loss(images.float(), decoded.float(), reduction='none').flatten()
         return l1+perceptual, decoded
 
-    def generation(self, z, labels, draws, fixed_time=None, disable_dropout=False):
+    def generation(self, z, labels, draws, fixed_time=None, disable_dropout=False, return_draws=False):
         b, k, d = z.shape
         target = z.detach()[:, None].expand(b, 3, k, d).reshape(b*3, k, d)
         noise = draws['diffusion_noise'][:, :, :k].reshape(b*3, k, d)
@@ -99,13 +99,16 @@ class NativeA2(nn.Module):
             denom = (1-times.float()).clamp_min(.05)[:, None, None]
             # Preserve the source velocity difference and the SUM of M=3 draws.
             draw_loss = (((prediction.float()-xt)/denom-(target.float()-xt)/denom)**2).mean((1, 2))
-        return draw_loss.reshape(b, 3).sum(1)
+        per_draw = draw_loss.reshape(b, 3)
+        return per_draw if return_draws else per_draw.sum(1)
 
     def forward(self, images, labels, draws):
         z = self.encode(images, draws['encoding_noise'], draws['encoding_time'])
         rec, _ = self.reconstruction(z, images, draws)
-        gen = self.generation(z, labels, draws) if self.joint else torch.zeros_like(rec)
-        return dict(per_image=rec+gen, reconstruction=rec, generation_sum=gen, latents=z.detach())
+        per_draw = self.generation(z, labels, draws, return_draws=True) if self.joint else None
+        gen = per_draw.sum(1) if self.joint else torch.zeros_like(rec)
+        return dict(per_image=rec+gen, reconstruction=rec, generation_sum=gen,
+                    generation_draws=per_draw, latents=z.detach())
 
     @torch.no_grad()
     def generate(self, labels, noise, *, cfg_scale=2., cfg_interval=(.1, 1.)):
@@ -146,3 +149,12 @@ def executed_lr(update):
 def backward_mean(per_image, accumulation=4):
     # DDP averages ranks. The local image SUM / (n*A) yields global image mean.
     return per_image.float().sum()/(len(per_image)*accumulation)
+
+
+def clip_gradients(parameters):
+    try:
+        return torch.nn.utils.clip_grad_norm_(parameters, 3., error_if_nonfinite=True)
+    except RuntimeError as exc:
+        if 'non-finite' in str(exc) or 'nonfinite' in str(exc):
+            raise FloatingPointError('Nonfinite gradient norm before clipping') from exc
+        raise

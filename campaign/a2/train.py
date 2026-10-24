@@ -20,7 +20,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from campaign.a2 import checkpoint
 from campaign.a2.data import FitQueue, Streams, eval_rows, load_images, local_indices, read_interface, select_draws, sha
 from campaign.a2.evaluate import reconstruction, gradient_probe
-from campaign.a2.native import build_native, executed_lr, make_optimizers, backward_mean
+from campaign.a2.native import build_native, executed_lr, make_optimizers, backward_mean, clip_gradients
 
 
 def append(path, record):
@@ -176,6 +176,7 @@ def main():
             totals = torch.zeros(2, dtype=torch.float64, device=device)
             zsum = torch.zeros((model.count, 32), dtype=torch.float64, device=device)
             zsquare = torch.zeros_like(zsum)
+            flow_bins = torch.zeros((4,2), dtype=torch.float64, device=device)
             for acc in range(4):
                 local = local_indices(rank, acc)
                 images = load_images([rows[i] for i in local], draws['flip'][local], device)
@@ -191,10 +192,18 @@ def main():
                         raise FloatingPointError('Nonfinite loss before update')
                     backward_mean(values['per_image']).backward()
                 totals += torch.stack([values['reconstruction'].detach().double().sum(), values['generation_sum'].detach().double().sum()])
+                if model.joint:
+                    times = selected['diffusion_time'].flatten()
+                    bins = torch.bucketize(times, torch.tensor([.25,.5,.75], device=device))
+                    flow = values['generation_draws'].detach().double().flatten()
+                    for noise_bin in range(4):
+                        mask = bins == noise_bin
+                        flow_bins[noise_bin,0] += flow[mask].sum()
+                        flow_bins[noise_bin,1] += mask.sum()
                 z = values['latents'].double()
                 zsum += z.sum(0)
                 zsquare += z.square().sum(0)
-            norm = torch.nn.utils.clip_grad_norm_(trainable, 3., error_if_nonfinite=True)
+            norm = clip_gradients(trainable)
             for optimizer in optimizers.values():
                 optimizer.step()
             with torch.no_grad():
@@ -226,10 +235,16 @@ def main():
                 dist.all_reduce(totals)
                 dist.all_reduce(zsum)
                 dist.all_reduce(zsquare)
+                dist.all_reduce(flow_bins)
                 if rank == 0:
                     append(out/'monitor.jsonl', dict(update=update, images_seen=update*256,
-                           reconstruction_loss=(totals[0]/256).item(), flow_loss_sum=(totals[1]/256).item(),
-                           flow_loss_mean_draw=(totals[1]/768).item(), gradient_norm_before_clip=norm.item(),
+                           reconstruction_loss=(totals[0]/256).item(), flow_loss_sum=(totals[1]/256).item() if model.joint else None,
+                           flow_loss_mean_draw=(totals[1]/768).item() if model.joint else None,
+                           flow_loss_reason=None if model.joint else 'Reconstruction-only objective; denoising is not evaluated.',
+                           native_count=model.count,
+                           flow_loss_mean_draw_by_noise_level=[dict(bin=b,mean=(flow_bins[b,0]/flow_bins[b,1]).item() if flow_bins[b,1]>0 else None,
+                                 draws=int(flow_bins[b,1].item()),reason=None if flow_bins[b,1]>0 else 'No denoising draws in this bin.') for b in range(4)],
+                           gradient_norm_before_clip=norm.item(),
                            latent_image_variance=(zsquare/256-(zsum/256).square()).mean().item(),
                            latent_rms=(zsquare/256).mean().sqrt().item(), lr=executed_lr(update),
                            norm_gamma_rms=model.core.encoder_layer_norm.weight.float().square().mean().sqrt().item(),
