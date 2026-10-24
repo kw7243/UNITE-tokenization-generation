@@ -40,13 +40,13 @@ Fixed controls and nested inference counts are separate matched-exposure compari
 
 The final source passed seven focused check groups in job2834485. All own CPU jobs are terminal.
 
-- `configs_sources_data_sealed_confirm`: PASS. 
-- `exact_quota_independent_stream_replay`: PASS. 
+- `configs_sources_data_sealed_confirm`: PASS.
+- `exact_quota_independent_stream_replay`: PASS.
 - `synthetic_grouping_order_loss_detach`: PASS. Synthetic blocks, not full-model numerical proof
-- `synthetic_length_class_dropout_cfg_boundary`: PASS. 
-- `synthetic_ddp_image_weighted_math`: PASS. 
+- `synthetic_length_class_dropout_cfg_boundary`: PASS.
+- `synthetic_ddp_image_weighted_math`: PASS.
 - `full_model_meta_optimizer_ema_capacity`: PASS. Metadata tensors and frozen LPIPS fixture; no full-model CPU/GPU forward
-- `synthetic_strict_conversion_refusals`: PASS. 
+- `synthetic_strict_conversion_refusals`: PASS.
 
 | CPU job | Terminal state | Exit | Wall seconds | CPUs | Requested memory | Batch MaxRSS | Reserved core-hours |
 |---|---|---|---:|---:|---|---|---:|
