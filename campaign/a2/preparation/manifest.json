@@ -1,0 +1,83 @@
+{
+  "tested_source_revision": "a367fca5a1cb9b597826d5ffda26d5d1d0c13cca",
+  "source_patch_bundle_sha256": "2599d8857a1a2914f77525a59db782a7796445cfc2898143bd6d03e84b080a55",
+  "tested_code_git_diff_sha256": "7642a8d589cd841fe93a82f930d989c88acb35e26854e09ab2eb6530395f9dff",
+  "code_hashes": {
+    "campaign/a2/__init__.py": "3140130f36cb41c91929f8f2c454ba6bd09e424343b021dd7277ea9922c7a9a3",
+    "campaign/a2/asset-lock.json": "c496a886268c16a1154dc9bc89ba47cb9114f47dbff8cadf2957f7d14feb3ec2",
+    "campaign/a2/checkpoint.py": "d19aeb129c9923f29eb2ae94ad0c09a81897def8f7860b3be2dcfc006f4bb454",
+    "campaign/a2/cpu.sbatch": "d52dceb7eddac2fe870f7dffc7243bd791b85bb1d1f769c63347dd9d12bce1c0",
+    "campaign/a2/data.py": "b5282b246d09426d52d4f8da15895a81e34c0849e2ed28598336a1ba827ed89d",
+    "campaign/a2/evaluate.py": "1de36bd6abdc46ff9163e42367c84dcd6f96cb381f328b1a307145e06b4dccdd",
+    "campaign/a2/metric-protocol.json": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+    "campaign/a2/native.py": "2dfce647009660730f9e126a6acb535c5eeaa3fdd6085db0a5946a44dd4b00f7",
+    "campaign/a2/optimizer-structure.json": "3ca864345991bc7602f576fe2ad0437cf5225515aae302bb91f5abe810ae1c98",
+    "campaign/a2/resolve.py": "362b94ed67a75c16c1acfb71da34f88c5289d37f6116b6a07f48db7d90311140",
+    "campaign/a2/tests/check_cpu.py": "be531b776010a6cb9a30fa960e7bc4914be7558f269130055dfebbd409d80f1d",
+    "campaign/a2/train.py": "2cabb8e9ab12754f4da36f44fbf670684bf08c43572dd583407199dcfa849987",
+    "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+    "reproduction/tools/stage_and_run.sh": "160f66e8e39b58d7175ee80327f6cd4c36a14df5e6941f671747f9b67e4ef9db",
+    "reproduction/tools/verify_stage.py": "1ca0560b3bcdff56cdca4fc11b6d051232149b78ea924217e953820561700a03"
+  },
+  "configs": {
+    "NATIVE64_JOINT": {
+      "path": "campaign/a2/configs/NATIVE64_JOINT.yaml",
+      "sha256": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+      "run_id": "A2__NATIVE64_JOINT__s0__68c8a5bdd512"
+    },
+    "NATIVE64_RECON": {
+      "path": "campaign/a2/configs/NATIVE64_RECON.yaml",
+      "sha256": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+      "run_id": "A2__NATIVE64_RECON__s0__92b3c45664d5"
+    },
+    "NATIVE16_JOINT": {
+      "path": "campaign/a2/configs/NATIVE16_JOINT.yaml",
+      "sha256": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+      "run_id": "A2__NATIVE16_JOINT__s0__261f77693650"
+    },
+    "NATIVE16_RECON": {
+      "path": "campaign/a2/configs/NATIVE16_RECON.yaml",
+      "sha256": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8",
+      "run_id": "A2__NATIVE16_RECON__s0__19be684784a5"
+    }
+  },
+  "data_manifest_sha256": {
+    "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+    "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+    "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+    "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+  },
+  "environment": {
+    "packages_sha256": "41b5c4ee15094b54d9151687fb091d654ed6ca9d0adc53612d6e46218668010f",
+    "exact_locked_package_content_match": true,
+    "freeze_difference": "--all additionally records pip25.3 and setuptools79.0.1; no environment mutation",
+    "locked_packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253"
+  },
+  "preparation_artifacts": {
+    "report.md": "9110425f5c34b20c53ca5600303cbca3e2c10b6354c7442b39876d1a10dbfff1",
+    "results.json": "8e8845c6dadb702713c91fdf1895aa8a18747e58566e11940435460b988ab1f0",
+    "notebook-entry.md": "ffbf58db7287e6f6dc3f254da62163ee6086c8c07cd9130d4fa08a93d056f7f0",
+    "tested-code.patch": "7642a8d589cd841fe93a82f930d989c88acb35e26854e09ab2eb6530395f9dff"
+  },
+  "terminal_receipts": {
+    "terminal-2831187.json": "731436539024e05412182e2383bc16042612e111d455dc7092f735f0b3db63bd",
+    "terminal-2831152.json": "bfd9ca70c8fc09cb9ae41a30f32f084b69d916fc36f9f16f4418bb5c32be4f6d",
+    "terminal-2831201.json": "765177c8c5d2674521dc52f70a0abe3f600364be9abd1b6d0f81ab56fa9b8a41",
+    "terminal-summary.json": "601e9f786d13f9d5f8367010c1d1bf78a276aa339c45fea58cb608d51342a221"
+  },
+  "common_generation_inputs": {
+    "seed": 20261023,
+    "labels_sha256": "7bf43e02a158a6c846e55012c48409c940d6eb9f341b310fffb8790d86d3feef",
+    "noise_sha256": "b3e74188bc57c9c3ede07bc84e7bbba8ebef463d20e4e37edb0a98bac21538e9",
+    "shape": [
+      5000,
+      64,
+      32
+    ],
+    "dtype": "float32",
+    "scope": "Random inputs only;zero model generation or feature extraction"
+  },
+  "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+  "interface_sha256": "55f31b4918ff0a251c9a7eb67e754ba5411671eab572b9174b145dae2bde7eb9",
+  "readme_sha256": "749c3d9228aaa19fb26c3846ed95211554122b337455a7cbbf08ef5a9d15b95e"
+}

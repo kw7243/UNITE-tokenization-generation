@@ -1,0 +1,620 @@
+{
+  "node_id": "A2",
+  "preparation_status": "PREPARATION_ONLY",
+  "node_status": "PREPARATION_ONLY",
+  "scientific_node_status": "BLOCKED_REFERENCE",
+  "plan_version": "1.1",
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "source": {
+    "branch": "research/jat-a2-20261024",
+    "code_sha256": {
+      "campaign/a2/__init__.py": "3140130f36cb41c91929f8f2c454ba6bd09e424343b021dd7277ea9922c7a9a3",
+      "campaign/a2/asset-lock.json": "c496a886268c16a1154dc9bc89ba47cb9114f47dbff8cadf2957f7d14feb3ec2",
+      "campaign/a2/checkpoint.py": "d19aeb129c9923f29eb2ae94ad0c09a81897def8f7860b3be2dcfc006f4bb454",
+      "campaign/a2/cpu.sbatch": "d52dceb7eddac2fe870f7dffc7243bd791b85bb1d1f769c63347dd9d12bce1c0",
+      "campaign/a2/data.py": "b5282b246d09426d52d4f8da15895a81e34c0849e2ed28598336a1ba827ed89d",
+      "campaign/a2/evaluate.py": "1de36bd6abdc46ff9163e42367c84dcd6f96cb381f328b1a307145e06b4dccdd",
+      "campaign/a2/metric-protocol.json": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "campaign/a2/native.py": "2dfce647009660730f9e126a6acb535c5eeaa3fdd6085db0a5946a44dd4b00f7",
+      "campaign/a2/optimizer-structure.json": "3ca864345991bc7602f576fe2ad0437cf5225515aae302bb91f5abe810ae1c98",
+      "campaign/a2/resolve.py": "362b94ed67a75c16c1acfb71da34f88c5289d37f6116b6a07f48db7d90311140",
+      "campaign/a2/tests/check_cpu.py": "be531b776010a6cb9a30fa960e7bc4914be7558f269130055dfebbd409d80f1d",
+      "campaign/a2/train.py": "2cabb8e9ab12754f4da36f44fbf670684bf08c43572dd583407199dcfa849987",
+      "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+      "reproduction/tools/stage_and_run.sh": "160f66e8e39b58d7175ee80327f6cd4c36a14df5e6941f671747f9b67e4ef9db",
+      "reproduction/tools/verify_stage.py": "1ca0560b3bcdff56cdca4fc11b6d051232149b78ea924217e953820561700a03"
+    },
+    "origin": "https://github.com/kw7243/UNITE-tokenization-generation",
+    "parent_commit": "51a29b63aaba705a23a9de0e39ed8818b74a77ec",
+    "patch_sha256": "2599d8857a1a2914f77525a59db782a7796445cfc2898143bd6d03e84b080a55",
+    "unite_commit": "2389f2c65fedbd43ada851e69b2b810efd23af7d",
+    "upstream": "https://github.com/ShivamDuggal4/UNITE-tokenization-generation"
+  },
+  "tested_source_revision": "a367fca5a1cb9b597826d5ffda26d5d1d0c13cca",
+  "tested_code_git_diff_sha256": "7642a8d589cd841fe93a82f930d989c88acb35e26854e09ab2eb6530395f9dff",
+  "configuration_index_sha256": "5cac5fe2f9d54afc86faa246e3fe9826bcfef402cca39255a1b60763dfe4e6a8",
+  "config_sha256": {
+    "NATIVE64_JOINT": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+    "NATIVE64_RECON": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+    "NATIVE16_JOINT": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+    "NATIVE16_RECON": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8"
+  },
+  "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+  "data_manifest_sha256": {
+    "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+    "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+    "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+    "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+  },
+  "environment": {
+    "packages_sha256": "41b5c4ee15094b54d9151687fb091d654ed6ca9d0adc53612d6e46218668010f",
+    "exact_locked_package_content_match": true,
+    "freeze_difference": "--all additionally records pip25.3 and setuptools79.0.1; no environment mutation",
+    "locked_packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253"
+  },
+  "main_updates": 0,
+  "images_seen": 0,
+  "gpu_hours": 0.0,
+  "training_gpu_hours": 0.0,
+  "evaluation_gpu_hours": 0.0,
+  "cpu_core_hours": 0.42333333333333334,
+  "outcome_class": null,
+  "outcome_class_reason": "Preparation only. No scientific A2 pass,negative result,or resource outcome is assigned.",
+  "actual_resource_constraints": [],
+  "all_owned_jobs_terminal": true,
+  "cpu_jobs": [
+    {
+      "job_id": "2831152",
+      "terminal": {
+        "JobIDRaw": "2831152",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ElapsedRaw": "145",
+        "AllocCPUS": "4",
+        "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+        "MaxRSS": "",
+        "NodeList": "groenig-2",
+        "Start": "2026-10-24T08:28:16",
+        "End": "2026-10-24T08:30:41"
+      },
+      "steps": [
+        {
+          "JobIDRaw": "2831152",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "145",
+          "AllocCPUS": "4",
+          "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+          "MaxRSS": "",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:28:16",
+          "End": "2026-10-24T08:30:41"
+        },
+        {
+          "JobIDRaw": "2831152.batch",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "145",
+          "AllocCPUS": "4",
+          "AllocTRES": "cpu=4,mem=16G,node=1",
+          "MaxRSS": "1557680K",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:28:16",
+          "End": "2026-10-24T08:30:41"
+        },
+        {
+          "JobIDRaw": "2831152.extern",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "145",
+          "AllocCPUS": "4",
+          "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+          "MaxRSS": "",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:28:16",
+          "End": "2026-10-24T08:30:41"
+        }
+      ],
+      "source_commit": "0b003ef18cc55ac821d59925c4137ac63f71af73",
+      "stage": "/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_042640-9850df-0b003ef-code",
+      "submission_receipt": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/receipts/submission-2.json",
+      "configuration_index_sha256": "2be01891bdf3d9f0fb2296c71f31c2d88904e49fe00552def406781f0af800e9",
+      "staging_manifest_sha256": "b09262ca98c056bcf9d5f4ef6784761632d0eee81e4e046477fd6a3e8e3b2308",
+      "environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+      "cpu_core_hours": 0.16111111111111112,
+      "gpu_hours": 0,
+      "main_updates": 0,
+      "terminal_owner": "jat-a2-prepare-20261024",
+      "checks_sha256": "87674e4608f9dc0d0066a0f72f203da4a86d021d91d3ebcaf84e652676923542",
+      "checks_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-check-1/checks.json",
+      "stdout": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-2831152.out",
+      "stderr": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-2831152.err"
+    },
+    {
+      "job_id": "2831187",
+      "terminal": {
+        "JobIDRaw": "2831187",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ElapsedRaw": "124",
+        "AllocCPUS": "4",
+        "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+        "MaxRSS": "",
+        "NodeList": "groenig-2",
+        "Start": "2026-10-24T08:36:30",
+        "End": "2026-10-24T08:38:34"
+      },
+      "steps": [
+        {
+          "JobIDRaw": "2831187",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "124",
+          "AllocCPUS": "4",
+          "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+          "MaxRSS": "",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:36:30",
+          "End": "2026-10-24T08:38:34"
+        },
+        {
+          "JobIDRaw": "2831187.batch",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "124",
+          "AllocCPUS": "4",
+          "AllocTRES": "cpu=4,mem=16G,node=1",
+          "MaxRSS": "1693824K",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:36:30",
+          "End": "2026-10-24T08:38:34"
+        },
+        {
+          "JobIDRaw": "2831187.extern",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "124",
+          "AllocCPUS": "4",
+          "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+          "MaxRSS": "",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:36:30",
+          "End": "2026-10-24T08:38:34"
+        }
+      ],
+      "source_commit": "90d334ca4cc6a8c9e9342e4aeec8a1e01ca2ac11",
+      "stage": "/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_043511-6aa7d8-90d334c-code",
+      "submission_receipt": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/receipts/submission-3.json",
+      "configuration_index_sha256": "edd730fb1851b1e2506e4c5b3f57804a68ab92d1086a9dd376ccf918c2184d18",
+      "staging_manifest_sha256": "fc99a7b67fe5566c890cc86aed491102f3906aca09e49d7e0fb530f274eab4f8",
+      "environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+      "cpu_core_hours": 0.13777777777777778,
+      "gpu_hours": 0,
+      "main_updates": 0,
+      "terminal_owner": "jat-a2-prepare-20261024",
+      "checks_sha256": "cc270ce91f8d0bdbab6e43c588e0222fdf2c3fa37957e0dee1e9f1a87cbf1083",
+      "checks_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-check-final/checks.json",
+      "stdout": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-2831187.out",
+      "stderr": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-2831187.err"
+    },
+    {
+      "job_id": "2831201",
+      "terminal": {
+        "JobIDRaw": "2831201",
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ElapsedRaw": "112",
+        "AllocCPUS": "4",
+        "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+        "MaxRSS": "",
+        "NodeList": "groenig-2",
+        "Start": "2026-10-24T08:42:06",
+        "End": "2026-10-24T08:43:58"
+      },
+      "steps": [
+        {
+          "JobIDRaw": "2831201",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "112",
+          "AllocCPUS": "4",
+          "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+          "MaxRSS": "",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:42:06",
+          "End": "2026-10-24T08:43:58"
+        },
+        {
+          "JobIDRaw": "2831201.batch",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "112",
+          "AllocCPUS": "4",
+          "AllocTRES": "cpu=4,mem=16G,node=1",
+          "MaxRSS": "975328K",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:42:06",
+          "End": "2026-10-24T08:43:58"
+        },
+        {
+          "JobIDRaw": "2831201.extern",
+          "State": "COMPLETED",
+          "ExitCode": "0:0",
+          "ElapsedRaw": "112",
+          "AllocCPUS": "4",
+          "AllocTRES": "billing=84,cpu=4,mem=16G,node=1",
+          "MaxRSS": "",
+          "NodeList": "groenig-2",
+          "Start": "2026-10-24T08:42:06",
+          "End": "2026-10-24T08:43:58"
+        }
+      ],
+      "source_commit": "a367fca5a1cb9b597826d5ffda26d5d1d0c13cca",
+      "stage": "/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_044035-153234-a367fca-code",
+      "submission_receipt": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/receipts/submission-4.json",
+      "configuration_index_sha256": "5cac5fe2f9d54afc86faa246e3fe9826bcfef402cca39255a1b60763dfe4e6a8",
+      "staging_manifest_sha256": "87eedd7c40545869dd495cd7a2b163f3da02ebfcd1491e0cddba854c53a51299",
+      "environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+      "cpu_core_hours": 0.12444444444444444,
+      "gpu_hours": 0,
+      "main_updates": 0,
+      "terminal_owner": "jat-a2-prepare-20261024",
+      "checks_sha256": "1312ff8458d10d652b1403cc42ca18556459d0c2baead15d6019ed243daf9cc7",
+      "checks_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-check-release/checks.json",
+      "stdout": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-2831201.out",
+      "stderr": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-2831201.err"
+    }
+  ],
+  "rejected_submissions": 1,
+  "failed_allocated_jobs": 0,
+  "checks": {
+    "passed": true,
+    "focused_groups": 9,
+    "latest_checks_sha256": "1312ff8458d10d652b1403cc42ca18556459d0c2baead15d6019ed243daf9cc7",
+    "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-check-release/checks.json"
+  },
+  "workload_counters": {
+    "main_model_updates": 0,
+    "training_images": 0,
+    "model_evaluation_images": 0,
+    "generated_model_images": 0,
+    "extracted_features": 0,
+    "quality_scores": 0,
+    "gpu_submissions": 0,
+    "metadata_model_optimizer_updates": 0
+  },
+  "arms": [
+    {
+      "node_id": "A2",
+      "method_id": "NATIVE64_JOINT",
+      "seed": 0,
+      "config_sha256": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+      "run_id": "A2__NATIVE64_JOINT__s0__68c8a5bdd512",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "No scientific checkpoint exists before authorized training.",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "node_status": "PREPARATION_ONLY",
+      "scientific_node_status": "BLOCKED_REFERENCE",
+      "outcome_class": null,
+      "outcome_class_reason": "Unrun model training; CPU engineering checks do not classify a scientific outcome.",
+      "main_updates": 0,
+      "images_seen": 0,
+      "training_gpu_hours": 0.0,
+      "evaluation_gpu_hours": 0.0,
+      "gpu_hours": 0.0,
+      "conditional": false,
+      "training": {
+        "main_updates": 0,
+        "images_seen": 0,
+        "throughput_images_per_s": null,
+        "throughput_images_per_s_reason": "Measure from the first200 real authorized optimizer updates.",
+        "flow_loss_mean_draw": null,
+        "flow_loss_mean_draw_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+        "gradient_norm": null,
+        "gradient_norm_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "latent_rms": null,
+        "norm_gamma_rms": null,
+        "norm_beta_rms": null,
+        "unavailable_reasons": {
+          "allocation_distortion": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_lpips": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1_p90": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "rfid_eval": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_image_variance": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_gamma_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_beta_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "gen_ms_per_image": null,
+        "unavailable_reasons": {
+          "gfid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "kid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "nfe": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "gen_ms_per_image": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "gradient_probe": {
+        "grad_cos_last_block": null,
+        "grad_cos_last_block_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      }
+    },
+    {
+      "node_id": "A2",
+      "method_id": "NATIVE64_RECON",
+      "seed": 0,
+      "config_sha256": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+      "run_id": "A2__NATIVE64_RECON__s0__92b3c45664d5",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "No scientific checkpoint exists before authorized training.",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "node_status": "PREPARATION_ONLY",
+      "scientific_node_status": "BLOCKED_REFERENCE",
+      "outcome_class": null,
+      "outcome_class_reason": "Unrun model training; CPU engineering checks do not classify a scientific outcome.",
+      "main_updates": 0,
+      "images_seen": 0,
+      "training_gpu_hours": 0.0,
+      "evaluation_gpu_hours": 0.0,
+      "gpu_hours": 0.0,
+      "conditional": true,
+      "training": {
+        "main_updates": 0,
+        "images_seen": 0,
+        "throughput_images_per_s": null,
+        "throughput_images_per_s_reason": "Measure from the first200 real authorized optimizer updates.",
+        "flow_loss_mean_draw": null,
+        "flow_loss_mean_draw_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+        "gradient_norm": null,
+        "gradient_norm_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "latent_rms": null,
+        "norm_gamma_rms": null,
+        "norm_beta_rms": null,
+        "unavailable_reasons": {
+          "allocation_distortion": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_lpips": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1_p90": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "rfid_eval": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_image_variance": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_gamma_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_beta_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "gen_ms_per_image": null,
+        "unavailable_reasons": {
+          "gfid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "kid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "nfe": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "gen_ms_per_image": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "gradient_probe": {
+        "grad_cos_last_block": null,
+        "grad_cos_last_block_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      }
+    },
+    {
+      "node_id": "A2",
+      "method_id": "NATIVE16_JOINT",
+      "seed": 0,
+      "config_sha256": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+      "run_id": "A2__NATIVE16_JOINT__s0__261f77693650",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "No scientific checkpoint exists before authorized training.",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "node_status": "PREPARATION_ONLY",
+      "scientific_node_status": "BLOCKED_REFERENCE",
+      "outcome_class": null,
+      "outcome_class_reason": "Unrun model training; CPU engineering checks do not classify a scientific outcome.",
+      "main_updates": 0,
+      "images_seen": 0,
+      "training_gpu_hours": 0.0,
+      "evaluation_gpu_hours": 0.0,
+      "gpu_hours": 0.0,
+      "conditional": false,
+      "training": {
+        "main_updates": 0,
+        "images_seen": 0,
+        "throughput_images_per_s": null,
+        "throughput_images_per_s_reason": "Measure from the first200 real authorized optimizer updates.",
+        "flow_loss_mean_draw": null,
+        "flow_loss_mean_draw_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+        "gradient_norm": null,
+        "gradient_norm_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "latent_rms": null,
+        "norm_gamma_rms": null,
+        "norm_beta_rms": null,
+        "unavailable_reasons": {
+          "allocation_distortion": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_lpips": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1_p90": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "rfid_eval": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_image_variance": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_gamma_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_beta_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "gen_ms_per_image": null,
+        "unavailable_reasons": {
+          "gfid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "kid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "nfe": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "gen_ms_per_image": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "gradient_probe": {
+        "grad_cos_last_block": null,
+        "grad_cos_last_block_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      }
+    },
+    {
+      "node_id": "A2",
+      "method_id": "NATIVE16_RECON",
+      "seed": 0,
+      "config_sha256": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8",
+      "run_id": "A2__NATIVE16_RECON__s0__19be684784a5",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "No scientific checkpoint exists before authorized training.",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "node_status": "PREPARATION_ONLY",
+      "scientific_node_status": "BLOCKED_REFERENCE",
+      "outcome_class": null,
+      "outcome_class_reason": "Unrun model training; CPU engineering checks do not classify a scientific outcome.",
+      "main_updates": 0,
+      "images_seen": 0,
+      "training_gpu_hours": 0.0,
+      "evaluation_gpu_hours": 0.0,
+      "gpu_hours": 0.0,
+      "conditional": true,
+      "training": {
+        "main_updates": 0,
+        "images_seen": 0,
+        "throughput_images_per_s": null,
+        "throughput_images_per_s_reason": "Measure from the first200 real authorized optimizer updates.",
+        "flow_loss_mean_draw": null,
+        "flow_loss_mean_draw_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+        "gradient_norm": null,
+        "gradient_norm_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "latent_rms": null,
+        "norm_gamma_rms": null,
+        "norm_beta_rms": null,
+        "unavailable_reasons": {
+          "allocation_distortion": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_lpips": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "recon_l1_p90": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "rfid_eval": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_image_variance": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "latent_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_gamma_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "norm_beta_rms": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "gen_ms_per_image": null,
+        "unavailable_reasons": {
+          "gfid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "kid_5k": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "nfe": "PREPARATION_ONLY: no main model trained or scientifically evaluated.",
+          "gen_ms_per_image": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+        }
+      },
+      "gradient_probe": {
+        "grad_cos_last_block": null,
+        "grad_cos_last_block_reason": "PREPARATION_ONLY: no main model trained or scientifically evaluated."
+      }
+    }
+  ],
+  "common_random_generation_inputs": {
+    "seed": 20261023,
+    "labels_sha256": "7bf43e02a158a6c846e55012c48409c940d6eb9f341b310fffb8790d86d3feef",
+    "noise_sha256": "b3e74188bc57c9c3ede07bc84e7bbba8ebef463d20e4e37edb0a98bac21538e9",
+    "shape": [
+      5000,
+      64,
+      32
+    ],
+    "dtype": "float32",
+    "scope": "Random inputs only;zero model generation or feature extraction",
+    "artifact_root": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/cpu-check-release"
+  },
+  "checkpoint_schema": "jat-a2-checkpoint-v1",
+  "checkpoint_schema_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/interface.json",
+  "checkpoint_sha256": null,
+  "checkpoint_sha256_reason": "No main-model checkpoint is created by this CPU-only assignment.",
+  "prerequisites": [
+    "Coordinator acceptance of the A1 UNITE full reference remains pending under unite-reproduce-20261023.",
+    "Repeat affected native16/64 Section5.11 paths on GPU,including common initialization equality,BF16/DDP/memory and complete checkpoint round trip.",
+    "A later A2 training assignment and exact configuration authorization receipt are required.",
+    "Pilot FIT Inception reference features and their immutable hash remain a prerequisite for later endpoint gFID/KID."
+  ],
+  "remaining_gpu_checks": [
+    "Native output/register identity;reuse unchanged accepted256 proof unless affected source changes.",
+    "Native batched-versus-single losses/denoise/decode,physical counts,image weighting,common initialized bytes.",
+    "Encoding target/input detach,intended shared gradients,image-free CFG/ODE generation.",
+    "Real BF16 micro16,four-rank accumulation,global norm clip,EMA,memory fit,and complete resume snapshot round trip."
+  ],
+  "final_backup_receipt": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/a2-preparation/receipts/backup.json",
+  "canonical_notebook_modified": false,
+  "confirm_consumed": false,
+  "scope_limits": [
+    "No GPU launch,main-model update,scientific features or scoring.",
+    "No selector,prefix training,B1 converter,KARL/ALIT work,experiment merge,PR,force push,cleanup,or environment change."
+  ]
+}

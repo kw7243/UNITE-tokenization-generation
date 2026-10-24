@@ -1,0 +1,70 @@
+{
+  "version": "jat-a2-prepare-v1",
+  "preparation_only": true,
+  "node_id": "A2",
+  "model_factory": "campaign.a2.native.build_native(resolved_config)",
+  "forward": "NativeA2(images,labels,draws) -> per_image,reconstruction,generation_sum,generation_draws,detached_latents",
+  "images": "float32[B,3,256,256] in[0,1]",
+  "labels": "int64[B], supplied100-class map",
+  "noise": "Streams(seed).draw(256); full64 positions in original global image order before rank/microbatch/native slicing",
+  "queue": "FitQueue(FITrows,0).next() ->256row indices;32classes x8; local_indices(rank,acc) ->16rows,two whole classes",
+  "configuration_index": "campaign/a2/configs/index.json",
+  "metric_protocol": "campaign/a2/metric-protocol.json",
+  "checkpoint": {
+    "schema": "jat-a2-checkpoint-v1",
+    "native64_role": "A2_NATIVE64_COMPLETE",
+    "boundary": "AFTER_COMPLETE_OPTIMIZER_UPDATE",
+    "fields": [
+      "schema",
+      "configuration_sha256",
+      "resolved_config",
+      "model",
+      "ema",
+      "optimizers",
+      "optimizer_parameter_names",
+      "sampler",
+      "streams",
+      "process_rng_by_rank",
+      "counters",
+      "evaluation_history",
+      "checkpoint_role",
+      "scheduler",
+      "boundary",
+      "world_size",
+      "b1_conversion_implemented"
+    ],
+    "model_key_prefix": "core.",
+    "optimizers": [
+      "muon",
+      "adamw"
+    ],
+    "sampler_fields": [
+      "queues",
+      "cursor",
+      "rng",
+      "updates",
+      "images_seen",
+      "exposure_chain"
+    ],
+    "stream_fields": [
+      "generators",
+      "times"
+    ],
+    "process_rng_fields": [
+      "python",
+      "numpy",
+      "torch_cpu",
+      "torch_cuda"
+    ],
+    "checkpoint_path": null,
+    "checkpoint_path_reason": "No main-model update or scientific checkpoint was produced in CPU preparation.",
+    "b1_conversion_implemented": false
+  },
+  "prerequisites": [
+    "A1 UNITE full-reference acceptance by coordinator",
+    "native16/64 full-model GPU correctness checks and BF16/DDP/memory/resume checks",
+    "later A2 training assignment/receipt",
+    "separate pilot FIT feature extraction before endpoint generation scoring"
+  ],
+  "confirm_policy": "Sealed; no CONFIRM rows,images,or model scores consumed."
+}
