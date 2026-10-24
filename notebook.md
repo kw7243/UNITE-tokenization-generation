@@ -225,3 +225,29 @@
 - Revision adoption: current plan v1.1 SHA256 4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5; full 1,227-line read completed.
 - Execution remains v1.0 with original config/stage hashes. Section 5.4 matches exactly; no cancellation, rerun, data hash change, or relabeling.
 - B1 phase/extension fields do not apply. Future GPU estimates are advisory; this lane remains CPU-only.
+
+## 2026-10-24: CPU prerequisite complete; bounded A1 GPU validation prepared
+
+- CPU retry2830643 completed0:0 on groenig-2,07:02:22–07:27:29UTC,1507reserved seconds,fourCPUs,24GiB,MaxRSS12752276KB,zero GPU-hours. Source/stage/config remain their original v1.0 identities and are compatible with v1.1.
+- Retained run: `outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6/`; terminal accounting, original payload reports, installed-wheel reports, pip inspect and final package freeze are present.
+- Actual compute environment: Python3.10.22,Torch2.10.0+cu128,torchvision0.25.0+cu128,torch-fidelity0.3.0 and the remaining scientific pins. Package lock SHA256 `fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253`.
+- BaseEMA strictly loaded with no missing/unexpected keys after152 exact compiled-key normalizations. Epoch240,step316000,savedCFG2.0,256registers,d32,M14 reference identity. Calibration is unnecessary.
+- Required5000validation-image manifest SHA256 `d31e573bba422ea6626552e1b2e717bffbabf2a9f6adea777514e5ff85085b0d`; generation-label manifest `8feedadddbffa7f8b868dc0df60afc2a8c4846376aa717e40623822cb97043eb`.
+- Metric protocol SHA256 `693aa2cca24f2ae03238cef3453b9b6f95f39120da9a2575b04415afc87e0971`. Prescribed Inception, externalAlexLPIPS and sourceVGG loads passed; JiT statistics match Gitblob3c94ea961be94d06efa9e5bf4da71eff52deaebb and their byteSHA.
+- Additional read-only CPU imports of the source evaluation engine and essential checker passed. No GPU or numerical quality metric has run.
+- Current artifact lock is `campaign/locks/artifacts.json`; it links immutable accepted KARL/pilot evidence while keeping A1's1000-class protocol separate from the pilot100-class map.
+- Before first GPU request, all permitted partition/association and compatible node allocations were inspected. No user GPU is running. RTX4090/A100/H200 healthy nodes are fully GPU allocated; one shared H100NVL slot is unallocated at the snapshot. The separate preconditioning A100/4090 requests remain untouched.
+- Proposed validation: oneH100,4CPUs,24GiB,30minutes,vision-shared-h100/shared-if-available,full-stage literalNIL and attached sbatch--wait. Expected5–15minutes is an unmeasured forecast, with requested0.5device-hour. Actual GPU/VRAM/CUDA/build/mounts must pass before model loops.
+- Validation configuration `campaign/configs/validation-2bc8cb64303e.yaml`, SHA256 `2bc8cb64303eaea18ef5a2ebca7ad3937b1ce6482bf65ff40074c73757e892a0`, preserves the native M14 reference and isolated M3 correctness fixture. It is not a paper-score run.
+- Next action: run the staged validation once, inspect all5.11 proofs and actual H100 throughput, then forecast and submit the complete5000reconstruction/independent50000generation reference. A2/training remain outside this worker.
+
+## 2026-10-24: first GPU launch reached the node; parser defect corrected
+
+- GPU validation2830897 was accepted from `/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_073714-f082c3-c2bd3a9-code`, config `2bc8cb64303eaea18ef5a2ebca7ad3937b1ce6482bf65ff40074c73757e892a0`.
+- It ran on andreas-h100-1,07:38:05–07:38:17UTC:FAILED1:0,12reserved H100 seconds,4CPUs,24GiB,MaxRSS3417868KB. Actual CUDA device/VRAM were not queried because configuration validation failed first.
+- Both first-script markers and mounts passed; literalNIL worked on the GPU node. No model sample,5.11 proof,FID,IS or rFID was produced. This is operational failure, not a scientific negative.
+- CPU reproduction identified exactly one sampling-field difference: yaml.safe_load read JSON exponent1e-06 as a string. The generated files are JSON/YAML1.2. Use json.loads to retain the declared numeric type; the unchanged sampling guard passes on CPU through the actual source reader.
+- Preserve the failed stage, config, logs, original payload reports and terminal accounting in `outputs/A1__UNITE_B_VALIDATE_ESSENTIAL__s20261023__2bc8cb64303e/`.
+- Section15.2 targeted rerun is predeclared in `campaign/configs/diagnostic-2830897.json`. The revised config is `campaign/configs/validation-400d3bce3a02.yaml`, SHA256 `400d3bce3a02dee9d7ad6e1e8290f0cbfd59a0fcecc5c33b09d38bd5c8fce0f4`.
+- The same checkpoint,seed,source sampler,32native generation-smoke samples,3native reconstructions and three essential checks remain fixed. No comparison/training arm is affected. Expected additional reservation is at most the requested0.5H100-hour; actual cost will be recorded. No estimate-based approval applies.
+- Current new GPU reservation cost is12/3600=0.003333H100-hours; legacy RTX spend stays separate. Full5000/50000reference remains unrun;noA2/training.
