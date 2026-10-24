@@ -471,3 +471,20 @@ The locked Torch binary explicitly includes sm75; actual CUDA, memory, mount and
 The original r1 configuration, source stage, failed logs and terminal receipt remain preserved.
 Both joint jobs continue from their unchanged r6 stages and configurations.
 No generation or RECON condition is relaxed.
+
+## 2026-10-24 Native16 first 200 updates measured; FIT retry submitted
+
+Native16 job 2834282 completed 200 real updates and 51200 image exposures in 669.845825 seconds.
+Global throughput was 76.4355 images per second, with peak allocated/reserved memory 14.2305/15.6594 GB.
+The measured 5000-update training projection is 18.6068 RTX 3090 device-hours, or 4.6517 wall-hours, before quality evaluation.
+This replaces its 78.71-device-hour engineering proxy. Native64's first-200 record remains pending.
+The first 47 recorded paired updates have identical image IDs, flips, exposure chains and full encoding-noise hashes.
+Both jobs remain on the exact r6 training configurations and frozen source stages.
+The different node pairs limit any token-only interpretation of throughput.
+
+FIT retry job 2834488 uses the declared r2 feature configuration, source `00040689e3f340281b799ebebe85a16c9093d653`, and full stage `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_170303-21aca8-0004068-code`.
+It passed NVIDIA preflight on inspector-gadget.drl: RTX 2080 Ti, 11 GiB VRAM, driver 580.173.02.
+The extraction code and metric/data/precision controls are unchanged from r1; no learned checkpoint or CONFIRM input is used.
+The failed one-second RTX 3080 preflight remains accounted for and retained.
+The progress report, exact submissions, first-200 record and owner ledger are in `outputs/A2/training-receipts-r6/` and `outputs/A2/fit-feature-receipts-r{1,2}/`.
+No DEV quality trajectory or scientific native64 pass is established yet.
