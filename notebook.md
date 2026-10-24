@@ -247,3 +247,14 @@
 - Proposed validation: oneH100,4CPUs,24GiB,30minutes,vision-shared-h100/shared-if-available,full-stage literalNIL and attached sbatch--wait. Expected5–15minutes is an unmeasured forecast, with requested0.5device-hour. Actual GPU/VRAM/CUDA/build/mounts must pass before model loops.
 - Validation configuration `campaign/configs/validation-2bc8cb64303e.yaml`, SHA256 `2bc8cb64303eaea18ef5a2ebca7ad3937b1ce6482bf65ff40074c73757e892a0`, preserves the native M14 reference and isolated M3 correctness fixture. It is not a paper-score run.
 - Next action: run the staged validation once, inspect all5.11 proofs and actual H100 throughput, then forecast and submit the complete5000reconstruction/independent50000generation reference. A2/training remain outside this worker.
+
+## 2026-10-24: first GPU launch reached the node; parser defect corrected
+
+- GPU validation2830897 was accepted from `/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_073714-f082c3-c2bd3a9-code`, config `2bc8cb64303eaea18ef5a2ebca7ad3937b1ce6482bf65ff40074c73757e892a0`.
+- It ran on andreas-h100-1,07:38:05–07:38:17UTC:FAILED1:0,12reserved H100 seconds,4CPUs,24GiB,MaxRSS3417868KB. Actual CUDA device/VRAM were not queried because configuration validation failed first.
+- Both first-script markers and mounts passed; literalNIL worked on the GPU node. No model sample,5.11 proof,FID,IS or rFID was produced. This is operational failure, not a scientific negative.
+- CPU reproduction identified exactly one sampling-field difference: yaml.safe_load read JSON exponent1e-06 as a string. The generated files are JSON/YAML1.2. Use json.loads to retain the declared numeric type; the unchanged sampling guard passes on CPU through the actual source reader.
+- Preserve the failed stage, config, logs, original payload reports and terminal accounting in `outputs/A1__UNITE_B_VALIDATE_ESSENTIAL__s20261023__2bc8cb64303e/`.
+- Section15.2 targeted rerun is predeclared in `campaign/configs/diagnostic-2830897.json`. The revised config is `campaign/configs/validation-400d3bce3a02.yaml`, SHA256 `400d3bce3a02dee9d7ad6e1e8290f0cbfd59a0fcecc5c33b09d38bd5c8fce0f4`.
+- The same checkpoint,seed,source sampler,32native generation-smoke samples,3native reconstructions and three essential checks remain fixed. No comparison/training arm is affected. Expected additional reservation is at most the requested0.5H100-hour; actual cost will be recorded. No estimate-based approval applies.
+- Current new GPU reservation cost is12/3600=0.003333H100-hours; legacy RTX spend stays separate. Full5000/50000reference remains unrun;noA2/training.

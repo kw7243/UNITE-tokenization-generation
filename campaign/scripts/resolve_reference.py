@@ -28,6 +28,7 @@ def main():
     parser.add_argument("--cpu-count",type=int,default=4)
     parser.add_argument("--memory-gib",type=int,default=32)
     parser.add_argument("--karl-evidence",type=Path,required=True)
+    parser.add_argument("--extension-record",type=Path)
     args=parser.parse_args()
     envrun=args.environment_run.resolve()
     setup=json.loads((envrun/"results.json").read_text())
@@ -148,12 +149,25 @@ def main():
                 "strict_load":True,"required_reconstruction":True,"coordinator_acceptance_required":True},
         "training":{"main_updates":0,"optimizer":None,"learning_rate":None},
     }
+    if args.extension_record:
+        extension=json.loads(args.extension_record.read_text())
+        assert extension["extension_reason"] and len(extension["original_config_sha256"])==64
+        extension["revised_config_sha256"]=None
+        extension["revised_config_sha256_reason"]="Runtime/result envelope fills this config's own SHA256 after serialization."
+        cfg["extensions"]=[extension]
     name="validation" if args.workload=="VALIDATION_AND_ESSENTIAL_CHECKS" else "reference"
     payload=(json.dumps(cfg,indent=2)+"\n").encode()
     digest=hashlib.sha256(payload).hexdigest()
     dest=ROOT/"campaign/configs"/f"{name}-{digest[:12]}.yaml"
     assert not dest.exists(),"Resolved config already exists; do not replace or resubmit it"
     dest.write_bytes(payload)
+    if cfg["extensions"]:
+        extension_output=ROOT/"outputs"/f"A1__{cfg['method_id']}__s20261023__{digest[:12]}"
+        extension_output.mkdir(parents=True,exist_ok=True)
+        complete=[]
+        for item in cfg["extensions"]:
+            item=dict(item);item["revised_config_sha256"]=digest;item.pop("revised_config_sha256_reason",None);complete.append(item)
+        (extension_output/"extension-plan.json").write_text(json.dumps(complete,indent=2)+"\n")
     print(json.dumps({"config":str(dest),"config_sha256":digest,
                       "run_id":f"A1__{cfg['method_id']}__s20261023__{digest[:12]}",
                       "output":str(ROOT/"outputs"/f"A1__{cfg['method_id']}__s20261023__{digest[:12]}"),

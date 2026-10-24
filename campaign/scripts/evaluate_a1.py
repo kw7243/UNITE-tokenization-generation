@@ -14,7 +14,6 @@ import time
 
 import numpy as np
 import torch
-import yaml
 
 root=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(root/"third_party/unite"))
@@ -32,7 +31,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--config",type=Path,required=True)
 args=parser.parse_args()
 raw=args.config.read_bytes()
-cfg=yaml.safe_load(raw)
+cfg=json.loads(raw)  # Resolved files use JSON, a YAML1.2 subset; retain numeric exponent types.
 digest=hashlib.sha256(raw).hexdigest()
 run_id=f"A1__{cfg['method_id']}__s{cfg['seed']}__{digest[:12]}"
 out=Path(cfg["output_parent"])/run_id
@@ -56,6 +55,10 @@ record={"node_id":"A1","method_id":cfg["method_id"],"seed":cfg["seed"],
         "patch_sha256":cfg["source"]["patch_sha256"],
         "training":{},"reconstruction":{},"generation":{},
         "plan_sha256":cfg["plan_sha256"],"plan_version":cfg["plan_version"],"extensions":cfg["extensions"],"paper_headline_gfid":2.12,"paper_appendix_gfid":2.735,"paper_headline_is":294.1,"paper_appendix_is":268.1}
+
+for extension in record["extensions"]:
+    extension["revised_config_sha256"]=digest
+    extension.pop("revised_config_sha256_reason",None)
 
 def sha(path):
     h=hashlib.sha256()

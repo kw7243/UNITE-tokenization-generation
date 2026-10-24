@@ -1,0 +1,34 @@
+{
+  "extension_reason": "CPU reproduction shows yaml.safe_load parsed JSON scientific notation atol1e-06 as text. Use json.loads to preserve the generated JSON/YAML1.2 numeric types; source sampler settings and all scientific gates remain unchanged.",
+  "original_config_sha256": "2bc8cb64303eaea18ef5a2ebca7ad3937b1ce6482bf65ff40074c73757e892a0",
+  "original_job_id": 2830897,
+  "original_endpoint": {
+    "workload": "VALIDATION_AND_ESSENTIAL_CHECKS",
+    "native_generation_smoke_samples": 32,
+    "native_reconstruction_smoke_samples": 3,
+    "essential_checks": 3,
+    "main_updates": 0
+  },
+  "revised_endpoint": {
+    "workload": "VALIDATION_AND_ESSENTIAL_CHECKS",
+    "native_generation_smoke_samples": 32,
+    "native_reconstruction_smoke_samples": 3,
+    "essential_checks": 3,
+    "main_updates": 0
+  },
+  "affected_control_runs": [],
+  "affected_control_runs_reason": "No training/comparison arm ran. This repeats only the failed operational validation.",
+  "expected_additional_gpu_hours": 0.5,
+  "additional_gpu_hours": null,
+  "additional_gpu_hours_reason": "Pending authoritative terminal allocation accounting of the targeted rerun.",
+  "actual_resource_constraint": null,
+  "actual_resource_constraint_reason": "No resource constraint caused this failure; it was a local parser defect.",
+  "original_reserved_gpu_hours": 0.0033333333333333335,
+  "CPU_evidence": {
+    "json_atol": 1e-06,
+    "json_type": "float",
+    "yaml_atol": "1e-06",
+    "yaml_type": "str",
+    "only_sampling_difference": "atol"
+  }
+}
