@@ -309,3 +309,15 @@ PrefixAdapter correctness methods and check_adapter.py are available for indepen
 - A1 full-reference acceptance still belongs to unite-reproduce-20261023. Repeat affected native GPU correctness/BF16/DDP/memory/full-checkpoint checks before the separate training assignment. The unchanged accepted256 proof remains reusable until its affected source changes.
 - Scientific A2 is unrun,not passed or negative. CONFIRM is sealed. B1 still needs a future stable NATIVE64_JOINT complete checkpoint. Pilot FIT features/hash remain an endpoint-metric prerequisite.
 - Canonical notebook writer: unite-reproduce-20261023. This entry is a handoff only; this worker did not modify main or its canonical notebook.
+
+## 2026-10-24 A2 execution starts after A1 acceptance
+
+- A1 coordinator acceptance is dated2026-10-24T19:25:39Z; receipt SHA256226576dc95cb00fc3c59eca5b7ea59c037fb5e10565c108f3824851ca7dff97d.
+- Plan1.1 SHA2564cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5.
+- The retained source was clean atc80973b1b3f30a139c6a633325e0ec23c1173db2 and the forge backup matched; upstream2389f2c65fedbd43ada851e69b2b810efd23af7d remains an ancestor.
+- Existing CPU groups and unchanged256 adapter evidence are reused. Focused full native checks are added without changing their source or frozen training configurations.
+- Inspect all account-accessible partitions before submission. RTX2080Ti/TitanRTX/TitanXP/V100 require a different precision route; current BF16 candidates include3090/3080/A6000/Ada/L40S/A100/H100/H200. No CUDA incompatibility is inferred from age alone. No healthy node currently has four free GPUs.
+- First engineering request: one24GiB RTX3090,4CPUs,32GiB host memory,20minutes. This answers full native shapes/common parameter bytes/numerical loss and gradient boundaries/image-free ODE, and actual BF16 micro16 memory fit. It does not authorize scientific training or establish four-rank correctness.
+- The source zero-initializes final output weights and block gates. Equality and gradient checks use explicitly perturbed engineering weights to avoid trivial zero outputs; initial byte comparison precedes perturbation. The micro16 smoke independently rebuilds exactseed0 initialization. Neither state becomes a paired-training checkpoint.
+- Expected engineering duration2–10minutes is unmeasured; requested maximum is1/3 RTX3090 device-hour. Preserve the stage, every failure and terminal cost. The next request must use a diagnosed cause if this attempt fails.
+- Canonical notebook writer remains unite-reproduce-20261023; return this entry for that owner. No main notebook write is made here.
