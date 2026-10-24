@@ -189,3 +189,16 @@
 - Next action: finish CPU preparation, inspect current compatible resources/account usage, then submit the smallest useful GPU validation. Full A1 remains unrun; A2/training are outside this worker scope.
 
 - Campaign source backup: `117b3fea71a6975bf77501d40763487c23459b0b` on `research/joint-adaptive-tokenization-20261024`; no experimental code is merged into main.
+
+## 2026-10-24: version1.1 adopted; A1 gates unchanged
+
+- Read all1227lines of the replacement plan and its handoff. Current plan SHA256 is `4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5`.
+- Current retained plan bytes at `outputs/immutable-plan.md` now match v1.1. Original v1.0 bytes remain at `outputs/historical-plan-v1.0-71728da427a6.md`; completed/submitted stages and configurations retain their execution identity.
+- `campaign/locks/plan.json`, the current source-import binding and future GPU configuration resolver now bind v1.1. This supersedes the earlier19.2+4.8split: all GPU-hour figures are advisory, with no hard cap, fixed reserve, estimate-triggered stop or approval.
+- Section15.2 permits evidence-based extensions/targeted diagnostics. Record reason, original/revised config hashes/endpoints, affected controls, forecast/actual costs and actual constraints. No estimate alone changes status.
+- CPU retry `2830643` continues unchanged under original config `da7c044db1c64d6480ab2a1dc0c0f8a892968ff7c255305ac2303fff7fd097e3`, source `6d07622c4d5e17b4fd4b57651ee948ee255db8b3`, and its full stage. The v1.1 environment/reference requirements and Section5.11 checks are unchanged. Do not cancel, duplicate or relabel that execution.
+- Job2830382 remains a preserved pip-bootstrap failure. Retry2830643 uses a separate environment and verified pip25.3 bootstrap; its native literal-NIL launch and package resolution passed the prior boundary. No GPU has been submitted.
+- Accepted KARL evidence remains read-only and accepted under unchanged Section6 gates, with its original execution identity. Source, terminal, artifact-lock and canonical UNITE notebook ownership remain with this worker; coordinator owns acceptance/next-node decisions.
+- Later work now distinguishes B1 SCREEN/conditional PAIRED/RATE, SCREEN_PREFIX versus budget-ready COMMON_PREFIX, and the5.12/16.2 records. This does not expand this worker beyond A1 or enable A2/training.
+- Exact before/after hashes and compatibility evidence: `outputs/revision-v1.1-adoption-csail.json`. The separate pilot-data lane remains independent.
+- Next action: complete CPU2830643, freeze compatible artifacts and run the staged A1 validation/essential checks, then the complete5K reconstruction and independent50K generation.
