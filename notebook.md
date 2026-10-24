@@ -758,3 +758,24 @@ CPU job2834745 belongs to its setup owner and is not adopted into the A2 owned-j
 Primary owns the replacement-allocation decision and exact route. The two A2 pre-policy jobs continue unchanged.
 
 2026-10-24: Private matched NoMistakes v1.84.0 verified in /data/scratch-fast/kwen1/no-mistakes-research-20261024. CPU2834745 on groenig-6 started the native daemon and passed doctor, then failed after 7s due to worker receipt-script quoting and JSON PID parsing errors. Original artifacts retained; corrected service-v2.sbatch syntax-check passed, unsubmitted. Replacement allocation needs Firstmate authority because exactly one was allowed. Current service/agent containment and local validation remain unproved. B1 scientific execution NOT_STARTED; research branch d11d67a1e8efa97c717df3a4a066abe57a4bdad2 unchanged. New CPU cost0.007777778 core-hours, zero GPU-hours/updates. This entry returns through coordinator; no canonical notebook edit.
+
+## 2026-10-24 22:45 UTC joint-job observation
+
+Both pre-policy joint jobs remain RUNNING with their released configurations and immutable stages unchanged.
+At this observation native64 job2834281 had 476 completed updates and native16 job2834282 had 2151.
+Native16 wrote its scheduled second fixed512DEV output and interim checkpoint at update2000.
+
+| Native16 update | L1 | AlexNet LPIPS | Shared distortion | L1 p90 | Latent image variance | Latent RMS |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1000 | 0.2362170091 | 0.8647531515 | 1.1009701606 | 0.3176679581 | 0.0056268922 | 0.9834134635 |
+| 2000 | 0.1637655127 | 0.7622500330 | 0.9260155457 | 0.2150510892 | 0.1633452940 | 0.8362827586 |
+
+These values are copied from existing job outputs. No new numerical analysis was run.
+The update2000 per-image DEV file SHA256 is `416723d37c60420c8b943ec1b0bbc7652c1171cf37add9ae19fcb608f5994346`.
+The original checkpoint2000 hash record is `b274596ca94741583d048474e0506b711cecbbcfd314c3781d4fe8501dd4df5f`; the checkpoint was not reloaded or independently rehashed in this observation.
+Raw Slurm states, source/config/metric/data identities, runtime/config snapshots, DEV outputs, checkpoint record paths and stderr are retained in `outputs/A2/training-receipts-r6/observation-2245/` in the A2 source.
+The native16 stderr includes a DDP gradient-stride performance warning; the raw warning is preserved without a new diagnosis or code change.
+Native64 has no scheduled DEV result yet. Progress is unequal and both endpoints are unfinished, so no paired quality claim, valid64, generation release or conditional RECON decision follows.
+Only the accepted256-token reference has established reference quality. No interim or engineering snapshot is the scientific stable64 handoff.
+The primary service-replacement decision remains pending. No healthy local-validation route or passed stage exists; no new launch or analysis is released.
+Next ordinary review is23:40UTC for native16's scheduled update3000 output and both owned jobs, based on its recorded first200 time and current progress, or sooner on an exact primary route or concrete owned-job failure.
