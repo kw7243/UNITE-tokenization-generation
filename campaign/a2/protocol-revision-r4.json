@@ -1,0 +1,76 @@
+{
+  "revision": "r4-shared-visible",
+  "reason": "Use the smallest measured adequate BF16 device; preserve all scientific controls and four-rank micro16/accumulation4/global256 layout.",
+  "source_base": "e17bc14740cecf97de086078b621783e4ecfe6ba",
+  "changed_controls": [
+    "GPU class H100 to RTX3090",
+    "two nodes, two ranks each",
+    "hardware assertion reads declared device/minimum memory"
+  ],
+  "unchanged_controls": [
+    "all initialized parameters and native counts",
+    "FIT/DEV/ALLOC and supplied class map",
+    "all random streams/images/flips/noise/update exposure",
+    "source M3 losses and detach",
+    "optimizers/LR/warmup/clipping/EMA",
+    "5000-update endpoints and metrics"
+  ],
+  "required_checks": [
+    "Real four-rank BF16 accumulation and explicit mean comparison",
+    "global clipping and EMA",
+    "complete snapshot/resume and same next update"
+  ],
+  "forecast": {
+    "training": null,
+    "reason": "Measure the first200 real updates after coordinator acceptance; single engineering micro16 timings do not establish training throughput."
+  },
+  "engineering_request": {
+    "gpu_count": 4,
+    "gpu_class": "RTX3090",
+    "nodes": 2,
+    "cpus_per_rank": 4,
+    "host_memory_gib_per_node": 32,
+    "minutes": 20,
+    "maximum_device_hours": 1.3333333333333333
+  },
+  "configs": {
+    "NATIVE64_JOINT": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE64_JOINT.yaml",
+      "sha256": "9b42b0d5bbe91e04493078d21c19f9d2e3f059bec35b8e9f2695ad9a07bbfab2",
+      "run_id": "A2__NATIVE64_JOINT__s0__9b42b0d5bbe9",
+      "original_config_sha256": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+      "prior_revision_config_sha256": "238fd9134207fcb022e72ffcf99c504cb0c7e72e8f1abbeea7e8b1edbbbf412d"
+    },
+    "NATIVE64_RECON": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE64_RECON.yaml",
+      "sha256": "2dc9d199d92adcc81a28fb84da0ac2a68e2c0c93dd9c42b62e70a6a23b2d155c",
+      "run_id": "A2__NATIVE64_RECON__s0__2dc9d199d92a",
+      "original_config_sha256": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+      "prior_revision_config_sha256": "621608438c0890070771c5af9d665eef1126c58ee2d055fcd09c096a3af7770e"
+    },
+    "NATIVE16_JOINT": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE16_JOINT.yaml",
+      "sha256": "bec70b22d1d4d7493217cca10ec0076bbe902f859a53d58883d4a22cfc78f6ea",
+      "run_id": "A2__NATIVE16_JOINT__s0__bec70b22d1d4",
+      "original_config_sha256": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+      "prior_revision_config_sha256": "4def68414aa3679347447ad09492ef39189a19f559563bc2194a15982aca59d7"
+    },
+    "NATIVE16_RECON": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE16_RECON.yaml",
+      "sha256": "ef4781446d3e7d14bcadeeb7842c6f0b2665e25199ea7d68ce12d1d4fd26705a",
+      "run_id": "A2__NATIVE16_RECON__s0__ef4781446d3e",
+      "original_config_sha256": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8",
+      "prior_revision_config_sha256": "be1a971b52b324aa9c604b77eb84a8516ae8f5fe28b421dc4cb214e52ab8daf6"
+    }
+  },
+  "prior_revision": "r3-explicit-device",
+  "additional_changes": [
+    "One Slurm launcher per node with both allocated GPUs visible",
+    "Two local torchrun workers with LOCAL_RANK0/1",
+    "Minimal known-result CUDA collective before any full model",
+    "Engineering update2 duration recorded separately for a bounded forecast"
+  ],
+  "scientific_path_changed": false,
+  "affected_gpu_checks": "Repeat the communication boundary first. Only a passing CUDA collective and barrier permit the full distributed model, snapshot and direct denoiser checks.",
+  "scope": "Engineering only. Coordinator acceptance is still required before main training."
+}

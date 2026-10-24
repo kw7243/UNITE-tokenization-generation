@@ -1,0 +1,91 @@
+{
+  "schema": "jat-a2-collective-counterfactual.v1",
+  "name": "shared-visible-node-launch",
+  "prior_jobs": [
+    2834080,
+    2834097
+  ],
+  "torch": "2.10.0+cu128",
+  "torch_cuda": "12.8",
+  "nccl": "2.27.5+cuda12.9",
+  "change": "Per-node torchrun with shared node-local two-GPU visibility",
+  "probe": {
+    "world_size": 4,
+    "nodes": 2,
+    "workers_per_node": 2,
+    "local_rank": [
+      0,
+      1
+    ],
+    "first_collective": "CUDA float32 all_reduce sum",
+    "input": "rank+1",
+    "expected_sum": 10,
+    "barrier": true,
+    "model": false
+  },
+  "resources": {
+    "gpus": 4,
+    "gpu_class": "NVIDIA GeForce RTX 3090",
+    "launcher_tasks": 2,
+    "cpus_per_launcher": 8,
+    "cpus_total": 16,
+    "cpus_per_node": 8,
+    "memory_gib_per_node": 32,
+    "time_minutes": 20,
+    "maximum_requested_device_hours": 1.3333333333333333
+  },
+  "failure_action": "Stop before any model; inspect first transport/device failure and return diagnosis.",
+  "success_action": "Run direct denoiser-output comparisons, then actual native64/native16 four-rank accumulation/clipping/EMA/checkpoint continuation checks in this same allocation.",
+  "main_training_allowed": false,
+  "transport_disable_flags": [],
+  "environment_changes": [],
+  "configs": {
+    "NATIVE64_JOINT": {
+      "path": "campaign/a2/configs/r5-shared-visible-tolerances/NATIVE64_JOINT.yaml",
+      "sha256": "8eacfe7b54fbaff64b5e32df83805a48c8c228730ecbae6ed343637240207ca9",
+      "run_id": "A2__NATIVE64_JOINT__s0__8eacfe7b54fb",
+      "original_config_sha256": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+      "prior_revision_config_sha256": "9b42b0d5bbe91e04493078d21c19f9d2e3f059bec35b8e9f2695ad9a07bbfab2"
+    },
+    "NATIVE64_RECON": {
+      "path": "campaign/a2/configs/r5-shared-visible-tolerances/NATIVE64_RECON.yaml",
+      "sha256": "1a09d107c39479bd42f6cbc567d55a4632e3ad7f125c65fcce015084f8978fab",
+      "run_id": "A2__NATIVE64_RECON__s0__1a09d107c394",
+      "original_config_sha256": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+      "prior_revision_config_sha256": "2dc9d199d92adcc81a28fb84da0ac2a68e2c0c93dd9c42b62e70a6a23b2d155c"
+    },
+    "NATIVE16_JOINT": {
+      "path": "campaign/a2/configs/r5-shared-visible-tolerances/NATIVE16_JOINT.yaml",
+      "sha256": "075ace4c37523b2dec4181e0007ddf9164dfab5469e09b2e21945847c045a3af",
+      "run_id": "A2__NATIVE16_JOINT__s0__075ace4c3752",
+      "original_config_sha256": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+      "prior_revision_config_sha256": "bec70b22d1d4d7493217cca10ec0076bbe902f859a53d58883d4a22cfc78f6ea"
+    },
+    "NATIVE16_RECON": {
+      "path": "campaign/a2/configs/r5-shared-visible-tolerances/NATIVE16_RECON.yaml",
+      "sha256": "94010c0cbb10c1199c7683dba4ffe987eb876b5ca3345df87dd56cc3f7412c2c",
+      "run_id": "A2__NATIVE16_RECON__s0__94010c0cbb10",
+      "original_config_sha256": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8",
+      "prior_revision_config_sha256": "ef4781446d3e7d14bcadeeb7842c6f0b2665e25199ea7d68ce12d1d4fd26705a"
+    }
+  },
+  "code_sha256": {
+    "campaign/a2/tests/check_collective.py": "ffe5535ec63a28d7722a510b5f8e5ef65c058e678def7d356a3d45a55d1cba70",
+    "campaign/a2/tests/check_ddp_gpu.py": "ad820d04e2d66016a7f106c546d39ac2bcc4cc3b2c69c855ecd0d3a8e2d44c53",
+    "campaign/a2/tests/check_denoise_output.py": "4909ee7db78d2d2bd8177c15c3104578da55357806ce6caa9d98356a61ca2d11",
+    "campaign/a2/node-launch.sh": "87afdb5a17af2ef20668302e7742ba0424b0246b1e04878178b7091c13f4cb8e",
+    "campaign/a2/shared-visible-check.sbatch": "62feb99b40aa2adeba4df5a843279e3026eaf86b2776f8ca9ec322d0f0bc5c86"
+  },
+  "continuation_comparison": {
+    "exact": [
+      "snapshot restoration",
+      "all RNG",
+      "sampler/FIT queues",
+      "random streams",
+      "exposure counters",
+      "ordered parameter names"
+    ],
+    "fp32_state_relative_l2": 1e-05,
+    "bf16_loss_relative_l2": 0.005
+  }
+}

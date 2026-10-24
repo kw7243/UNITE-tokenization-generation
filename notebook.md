@@ -358,3 +358,22 @@ Only the accepted 256-token reference has established scientific stability. This
 The current code revision is `5d44e35fd122a0de537531da5624aa03e1e0f530`; all prior stages and configuration identities remain preserved.
 The canonical notebook receives the same outcome under the transferred single-writer role.
 The coordinator owns the bounded recovery direction and later acceptance; no B1 work begins here.
+
+## 2026-10-24 Coordinator-authorized launch-boundary recovery
+
+The coordinator authorized one distinct counterfactual after reviewing the repeated failure.
+The earliest detailed error in job 2834097 is shared-memory handle import at NCCL `transport/shm.cc:590`.
+Initialization completed before that call; later proxy/socket failures follow it.
+The per-node torchrun test gives both allocated GPUs to one Slurm launcher, then creates two local workers with local ranks 0/1.
+The minimal CUDA allocation, known-sum all-reduce and barrier must pass before any model runs.
+No NCCL transport flag, package, driver or system setting is changed.
+The existing source one-GPU proofs and failed explicit-device counterfactual remain preserved.
+
+The single allocation requests two nodes, four homogeneous RTX 3090 GPUs, 16 CPUs total (eight per node) and 32 GiB host memory per node.
+The 20-minute starting request covers communication, direct denoiser predictions and the actual four-rank continuation checks.
+The exact current configuration index is `campaign/a2/configs/r5-shared-visible-tolerances/index.json`.
+All scientific data, initialized bytes, losses, optimizers and exposure controls are unchanged.
+Snapshot/RNG/sampler/exposure restoration is exact; floating next-update comparisons use the plan's tolerances and do not require bitwise distributed equality.
+Revision r4 is preserved unexecuted; r5 corrects the prelaunch test comparison requirement and binds the final source.
+The separate note `outputs/A2/engineering/recovery-shared-visible-1/report-correction.md` clarifies the earlier CPU wording without altering its original report or correct costs.
+Scientific training still requires the coordinator's acceptance after complete evidence.

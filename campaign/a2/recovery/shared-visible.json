@@ -1,0 +1,77 @@
+{
+  "schema": "jat-a2-collective-counterfactual.v1",
+  "name": "shared-visible-node-launch",
+  "prior_jobs": [
+    2834080,
+    2834097
+  ],
+  "torch": "2.10.0+cu128",
+  "torch_cuda": "12.8",
+  "nccl": "2.27.5+cuda12.9",
+  "change": "Per-node torchrun with shared node-local two-GPU visibility",
+  "probe": {
+    "world_size": 4,
+    "nodes": 2,
+    "workers_per_node": 2,
+    "local_rank": [
+      0,
+      1
+    ],
+    "first_collective": "CUDA float32 all_reduce sum",
+    "input": "rank+1",
+    "expected_sum": 10,
+    "barrier": true,
+    "model": false
+  },
+  "resources": {
+    "gpus": 4,
+    "gpu_class": "NVIDIA GeForce RTX 3090",
+    "launcher_tasks": 2,
+    "cpus_per_launcher": 8,
+    "cpus_total": 16,
+    "cpus_per_node": 8,
+    "memory_gib_per_node": 32,
+    "time_minutes": 20,
+    "maximum_requested_device_hours": 1.3333333333333333
+  },
+  "failure_action": "Stop before any model; inspect first transport/device failure and return diagnosis.",
+  "success_action": "Run direct denoiser-output comparisons, then actual native64/native16 four-rank accumulation/clipping/EMA/checkpoint continuation checks in this same allocation.",
+  "main_training_allowed": false,
+  "transport_disable_flags": [],
+  "environment_changes": [],
+  "configs": {
+    "NATIVE64_JOINT": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE64_JOINT.yaml",
+      "sha256": "9b42b0d5bbe91e04493078d21c19f9d2e3f059bec35b8e9f2695ad9a07bbfab2",
+      "run_id": "A2__NATIVE64_JOINT__s0__9b42b0d5bbe9",
+      "original_config_sha256": "68c8a5bdd512f79815862854eea5a0945ffaccee2e594b82c65f521188396c17",
+      "prior_revision_config_sha256": "238fd9134207fcb022e72ffcf99c504cb0c7e72e8f1abbeea7e8b1edbbbf412d"
+    },
+    "NATIVE64_RECON": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE64_RECON.yaml",
+      "sha256": "2dc9d199d92adcc81a28fb84da0ac2a68e2c0c93dd9c42b62e70a6a23b2d155c",
+      "run_id": "A2__NATIVE64_RECON__s0__2dc9d199d92a",
+      "original_config_sha256": "92b3c45664d57db62768dc5b269c837fed1f9fe8f4f58101db9bc5f49982481c",
+      "prior_revision_config_sha256": "621608438c0890070771c5af9d665eef1126c58ee2d055fcd09c096a3af7770e"
+    },
+    "NATIVE16_JOINT": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE16_JOINT.yaml",
+      "sha256": "bec70b22d1d4d7493217cca10ec0076bbe902f859a53d58883d4a22cfc78f6ea",
+      "run_id": "A2__NATIVE16_JOINT__s0__bec70b22d1d4",
+      "original_config_sha256": "261f77693650343762115c0aa37fb11343e78e1df4a587189e71bbd6b4c4ccbb",
+      "prior_revision_config_sha256": "4def68414aa3679347447ad09492ef39189a19f559563bc2194a15982aca59d7"
+    },
+    "NATIVE16_RECON": {
+      "path": "campaign/a2/configs/r4-shared-visible/NATIVE16_RECON.yaml",
+      "sha256": "ef4781446d3e7d14bcadeeb7842c6f0b2665e25199ea7d68ce12d1d4fd26705a",
+      "run_id": "A2__NATIVE16_RECON__s0__ef4781446d3e",
+      "original_config_sha256": "19be684784a5639c729b81031fbb28a2a949e7f80ad6236086be567a8466bdb8",
+      "prior_revision_config_sha256": "be1a971b52b324aa9c604b77eb84a8516ae8f5fe28b421dc4cb214e52ab8daf6"
+    }
+  },
+  "code_sha256": {
+    "campaign/a2/tests/check_collective.py": "ffe5535ec63a28d7722a510b5f8e5ef65c058e678def7d356a3d45a55d1cba70",
+    "campaign/a2/node-launch.sh": "87afdb5a17af2ef20668302e7742ba0424b0246b1e04878178b7091c13f4cb8e",
+    "campaign/a2/shared-visible-check.sbatch": "2f55cd07d60ee7c2d7becbbb6c3992f68c5c05fe266e69ebd8f334e6ce6b5b84"
+  }
+}
