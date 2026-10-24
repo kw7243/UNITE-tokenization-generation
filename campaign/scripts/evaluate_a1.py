@@ -3,6 +3,7 @@ from pathlib import Path
 import argparse
 import hashlib
 import importlib.metadata
+import io
 import json
 import os
 import platform
@@ -39,6 +40,7 @@ out.mkdir(parents=True,exist_ok=True)
 assert (Path.cwd()/"STAGING_MANIFEST.json").is_file()
 assert os.environ.get("SLURM_JOB_ID")
 start=time.perf_counter()
+phase="PREFLIGHT"
 record={"node_id":"A1","method_id":cfg["method_id"],"seed":cfg["seed"],
         "config_sha256":digest,"checkpoint_sha256":cfg["checkpoint"]["sha256"],
         "data_manifest_sha256":cfg["data"]["reconstruction_manifest_sha256"],
@@ -72,22 +74,47 @@ def save():
       ("4 Results",json.dumps({k:record.get(k) for k in ("run_status","reconstruction","generation","validation","adapter_checks","gpu_hours","elapsed_seconds","error")},indent=2)),
       ("5 Interpretation","Run completion does not claim coordinator acceptance. Reference effect is distinct from exact headline reproduction; adapter correctness does not establish an allocation hypothesis."),
       ("6 Limitations","Authors' evaluation RNG states and full scientific config are absent. Paper/source ODE intervals differ; this uses native[0,1]. Reconstruction is the declared5K subset, with no matching published rFID target. Single-run metrics do not establish training-seed uncertainty. All failures and allocated hours remain in the ledger."),
-      ("7 Next action","Inspect terminal accounting and give the complete A1 evidence and essential checks to the coordinator. Do not start A2 in this worker.")]
+      ("7 Next action",("Inspect all three correctness proofs and measured throughput, then prepare the complete5000/50000 reference request."
+                         if cfg["workload"]=="VALIDATION_AND_ESSENTIAL_CHECKS" else
+                         "Inspect terminal accounting and give complete A1 evidence and essential checks to the coordinator. Do not start A2."))]
     (out/"report.md").write_text("# "+run_id+": A1\n\n"+"\n\n".join("## "+name+"\n"+text for name,text in sections)+"\n")
 save()
 
 def image_batch(rows,device):
     transform=CenterCropTransform(256)
     convert=ToTensor()
-    return torch.stack([convert(transform(Image.open(row["path"]).convert("RGB"))) for row in rows]).to(device)
+    images=[]
+    for row in rows:
+        payload=Path(row["path"]).read_bytes()
+        assert hashlib.sha256(payload).hexdigest()==row["sha256"],row["image_id"]
+        with Image.open(io.BytesIO(payload)) as image:
+            images.append(convert(transform(image.convert("RGB"))))
+    return torch.stack(images).to(device)
 
 try:
     for relative,expected in cfg["source"]["code_sha256"].items():
         assert sha(root/relative)==expected,relative
+    imports_path=root/"campaign/locks/source-imports.json"
+    assert sha(imports_path)==cfg["source"]["source_import_manifest_sha256"]
+    imports=json.loads(imports_path.read_text())
+    for project,files in imports["files"].items():
+        for name,expected in files.items():
+            assert sha(root/"third_party"/project/name)==expected,(project,name)
     assert sha(cfg["checkpoint"]["path"])==cfg["checkpoint"]["sha256"]
+    assert sha(cfg["data"]["generation_label_manifest"])==cfg["data"]["generation_label_manifest_sha256"]
     assert sha(cfg["data"]["reconstruction_manifest"])==cfg["data"]["reconstruction_manifest_sha256"]
     assert sha(cfg["metrics"]["protocol_path"])==cfg["metrics"]["protocol_sha256"]
     assert sha(cfg["environment"]["packages"])==cfg["environment"]["packages_sha256"]
+    assert cfg["seed"]==20261023
+    assert cfg["sampling"]==dict(cfg=2.0,cfg_interval=[.1,1.0],cfg_norm_order="norm_first",
+                                batch_size=16,num_samples=50000,num_classes=1000,
+                                ode_method="dopri5",output_grid_size=50,time_interval=[0.0,1.0],
+                                atol=1e-6,rtol=1e-3,timestep_shift=.5,precision="FP32_TF32",
+                                compile_decoder=True)
+    assert cfg["reconstruction"]["sample_count"]==5000
+    assert cfg["reconstruction"]["batch_size"]==64
+    for name,expected in cfg["environment"]["package_versions"].items():
+        assert importlib.metadata.version(name)==expected,name
     assert importlib.metadata.version("torch-fidelity")=="0.3.0"
     assert torch.cuda.is_available() and torch.cuda.device_count()==1
     device=torch.device("cuda",0)
@@ -95,12 +122,20 @@ try:
     props=torch.cuda.get_device_properties(device)
     assert cfg["hardware"]["gpu_model_substring"] in props.name,props.name
     assert torch.cuda.get_device_capability(device)[0]>=8
+    assert props.total_memory>=cfg["hardware"]["minimum_vram_bytes"],props.total_memory
     test=torch.tensor([1.0],device=device)
     assert (test+test).item()==2.0
     gpu_uuid=str(props.uuid)
     smi_uuid=gpu_uuid if gpu_uuid.startswith("GPU-") else "GPU-"+gpu_uuid
     nvidia=subprocess.check_output(["nvidia-smi","--id="+smi_uuid,"--query-gpu=name,uuid,memory.total,driver_version","--format=csv,noheader"],text=True).strip()
-    runtime={"python":sys.version,"torch":torch.__version__,"torch_cuda":torch.version.cuda,
+    memory_kib=int(Path("/proc/meminfo").read_text().split("MemTotal:")[1].split()[0])
+    mounts={path:subprocess.check_output(["df","-PT",path],text=True).splitlines()[-1]
+            for path in cfg["runtime_mount_paths"]}
+    runtime={"memory_total_kib":memory_kib,"mounts":mounts,
+             "slurm_job_id":os.environ["SLURM_JOB_ID"],
+             "slurm_cpus_per_task":os.getenv("SLURM_CPUS_PER_TASK"),
+             "slurm_mem_per_node":os.getenv("SLURM_MEM_PER_NODE"),
+             "python":sys.version,"torch":torch.__version__,"torch_cuda":torch.version.cuda,
              "torch_fidelity":importlib.metadata.version("torch-fidelity"),
              "gpu":props.name,"uuid":gpu_uuid,"vram_bytes":props.total_memory,
              "capability":list(torch.cuda.get_device_capability(device)),
@@ -167,6 +202,7 @@ try:
         del inception,features,logits,images,reconstruction
         core.decoder=core.decoder._orig_mod
         torch.cuda.empty_cache()
+        phase="ESSENTIAL_ADAPTER_CHECKS"
         proof=check_essential(core,real,seed=cfg["seed"])
         record["adapter_checks"]=proof
         record["images_seen"]+=9
@@ -177,6 +213,7 @@ try:
         import lpips
         alex=lpips.LPIPS(net="alex",version="0.1").to(device).eval().requires_grad_(False)
         seed_all()
+        phase="RECONSTRUCTION_REFERENCE"
         begin=time.perf_counter()
         real_features=[];recon_features=[];l1_values=[];lpips_values=[]
         with torch.no_grad():
@@ -212,9 +249,12 @@ try:
         del alex,real_features,recon_features,actual_real,actual_recon,real_np,inception
         torch.cuda.empty_cache()
         # Source engine performs the actual50Kloop. Instrumentation retains outputs only.
+        phase="GENERATION_REFERENCE"
         seed_all()
         features_file=np.lib.format.open_memmap(out/"generation-features.npy",mode="w+",dtype=np.float32,shape=(50000,2048))
         logits_file=np.lib.format.open_memmap(out/"generation-logits.npy",mode="w+",dtype=np.float32,shape=(50000,1008))
+        expected_labels=np.array(json.loads(Path(cfg["data"]["generation_label_manifest"]).read_text())["labels"])
+        assert np.array_equal(expected_labels,np.tile(np.arange(1000),50))
         captured=[0];batches=[]
         original_extract=evaluation.extract_inception_features
         original_fid=evaluation.compute_fid_from_features
@@ -230,10 +270,14 @@ try:
                 (out/"generation-progress.json").write_text(json.dumps({"completed_features":last,"required":50000})+"\n")
             return features,logits
         def retain_generate(*positional,**keywords):
+            supplied=keywords["y_given"].cpu().numpy()
+            assert np.array_equal(supplied,expected_labels[captured[0]:captured[0]+len(supplied)])
             previous=nfe[0];torch.cuda.synchronize();tick=time.perf_counter()
             images=original_generate(*positional,**keywords)
             torch.cuda.synchronize()
             batches.append({"samples":len(images),"seconds":time.perf_counter()-tick,"nfe":nfe[0]-previous})
+            if len(batches)%20==0:
+                (out/"generation-batches.partial.json").write_text(json.dumps(batches)+"\n")
             if len(batches)==1:
                 np.savez(out/"generation-samples.npz",images=images.clamp(0,1).cpu().numpy(),labels=keywords["y_given"].cpu().numpy())
             return images
@@ -276,7 +320,12 @@ try:
                   peak_allocated_bytes=torch.cuda.max_memory_allocated(),
                   peak_reserved_bytes=torch.cuda.max_memory_reserved())
 except Exception as exc:
-    record.update(run_status="FAILED_OPERATIONAL",node_status="BLOCKED_REFERENCE",error=repr(exc))
+    failed_check=phase=="ESSENTIAL_ADAPTER_CHECKS" and isinstance(exc,AssertionError)
+    record.update(run_status="FAILED_CORRECTNESS" if failed_check else "FAILED_OPERATIONAL",
+                  node_status="BLOCKED_REFERENCE",failure_phase=phase,error=repr(exc))
+    record["scientific_negative"]=False
+    record["failure_interpretation"]=("Adapter correctness assertion failed; reference quality is not assessed."
+                                     if failed_check else "Execution did not establish a scientific negative.")
     raise
 finally:
     record["elapsed_seconds"]=time.perf_counter()-start

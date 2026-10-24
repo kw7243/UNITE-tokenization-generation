@@ -48,6 +48,11 @@ def check_essential(core, images, seed=20261023):
     core.flow_mini_batch=3
     core.gradient_checkpointing_denoiser=False
     adapter=PrefixAdapter(core).to(device).eval()
+    with torch.no_grad():
+        for table in (adapter.encoder_length,adapter.decoder_length_after_up,adapter.decoder_length_after_embed):
+            assert torch.count_nonzero(table.weight)==0
+            table.weight.copy_(torch.randn_like(table.weight)*.01)
+    proof["length_embedding_fixture"]="Zero initialization verified, then nonzero seeded0.01-scale values exercise all length paths."
     noise=torch.randn(3,64,32,device=device)
     tau=torch.rand(3,device=device)*.01
     counts=torch.tensor([16,64,16],device=device)
