@@ -444,3 +444,11 @@ Main training awaits coordinator acceptance of this receipt; no scientific A2 pa
 - The B1 source check incorrectly required unused KARL manifest paths that are absent from the pinned repository. A2's accepted validator checks the applicable UNITE import only.
 - Fix: reuse that UNITE-only boundary; do not change inherited KARL files or manifests. B1 does not import KARL model code.
 - Retained source stage and stderr remain in `outputs/b1-preparation/attempt-1` and the recorded scratch stage. This failure supplies no scientific result.
+
+### CPU attempt2 - focused preparation checks passed
+
+- Job2834302 completed with exit0:0:60seconds,2CPUs,8GiB,no GPUs,batch MaxRSS351284K.
+- Seven focused check groups passed: disabled configs/source/data; quota/replay; synthetic grouping/loss/detach; length/dropout/CFG/projection routing; DDP reduction algebra; full-model metadata optimizer capacity; strict synthetic conversion/refusals.
+- No scientific update, real checkpoint conversion, image evaluation, or feature extraction occurred.
+- Final source also records per-count latent/flow monitoring, first200real-update forecasts, exact fixed-control evaluation counts, and failures. Repeat CPU validation for those final changes.
+- The final CPU request is reduced to2CPUs/2GiB/5minutes based on the measured maximum resident memory, with no GPU request.

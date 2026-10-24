@@ -127,6 +127,8 @@ def main():
             append(out/'exposure.jsonl',dict(resume_discontinuity=True,checkpoint_update=completed,replay_through=highest))
     dist.barrier()
     ddp=DDP(model,device_ids=[device.index],broadcast_buffers=False,find_unused_parameters=True)
+    first200_start=time.perf_counter()
+    torch.cuda.reset_peak_memory_stats(device)
     try:
         for update in range(completed+1,cfg['training']['main_updates']+1):
             start=time.perf_counter()
@@ -141,18 +143,37 @@ def main():
                 for group in opt.param_groups:
                     group['lr']=1e-4
             totals=torch.zeros(2,dtype=torch.float64,device=device)
+            zsum=torch.zeros((2,64,32),dtype=torch.float64,device=device)
+            zsquare=torch.zeros_like(zsum)
+            by_count=torch.zeros((2,3),dtype=torch.float64,device=device)
+            flow_bins=torch.zeros((2,4,2),dtype=torch.float64,device=device)
             for acc in range(4):
                 local=local_indices(rank,acc)
                 images=load_images([rows[i] for i in local],draws['flip'][local],device)
                 labels=torch.tensor([rows[i]['class_index'] for i in local],device=device)
+                selected=select_draws(draws,local,device)
                 with ddp.no_sync() if acc<3 else nullcontext():
                     with torch.autocast('cuda',dtype=torch.bfloat16):
-                        value=ddp(images,labels,counts[local].to(device),select_draws(draws,local,device))
+                        value=ddp(images,labels,counts[local].to(device),selected)
                     finite=torch.isfinite(value['per_image']).all().int()
                     dist.all_reduce(finite,op=dist.ReduceOp.MIN)
                     require(finite.item(),'Nonfinite loss before optimizer update')
                     backward_mean(value['per_image']).backward()
                 totals+=torch.stack([value['reconstruction'].detach().double().sum(),value['generation_sum'].detach().double().sum()])
+                for row,k in enumerate((16,64)):
+                    active=counts[local].to(device)==k
+                    z=value['latents'][active,:k].double()
+                    zsum[row,:k]+=z.sum(0); zsquare[row,:k]+=z.square().sum(0)
+                    by_count[row,0]+=active.sum()
+                    by_count[row,1]+=value['reconstruction'][active].detach().double().sum()
+                    by_count[row,2]+=value['generation_sum'][active].detach().double().sum()
+                    times=selected['diffusion_time'][active].flatten()
+                    bins=torch.bucketize(times,torch.tensor([.25,.5,.75],device=device))
+                    losses=value['generation_draws'][active].detach().double().flatten()
+                    for noise_bin in range(4):
+                        mask=bins==noise_bin
+                        flow_bins[row,noise_bin,0]+=losses[mask].sum()
+                        flow_bins[row,noise_bin,1]+=mask.sum()
             norm=clip_gradients([p for p in model.parameters() if p.requires_grad])
             for opt in optimizers.values():
                 opt.step()
@@ -164,22 +185,46 @@ def main():
                 finite=all(torch.isfinite(p).all() for p in model.parameters())
                 finite=finite and all(torch.isfinite(v).all() for o in optimizers.values() for st in o.state.values()
                                      for v in st.values() if torch.is_tensor(v))
-                require(finite,'Nonfinite parameter or optimizer state')
+                finite=torch.tensor(int(finite),device=device)
+                dist.all_reduce(finite,op=dist.ReduceOp.MIN)
+                require(finite.item(),'Nonfinite parameter or optimizer state')
             torch.cuda.synchronize()
             costs['training_seconds']+=time.perf_counter()-start
             if rank==0:
                 append(out/'exposure.jsonl',dict(b1_update_completed=update))
+            if update==200 and not args.resume:
+                measured=torch.tensor([time.perf_counter()-first200_start,torch.cuda.max_memory_allocated(device),
+                    torch.cuda.max_memory_reserved(device)],dtype=torch.float64,device=device)
+                dist.all_reduce(measured,op=dist.ReduceOp.MAX)
+                if rank==0:
+                    (out/'first200-forecast.json').write_text(json.dumps(dict(completed_updates=200,
+                        images_seen=51200,seconds=measured[0].item(),images_per_s=51200/measured[0].item(),
+                        peak_allocated_bytes=int(measured[1].item()),peak_reserved_bytes=int(measured[2].item()),
+                        projected_5000_training_device_hours=measured[0].item()*25*4/3600,
+                        gpu_model=props.name,uncertainty='Measured main-update forecast; endpoint evaluation and setup are additional'),indent=2)+'\n')
             if update%100==0:
                 dist.all_reduce(totals)
+                dist.all_reduce(zsum);dist.all_reduce(zsquare);dist.all_reduce(by_count);dist.all_reduce(flow_bins)
                 if rank==0:
                     append(out/'monitor.jsonl',dict(update=update,reconstruction_loss=(totals[0]/256).item(),
                         flow_loss_sum=(totals[1]/256).item(),flow_loss_mean_draw=(totals[1]/768).item(),
-                        gradient_norm_before_clip=norm.item(),lr=1e-4,count_histogram=count_record['histogram']))
+                        gradient_norm_before_clip=norm.item(),lr=1e-4,count_histogram=count_record['histogram'],
+                        by_count={str(k):dict(images=int(by_count[row,0].item()),
+                            reconstruction_loss=(by_count[row,1]/by_count[row,0]).item() if by_count[row,0]>0 else None,
+                            flow_loss_mean_draw=(by_count[row,2]/(3*by_count[row,0])).item() if by_count[row,0]>0 else None,
+                            latent_image_variance=(zsquare[row,:k]/by_count[row,0]-(zsum[row,:k]/by_count[row,0]).square()).mean().item() if by_count[row,0]>0 else None,
+                            latent_rms=(zsquare[row,:k]/by_count[row,0]).mean().sqrt().item() if by_count[row,0]>0 else None,
+                            missing_reason=None if by_count[row,0]>0 else 'No active images at this count',
+                            flow_by_time_bin=[dict(draws=int(flow_bins[row,b,1].item()),
+                                mean=(flow_bins[row,b,0]/flow_bins[row,b,1]).item() if flow_bins[row,b,1]>0 else None)
+                                for b in range(4)]) for row,k in enumerate((16,64))},
+                        norm_gamma_rms=model.core.encoder_layer_norm.weight.float().square().mean().sqrt().item(),
+                        norm_beta_rms=model.core.encoder_layer_norm.bias.float().square().mean().sqrt().item()))
             if update%1000==0:
                 dist.barrier(); ev=time.perf_counter()
                 if rank==0:
                     summary=reconstruction(ema,eval_rows(splits['DEV'],512,cfg['evaluation']['seed']),device,
-                        cfg['evaluation']['seed'],out/f'dev-{update}.json')
+                        cfg['evaluation']['seed'],out/f'dev-{update}.json',counts=cfg['evaluation']['fixed_counts'])
                     history.append(dict(update=update,per_count=summary))
                 shared=[history if rank==0 else None]; dist.broadcast_object_list(shared,src=0); history=shared[0]
                 dist.barrier(); costs['evaluation_seconds']+=time.perf_counter()-ev
@@ -188,10 +233,22 @@ def main():
                 if rank==0:
                     (out/'results.json').write_text(json.dumps(dict(node_id='B1',phase_id='SCREEN',method_id=cfg['method_id'],
                         seed=0,node_status='AWAITING_COMMON_ENDPOINT',outcome_class=None,config_sha256=digest,
+                        outcome_class_reason='Coordinator must classify observed matched trajectories',
+                        budget_id=cfg['allocation']['budget_id'],allowed_counts=[16,64],
+                        prefix_loss_reduction='one active prefix per image;mean over images outside M3 sum',
+                        comparison_axis='image_exposure',data_manifest_sha256=cfg['data']['hashes'],
+                        metric_protocol_sha256=cfg['evaluation']['metric_protocol_sha256'],
                         checkpoint_sha256=sha(out/f'checkpoint-{update}.pt'),main_updates=update,images_seen=update*256,
                         training_gpu_hours=costs['training_seconds']*4/3600,gpu_hours=None,
                         gpu_hours_reason='Terminal allocation accounting required',training=dict(history=history,costs=costs),
-                        reconstruction={},generation={},checkpoint_roles=dict(SCREEN_PREFIX=None,COMMON_PREFIX=None)),indent=2)+'\n')
+                        reconstruction=dict(history=history),generation=dict(gfid_5k=None,kid_5k=None,
+                            reason='Selected common endpoint and separately authorized quality workload required'),
+                        checkpoint_roles=dict(SCREEN_PREFIX=None,COMMON_PREFIX=None)),indent=2)+'\n')
+    except Exception as exc:
+        if rank==0:
+            append(out/'failures.jsonl',dict(error=repr(exc),attempted_cumulative_update=sampler.updates,
+                reason='Technical failure requires diagnosis; preserve exposure and terminal allocation accounting'))
+        raise
     finally:
         dist.destroy_process_group()
 

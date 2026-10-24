@@ -71,7 +71,7 @@ def main():
     model.load_state_dict(state['ema'],strict=True)
     args.output.mkdir(parents=True,exist_ok=False)
     if args.mode=='reconstruction':
-        reconstruction(model,read_interface(cfg['data'])['DEV'],torch.device('cuda'),cfg['evaluation']['seed'],args.output/'dev-full.json')
+        reconstruction(model,read_interface(cfg['data'])['DEV'],torch.device('cuda'),cfg['evaluation']['seed'],args.output/'dev-full.json',counts=cfg['evaluation']['fixed_counts'])
     else:
         require(receipt.get('common_screen_endpoint_accepted') is True and args.count is not None,'Common endpoint and fixed count required')
         if cfg['method_id'] in ('PREFIX16','PREFIX64'):
