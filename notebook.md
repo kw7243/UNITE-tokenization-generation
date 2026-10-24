@@ -285,3 +285,13 @@ Native generation uses unchanged third_party/unite/engines/eval.py:evaluate_fid 
 Instrumentation retains feature/logit arrays,NFE,timing and progress;it does not replace the source metric implementation.
 5000 fixed reconstructions with same-subset rFID/L1/AlexLPIPS precede independently reseeded50000generation.
 Submission is not a quality result or A1 acceptance;all numerical quality values and actual reservation cost await terminal evidence.
+
+## 2026-10-24 Section5.11 component accepted
+Coordinator independently reviewed complete proof/source/result hashes and accepted Section5.11 only.
+Acceptance SHA2563288aec8958acd9b9153b2ddc7e32444703abec693a0edc40decc9b768dddaa0;retained copy:outputs/adapter-acceptance.json in the campaign source.
+Producer job2830982,sourcee80c229dc4bd494e0eabf0c6bdeb4dc936fdbf19,resultsSHA256ccbcc70b2c5d809ae888047c9f38c040c30834c4a7aaf766f75a025f48a31426.
+The FP32,TF32-off fixture has zero optimizer updates;it does not establish BF16 training or full A1 reference quality.
+Full-reference job2831095 remains this worker's sole submission and terminal responsibility.
+Independent CPU-only A2 preparation was assigned from stable51a29b63aaba705a23a9de0e39ed8818b74a77ec in retained joint-adaptive-tokenization-a2-20261024,branchresearch/jat-a2-20261024.
+That independent preparation permits no GPU/main updates and cannot modify this source or canonical notebook.
+No A2 harness implementation is needed or underway in this A1 lane.
