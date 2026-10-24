@@ -561,3 +561,30 @@ Stage: `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_161607-e9fb9c-c
 It reuses the passed direct prediction evidence and checks only current communication preflight plus the remaining native64/native16 distributed reduction, clipping, EMA and full checkpoint continuation.
 Scientific training remains unstarted and requires coordinator acceptance after these checks.
 All earlier attempts, costs, source stages and configuration identities are preserved.
+
+## 2026-10-24 A2 native GPU correctness complete
+
+All remaining native checks passed at source `c3eafe8ffa8b809a92b18af429003ff199bffe00`.
+The exact matched configuration index is `campaign/a2/configs/r6-source-ddp-unused/index.json` in the A2 source.
+The native64/native16 joint configuration hashes are `115e15e348d2c928aaba88a4c2654cb37cfd8d19d22580117bac9213b525c7b6` and `deca12b2ce6936e91f604ec88e9b2c4bfa1c57a18b0468ea40754ff52f5fcb14`.
+The patch/code-bundle SHA256 is `f18eb9c75f00da255b0940e6b2bacda1474e5d9ff36fb328036c3873618745ea`.
+
+Job 2834169 completed 0:0 after 570 reserved seconds on four RTX 3090 GPUs across improbablex001 and improbablex003.
+The node launch passed the CUDA collective on the original failed host pair.
+Both native counts passed real BF16 microbatch 16, four-rank accumulation 4, image-mean gradients, clipping, EMA and full checkpoint continuation.
+Snapshot restoration was exact for optimizer, sampler, RNG, per-rank state and exposure counters.
+Next-update floating state agreed within the plan tolerances; it was not bitwise identical.
+Peak allocated memory was 16.726 GB for native 64 and 14.295 GB for native 16.
+The only unused trainable parameter was the source legacy `core.encoder.t_embedder.special_time_emb`; source DDP unused-parameter detection remains enabled.
+Native 16 emitted a gradient-stride warning; checks passed and no performance penalty was measured.
+
+All five owned jobs are terminal. Engineering reservation, including failures, totals 0.951667 RTX 3090 device-hours and 3.806667 allocated CPU core-hours.
+The full seven-section report and exact evidence hashes are in `/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/engineering/native-checks-complete-20261024/{report.md,results.json}`.
+All failed stages and outputs remain preserved.
+
+The engineering second-update proxy projects 20.76/19.68 wall-hours for the paired 5000-update arms, or 161.74 RTX 3090 device-hours total before quality evaluation.
+The check includes EMA-verification CPU copies, so the first 200 real updates must replace this proxy with measured training throughput and memory.
+The proposed initial request is 23 hours per arm on the validated layout. It is not a cost cap or H100 conversion.
+No scientific optimizer update has run. Engineering snapshots are not stable64 handoff checkpoints.
+Only the accepted 256-token reference has established scientific quality.
+Main training awaits coordinator acceptance of this receipt; no scientific A2 pass or downstream branch decision is claimed.
