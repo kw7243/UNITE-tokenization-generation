@@ -486,3 +486,24 @@ No engineering state is a scientific checkpoint.
 Four-rank accumulation, complete resume and the coordinator check receipt remain prerequisites for matched5000-update training.
 The current inventory has no healthy single node with four freeGPUs; resource availability is a scheduling fact, not a scientific result.
 CONFIRM stays sealed. No downstream node starts in this assignment.
+
+## 2026-10-24 A2 native results and distributed check recovery
+
+Both native counts passed full initialized parameter byte equality, exact register output shapes, numerical batched/single loss and decode comparisons, detach boundaries, intended shared gradients, and image-free source CFG/ODE generation.
+Single-GPU job 2834061 completed with exit 0:0 in 38 seconds on an RTX 3090.
+The real BF16 microbatch of 16 used peak allocated memory of 14.396 GB at 64 tokens and 11.846 GB at 16 tokens.
+The engineering cost was 0.01056 RTX 3090 device-hours and 0.04222 allocated CPU core-hours.
+These are software checks, with zero scientific A2 updates or quality claims.
+The measured memory supports four RTX 3090 GPUs with the original microbatch 16, accumulation 4, and global batch 256.
+The matched hardware revision uses two nodes and two ranks per node; all data, initialization, losses, optimizers, schedules and endpoints remain fixed.
+
+The first four-rank job, 2834080, failed before model execution at the first NCCL barrier.
+NCCL warned that it inferred devices from global ranks, then reported invalid device ordinals under one-GPU-per-process Slurm visibility.
+It consumed 0.08 RTX 3090 device-hours and 0.32 allocated CPU core-hours.
+The preserved diagnostic is the A2 source's `outputs/A2/engineering/receipts/diagnostic-ddp-1.json`.
+Revision `5d44e35fd122a0de537531da5624aa03e1e0f530` selects the process-local device before NCCL initialization and passes its device ID explicitly.
+Job 2834097 tests that specific correction with the same four-GPU layout; no scientific training is launched.
+Its immutable stage is `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_154354-37df73-5d44e35-code`.
+The complete four-rank and checkpoint continuation evidence still requires coordinator review before training.
+The source now also records all actual GPU identities and first-200-update throughput and memory during later real training.
+All failed stages, prior configurations and terminal receipts are preserved.
