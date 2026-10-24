@@ -1,0 +1,19 @@
+{
+  "schema": "jat-a2-feature-protocol-revision.v1",
+  "at_utc": "2026-10-24T21:02:10.442705+00:00",
+  "reason": "Job2834300 failed before Python with NVML driver/library mismatch on the sole RTX3080 node. Use the available permitted RTX2080Ti class. No CUDA incompatibility is inferred from that failure.",
+  "original_job": 2834300,
+  "original_images_processed": 0,
+  "old_config_sha256": "84d3d64d6686dc01b8e7f475fd55daa31a837b8c4944d6e9d83f97cceedb96c0",
+  "new_config_sha256": "c12fa96ab725c3211bc8c2c22fa3e48efe47da4db21df164fdc38f16d1261228",
+  "new_endpoint": "All120289FIT rows; unchanged",
+  "affected_controls": "Only feature hardware name/minimum VRAM and forecast reason differ. Same feature code, FP32 TF32off, batch64, manifest order, source preprocessing/Inception, weights and statistic convention. One common reference for both joint endpoints.",
+  "source_script_sha256": "9769a2ae19bbdc3c61032bf40193ee41280180f3e847b41d8eb7fad9aac8711b",
+  "source_patch_sha256": "2f2d7a09bef314688286666dd4f4e96cbe9fdd90060d3258dea10b7de00e3d6c",
+  "relevant_check_reconciliation": "Installed Torch2.10+cu128 binary explicitly includes sm75. Actual node/CUDA/VRAM/mount/finite-output checks run before expensive extraction. No DDP or native-model path is changed; accepted native checks remain valid.",
+  "expected_additional_cost": "One RTX2080Ti GPU,4CPU,16GiB,2h initial request; actual duration unmeasured, forecast updated within full extraction; advisory only.",
+  "actual_resource_constraint": "The RTX3080 node failed NVML. Inspector-gadget.drl advertises two RTX2080Ti GPUs, zero allocated GPUs, CPU/RAM room; scheduler selects the allocation.",
+  "prior_failure_device_hours": 0.0002777777777777778,
+  "prior_failure_cpu_core_hours": 0.0011111111111111111,
+  "running_training_unchanged": true
+}

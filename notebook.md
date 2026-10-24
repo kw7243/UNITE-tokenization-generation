@@ -455,3 +455,19 @@ This request is not a cost cap. The metric path is already used by the accepted 
 The independent feature source addition does not change any r6 code/config byte or running stage.
 Generation still requires both joint arms to be finite and improving; conditional RECON remains unreleased.
 No B1 scientific execution is included.
+
+## 2026-10-24 Pilot reference preflight failure and hardware revision
+
+Independent FIT job 2834300 used source `796c3492b9a063c58f653a5a9186f58e871bc9e2` and full stage `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_165614-480462-796c349-code`.
+It failed 18:0 after one reserved second on isola-3080-1, before Python ran.
+The node reported an NVIDIA driver/library mismatch through NVML, with library version 580.196.
+No FIT image or feature was processed. This is a node preflight failure, not a feature or scientific result.
+The retained terminal receipt counts 0.000278 RTX 3080 device-hours and 0.001111 allocated CPU core-hours.
+No driver, system library or environment is changed.
+
+Feature configuration r2 selects the available RTX 2080 Ti class for the same FP32 TF32-off workload.
+The locked Torch binary explicitly includes sm75; actual CUDA, memory, mount and finite-feature checks remain required on the allocated node.
+`campaign/a2/protocol-fit-features-r2.json` records old/new hashes, unchanged controls, expected cost and the concrete resource constraint.
+The original r1 configuration, source stage, failed logs and terminal receipt remain preserved.
+Both joint jobs continue from their unchanged r6 stages and configurations.
+No generation or RECON condition is relaxed.
