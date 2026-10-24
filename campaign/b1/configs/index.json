@@ -1,0 +1,17 @@
+{
+  "PREFIX16": {
+    "path": "campaign/b1/configs/PREFIX16.yaml",
+    "sha256": "b25b3fb186dbf73074529f8465f0d4caf9f309671af2b9813874b527baa29759",
+    "run_id": "B1__PREFIX16__s0__b25b3fb186db"
+  },
+  "PREFIX64": {
+    "path": "campaign/b1/configs/PREFIX64.yaml",
+    "sha256": "8b2b9e941c000218386b5b444fefe8eae574fee40ac7aafd9d57fb981fefaf4b",
+    "run_id": "B1__PREFIX64__s0__8b2b9e941c00"
+  },
+  "NESTED_RANDOM": {
+    "path": "campaign/b1/configs/NESTED_RANDOM.yaml",
+    "sha256": "01ccb97d68d91c7c35db2b8e49e7c3316623fde9aeb273f3971f70c1ccfd981b",
+    "run_id": "B1__NESTED_RANDOM__s0__01ccb97d68d9"
+  }
+}

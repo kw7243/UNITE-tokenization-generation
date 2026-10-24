@@ -426,3 +426,14 @@ The proposed initial request is 23 hours per arm on the validated layout. It is 
 No scientific optimizer update has run. Engineering snapshots are not stable64 handoff checkpoints.
 Only the accepted 256-token reference has established scientific quality.
 Main training awaits coordinator acceptance of this receipt; no scientific A2 pass or downstream branch decision is claimed.
+
+## 2026-10-24 - B1 SCREEN preparation started
+
+- This retained branch starts exactly at `7a492f54a1974931d5d603b14b150263a8891f44`.
+- Parent code was tested at `c3eafe8ffa8b809a92b18af429003ff199bffe00`; the only later change was its notebook.
+- Scope: PREFIX16, PREFIX64, NESTED_RANDOM implementation and focused CPU evidence. No scientific optimizer update or GPU allocation is authorized here.
+- All arms encode once with64candidate registers. PREFIX16 is separate from native16.
+- The trained A2 checkpoint path/hash and coordinator acceptance remain unresolved. Generic engineering COMPLETE labels do not make a scientific input.
+- Environment remains read-only at `/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1`.
+- CPU stages will remain under `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages`; outputs remain under this clone's `outputs/b1-preparation`.
+- The A2 owner retains sole canonical main notebook ownership. This branch returns a notebook entry for that writer.
