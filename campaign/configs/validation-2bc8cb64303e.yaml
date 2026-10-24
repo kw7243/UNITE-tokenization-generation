@@ -1,0 +1,224 @@
+{
+  "node_id": "A1",
+  "method_id": "UNITE_B_VALIDATE_ESSENTIAL",
+  "seed": 20261023,
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "plan_version": "1.1",
+  "workload": "VALIDATION_AND_ESSENTIAL_CHECKS",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs",
+  "source": {
+    "official_commit": "2389f2c65fedbd43ada851e69b2b810efd23af7d",
+    "third_party_untouched": true,
+    "source_import_manifest_sha256": "15aba20f293b2dc80c70f41052544d594fbd28a3bbdf23d5c5181138205ee8ac",
+    "patch_sha256": "330b3e4fefb78227bb41229b0cb87d304fd59b76c5aca2737c4b207d861d072c",
+    "code_sha256": {
+      "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+      "campaign/scripts/check_adapter.py": "ba6bf92ccd9144dc7ba8ee685fa4c5544747cb21158138e05af6f1c295ecfc1a",
+      "campaign/scripts/evaluate_a1.py": "4131bae8c5add83a4e5ceb8222ce2fbef6783dad41d7d30ad83786db4326794a",
+      "campaign/scripts/reference.sbatch": "1d5e21433c4e458d4a2c16dda86114b46f2bbc6667d259a2393b6b2514edbd3a",
+      "campaign/scripts/resolve_reference.py": "09870f84e2a8e7f881d45c1d327725483d88d271477a8441a8e162c9c2995d91"
+    }
+  },
+  "checkpoint": {
+    "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-inputs/UNITE-B.pt",
+    "sha256": "7b7f40dd37111196cad6e4401bf9737156268612e001c29cb0a760ae416bff4b",
+    "bytes": 2745102286
+  },
+  "model": {
+    "num_latent_tokens": 256,
+    "num_classes": 1000,
+    "state": "EMA",
+    "training_M": 14,
+    "gen_tok": {
+      "diffusion_input_dim": 32,
+      "encoder_model_size": "Base",
+      "decoder_model_size": "Base",
+      "patch_size": 16,
+      "flow_steps_per_recon": 14,
+      "flow_mini_batch": 3,
+      "timestep_shift_mode": "manual",
+      "timestep_shift_alpha": 0.5,
+      "timestep_shift_base_dim": 4096,
+      "timestep_shift_effective_dim_mode": "total",
+      "modulation_recon_timestep_max": 0.01,
+      "noising_t_start": 0.7,
+      "lognorm_mu": 0.0,
+      "lognorm_sigma": 1.0,
+      "in_content_len": 32,
+      "in_content_start": 4,
+      "use_qknorm_encoder": true,
+      "loss": {
+        "perceptual_weight": 1.0,
+        "gen_loss_weight": 1.0
+      },
+      "cfg_norm_order": "norm_first",
+      "gradient_checkpointing_denoiser": true
+    },
+    "transport": {
+      "train_eps": 0.05,
+      "sample_eps": 0.05,
+      "use_cosine_loss": true,
+      "use_lognorm": true,
+      "partial_ratio": 1.0,
+      "partitial_train": null,
+      "shift_lg": false
+    },
+    "encoding_class_dropout": 1.0,
+    "denoising_class_dropout": 0.1,
+    "latent_layer_norm": {
+      "eps": 1e-05,
+      "elementwise_affine": true
+    },
+    "decoder_compile_mode": "default"
+  },
+  "sampling": {
+    "cfg": 2.0,
+    "cfg_interval": [
+      0.1,
+      1.0
+    ],
+    "cfg_norm_order": "norm_first",
+    "batch_size": 16,
+    "num_samples": 50000,
+    "num_classes": 1000,
+    "ode_method": "dopri5",
+    "output_grid_size": 50,
+    "time_interval": [
+      0.0,
+      1.0
+    ],
+    "atol": 1e-06,
+    "rtol": 0.001,
+    "timestep_shift": 0.5,
+    "precision": "FP32_TF32",
+    "compile_decoder": true
+  },
+  "reconstruction": {
+    "sample_count": 5000,
+    "batch_size": 64,
+    "precision": "FP32_TF32",
+    "no_flip": true,
+    "clean_latents": true,
+    "output_clamp": [
+      0.0,
+      1.0
+    ],
+    "rfid_reference": "Exactly the same named5000 real validation images"
+  },
+  "data": {
+    "reconstruction_manifest": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6/reconstruction-manifest.json",
+    "reconstruction_manifest_sha256": "d31e573bba422ea6626552e1b2e717bffbabf2a9f6adea777514e5ff85085b0d",
+    "generation_label_manifest": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6/generation-labels.json",
+    "generation_label_manifest_sha256": "8feedadddbffa7f8b868dc0df60afc2a8c4846376aa717e40623822cb97043eb",
+    "class_map": {
+      "path": "/data/vision/torralba/datasets/imagenet_pytorch_new/imagenet_class_index.json",
+      "sha256": "a1e7a966a1f601d39e4b43e119b3e7dd4a2ad3ea08cf69847cbaf021013767bc"
+    }
+  },
+  "metrics": {
+    "protocol_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6/metric-protocol.json",
+    "protocol_sha256": "693aa2cca24f2ae03238cef3453b9b6f95f39120da9a2575b04415afc87e0971",
+    "torch_fidelity": "0.3.0",
+    "external_lpips": "AlexNet v0.1 on2*x-1",
+    "inception": {
+      "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-inputs/weights-inception-2015-12-05-6726825d.pth",
+      "sha256": "6726825d0af5f729cebd5821db510b11b1cfad8faad88a03f1befd49fb9129b2",
+      "bytes": 95628359
+    },
+    "statistics": {
+      "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-inputs/jit_in256_stats.npz",
+      "sha256": "412046720c0d496dc6d72a30eac3e22b9ef6ddac3501cce7f996674ad227ba4c",
+      "bytes": 33563124,
+      "git_blob": "3c94ea961be94d06efa9e5bf4da71eff52deaebb",
+      "source_commit": "cbc743a2ada5e9762697da2c83f8c4f8379e8c17"
+    }
+  },
+  "environment": {
+    "path": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+    "packages": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6/packages.txt",
+    "packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253",
+    "package_versions": {
+      "torch": "2.10.0+cu128",
+      "torchvision": "0.25.0+cu128",
+      "timm": "0.9.16",
+      "torchdiffeq": "0.2.5",
+      "transformers": "4.56.2",
+      "omegaconf": "2.3.0",
+      "numpy": "1.26.0",
+      "scipy": "1.15.3",
+      "einops": "0.8.1",
+      "lpips": "0.1.4",
+      "PyYAML": "6.0.2",
+      "torch-fidelity": "0.3.0"
+    },
+    "pip_bootstrap_report_sha256": "d6e5d92776d46cb4bd43b5347fc53072859b285c1dcd6994477cd79f6bdc5cb6",
+    "torch_wheel_report_sha256": "6f928a5300338c136bf0150f390bc32a20ce8e489dba2677b237eac7288b30c9",
+    "remaining_wheel_report_sha256": "609057e87e350989d1a04075d008c7d5d2cd1710225706d31fcd9c98e5af1056",
+    "pip_inspect_sha256": "a69056620a76894e55cee40f39851da2cb3be153c044f4036b3941f984fef8d9"
+  },
+  "hardware": {
+    "selection": "H100",
+    "gpu_model_substring": "H100",
+    "minimum_vram_bytes": 80000000000,
+    "gpu_count": 1
+  },
+  "resources": {
+    "account": "vision-torralba-urops-meng",
+    "partition": "vision-shared-h100",
+    "qos": "shared-if-available",
+    "gres": "gpu:h100:1",
+    "cpus": 4,
+    "memory_gib": 24,
+    "time_limit": "00:30:00",
+    "export": "NIL",
+    "submission_mode": "attached sbatch --wait"
+  },
+  "essential_fixture": {
+    "only_validation_workload": true,
+    "candidate_registers": 64,
+    "counts": [
+      4,
+      16,
+      64
+    ],
+    "training_M": 3,
+    "flow_chunk": 3,
+    "num_classes": 1000,
+    "precision": "FP32",
+    "tf32": false,
+    "compile": false,
+    "tolerance": 1e-05,
+    "optimizer_updates": 0,
+    "note": "BaseEMA cropped positional fixture. It is not a trained pilot model."
+  },
+  "runtime_mount_paths": [
+    "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024",
+    "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6",
+    "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+    "/data/vision/torralba/datasets/imagenet_pytorch_new/val",
+    "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-inputs/UNITE-B.pt"
+  ],
+  "compute_guidance": {
+    "a1_initial_h100_hours": 24.0,
+    "advisory_only": true,
+    "hard_cap": null,
+    "fixed_reserve": null,
+    "estimate_exceedance": "Does not change status or trigger a stop/approval.",
+    "extension_protocol": "Section15.2 evidence, revised config/endpoints, affected controls, forecasts and actual costs.",
+    "actual_resource_constraints": [],
+    "device_accounting": "Actual reserved hours by device; measured throughput forecasts, no theoretical FLOP conversion."
+  },
+  "extensions": [],
+  "gate": {
+    "name": "CHECKPOINT_EFFECT_REPRODUCTION",
+    "gfid_50k_maximum": 3.1,
+    "strict_load": true,
+    "required_reconstruction": true,
+    "coordinator_acceptance_required": true
+  },
+  "training": {
+    "main_updates": 0,
+    "optimizer": null,
+    "learning_rate": null
+  }
+}
