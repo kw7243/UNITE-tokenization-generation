@@ -1,0 +1,13 @@
+{
+  "node_id": "A1",
+  "allowance_h100_gpu_hours": 19.2,
+  "coordinator_reserve_h100_gpu_hours": 4.8,
+  "consumed_h100_gpu_hours": 0,
+  "new_non_h100_device_hours": {},
+  "legacy_device_hours": {
+    "RTX3080": 0.03388888888888889,
+    "RTX3090": 0.4494444444444444
+  },
+  "legacy_accounting_not_erased": true,
+  "owner": "unite-reproduce-20261023"
+}
