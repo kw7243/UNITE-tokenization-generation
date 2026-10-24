@@ -1,0 +1,11 @@
+{
+  "command": "sbatch --parsable --job-name=unite-B-release-50k --gres=gpu:1 --cpus-per-task=4 --mem=16G --export=ALL,UNITE_ENCODER=Base,UNITE_PROTOCOL=release,UNITE_NPROC=1 reproduction/fid.sbatch",
+  "created_at_utc": "2026-10-23T23:02:39.380539+00:00",
+  "cwd": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023",
+  "git_commit_full": "fce44917a3af7e99dff13485ebd0a5a70fcd293b",
+  "git_commit_short": "fce4491",
+  "git_status_short": "?? reproduction/evidence/pre-submit-Base-release-20261023T230228Z-account-jobs.txt\n?? reproduction/evidence/pre-submit-Base-release-20261023T230228Z-associations.txt\n?? reproduction/evidence/pre-submit-Base-release-20261023T230228Z-nodes.txt\n?? reproduction/evidence/pre-submit-Base-release-20261023T230228Z-partitions.txt\n?? reproduction/evidence/pre-submit-Base-release-20261023T230228Z-qos.txt",
+  "hostname": "slurm-login-0.csail.mit.edu",
+  "source_repo": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023",
+  "staged_repo": "/data/scratch-fast/kwen1/unite-released-20261023-stages/20261023_230229-7f3b99-fce4491-code"
+}

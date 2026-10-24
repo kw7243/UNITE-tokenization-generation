@@ -1,0 +1,22 @@
+{
+  "node_id": "A1",
+  "method_id": "LAUNCH_NIL_CPU",
+  "seed": 20261023,
+  "plan_sha256": "71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs",
+  "resources": {
+    "cpus": 1,
+    "memory_gib": 1,
+    "time_seconds": 120,
+    "gpu_count": 0
+  },
+  "launch": {
+    "export": "NIL",
+    "required_environment_after_all_directives": true,
+    "submit_sentinel_must_be_absent": true
+  },
+  "code_sha256": {
+    "campaign/scripts/launch_canary.py": "13011b44d0d1d54bdf3733e7f51d8c280e4eb8e1e9e40402135b478850d34753",
+    "campaign/scripts/launch_canary.sbatch": "a64a52afb439b9f2d6f3ea0e785f7a47c12dc71367fb7f61ee7216dc24810808"
+  }
+}
