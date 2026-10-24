@@ -1,0 +1,61 @@
+{
+  "scope": "A2 endpoint protocol; no feature extraction or quality scoring during preparation",
+  "training_loss": "unclamped source VGG LPIPS on [0,1] plus L1; source M3 denoising SUM",
+  "reconstruction": {
+    "weights": "EMA",
+    "split": "DEV",
+    "periodic_images": 512,
+    "full_endpoint_images": 3200,
+    "image_seed": 20261023,
+    "flip": false,
+    "encoding": "per-image seeded independent Gaussian64 prefixes; tau Uniform[0,.01)",
+    "decode": "clean latents, clamp[0,1]",
+    "allocation_distortion": "recon_l1 + external AlexNet LPIPS v0.1(2*x-1,2*xhat-1)",
+    "quantile": "numpy.quantile(q=.9,method=linear)",
+    "bootstrap": {"seed": 917, "resamples": 1000, "paired": true, "within_class": true, "then_average_classes": true}
+  },
+  "generation": {
+    "weights": "EMA", "samples": 5000, "per_class": 50, "classes": 100,
+    "seed": 20261023, "full_noise_shape": [5000,64,32],
+    "labels": "class index repeated50; common labels and Gaussian prefixes for both joint arms",
+    "fixed_count": "native model count; no source image inputs, selector, or length conditioning",
+    "solver": "pinned source dopri5", "interval": [0.0,1.0], "atol": 0.000001, "rtol": 0.001,
+    "output_grid_points": 50, "output_grid_shift": 0.5,
+    "cfg": 2.0, "cfg_interval": [0.1,1.0], "cfg_norm_order": "norm_first",
+    "nfe": "count actual GE evaluations;50 grid points are not50 NFE",
+    "gate": "both joint arms finite and improving on the same fixed512DEV; no crashed-arm generation",
+    "guidance_search": false
+  },
+  "features": {
+    "library": "torch-fidelity==0.3.0", "name": "inception-v3-compat",
+    "outputs": ["2048","logits_unbiased"], "resize": "extractor internal",
+    "pixel_conversion": "(x*255).clamp(0,255).to(torch.uint8); truncate",
+    "weights_sha256": "6726825d0af5f729cebd5821db510b11b1cfad8faad88a03f1befd49fb9129b2",
+    "fid": "pinned utils.fid.compute_fid_from_features; FP64,N-1,SciPy sqrtm;1e-6 diagonal fallback only nonfinite",
+    "pilot_reference": "cache ImageNet100 FIT features with immutable manifest and feature hash; not full1K published stats",
+    "pilot_reference_features_sha256": null,
+    "pilot_reference_features_sha256_reason": "Not extracted in preparation; missing endpoint prerequisite",
+    "kid": "unbiased degree3 polynomial,gamma1/2048,coef1;100 paired fixed subsets of1000 without replacement",
+    "rfid": "same named DEV real and reconstruction feature rows; never compare unlike split statistics",
+    "precision_recall": "D1/D2 only"
+  },
+  "gradient_probe": {
+    "images": 32, "split": "fixed DEV", "weights": "live endpoint model,eval mode",
+    "times": [0.25,0.5,0.75], "class_dropout": false,
+    "generation_reduction": "one shared draw per image at each fixed t; M3 identical repeats divided by3",
+    "parameters": "last shared GE block, sorted parameter names",
+    "cosine": "dot(gr,gg)/(norm(gr)*norm(gg)+1e-12)",
+    "report": "per-image norms,cosines,reconstruction difficulty,each t and arithmetic mean"
+  },
+  "a2_interference_gate": {
+    "ratio": "(d16_joint/max(d64_joint,1e-8))/max(d16_recon/max(d64_recon,1e-8),1e-8)",
+    "minimum": 1.10, "paired_ci95_lower_exceeds": 1.0,
+    "measure": "mean shared allocation distortion on the exact same balanced DEV rows"
+  },
+  "outcome_classes": ["NUMERICAL_FAILURE","REPRESENTATION_COLLAPSE","QUALITY_PLATEAU","STABLE_PROGRESS","INCONCLUSIVE_RESOURCES"],
+  "collapse_gate": "variance<10% stable same-interface control AND >=20% worse held-out reconstruction at two checkpoints",
+  "plateau_gate": "finite, no meaningful held-out improvement over last three measurements; report actual exposure",
+  "estimates": "advisory only; Section15.2 matched extensions require original/revised config hashes,endpoints,controls,expected and actual cost",
+  "preparation_outcome_class": null,
+  "preparation_outcome_class_reason": "Unrun model training is not a scientific negative"
+}

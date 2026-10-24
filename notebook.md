@@ -279,3 +279,14 @@ No full quality metrics exist yet;this is correctness and throughput evidence.
 Actual new reserved GPU cost49/3600device-hours includes failed12s parser attempt plus37s validation;legacy RTX cost remains separate.
 No A2 training harness exists or is being written.
 PrefixAdapter correctness methods and check_adapter.py are available for independent CPU-only preparation in a separate source/branch.
+
+## 2026-10-24 A2 CPU preparation on an auxiliary branch
+
+- PREPARATION_ONLY. Plan1.1 SHA2564cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5.
+- Parent51a29b63aaba705a23a9de0e39ed8818b74a77ec; branch research/jat-a2-20261024.
+- Native16/64 joint and conditional reconstruction paths are implemented under campaign/a2. No selector, latent prefix path, or count embeddings.
+- Shared source snapshots and accepted adapter bytes are unchanged. The native paths reuse the register-output correction and source optimizer partition.
+- Source: /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024.
+- Stages will remain in /data/scratch-fast/kwen1/jat-a2-20261024-stages. Retained evidence stays in source outputs/a2-preparation.
+- CPU structural checks are next. No GPU job, main optimizer update, image decode, scientific feature extraction, or model quality score is authorized here.
+- A1 full-reference acceptance remains with unite-reproduce-20261023. The canonical main notebook is unchanged; notebook-entry.md will carry this handoff.

@@ -1,0 +1,259 @@
+{
+  "compute_guidance": {
+    "advisory_gpu_hours": 64,
+    "extensions": "Section15.2;no estimate-based scientific negative",
+    "fixed_reserve": null,
+    "hard_cap": null
+  },
+  "conditional": true,
+  "config_family": "PILOT_M3",
+  "data": {
+    "confirm": "sealed; consumer never opens CONFIRM or CONTENT",
+    "hashes": {
+      "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+      "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+      "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+      "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+    },
+    "mapping": "supplied100-class map; never full-root ImageFolder",
+    "preprocessing": "pinned CenterCropTransform256,ToTensor[0,1],train flip.5;eval no flip",
+    "resolution": 256,
+    "root": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024-data/pilot-splits-v1/20261024T065816Z/PILOT_DATA__SPLIT_V1__snone__fd1bec3f630d",
+    "rows": {
+      "ALLOC": 3200,
+      "DEV": 3200,
+      "FIT": 120289
+    },
+    "sampler": "32 distinct classes x8 queued FIT images;four64-image distributed microbatches;two class groups/rank"
+  },
+  "distributed": {
+    "accumulation_loss": "local image sum/(16*4)",
+    "backend": "nccl",
+    "gradient_reduction": "DDP average",
+    "microbatch_order": "acc64 +rank16,each rank two whole classes",
+    "world_size": 4
+  },
+  "environment": {
+    "package_versions": {
+      "PyYAML": "6.0.2",
+      "einops": "0.8.1",
+      "lpips": "0.1.4",
+      "numpy": "1.26.0",
+      "omegaconf": "2.3.0",
+      "scipy": "1.15.3",
+      "timm": "0.9.16",
+      "torch": "2.10.0+cu128",
+      "torch-fidelity": "0.3.0",
+      "torchdiffeq": "0.2.5",
+      "torchvision": "0.25.0+cu128",
+      "transformers": "4.56.2"
+    },
+    "packages": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6/packages.txt",
+    "packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253",
+    "path": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+    "pip_bootstrap_report_sha256": "d6e5d92776d46cb4bd43b5347fc53072859b285c1dcd6994477cd79f6bdc5cb6",
+    "pip_inspect_sha256": "a69056620a76894e55cee40f39851da2cb3be153c044f4036b3941f984fef8d9",
+    "remaining_wheel_report_sha256": "609057e87e350989d1a04075d008c7d5d2cd1710225706d31fcd9c98e5af1056",
+    "torch_wheel_report_sha256": "6f928a5300338c136bf0150f390bc32a20ce8e489dba2677b237eac7288b30c9"
+  },
+  "evaluation": {
+    "bootstrap_seed": 917,
+    "cfg": 2.0,
+    "cfg_interval": [
+      0.1,
+      1.0
+    ],
+    "cfg_norm_order": "norm_first",
+    "endpoint_dev": 3200,
+    "every_updates": 1000,
+    "fixed_dev": 512,
+    "generated_samples": 0,
+    "generation_gate": "both joint arms finite/improving",
+    "guidance_search": false,
+    "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+    "metric_weights": {
+      "bytes": 95628359,
+      "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-inputs/weights-inception-2015-12-05-6726825d.pth",
+      "sha256": "6726825d0af5f729cebd5821db510b11b1cfad8faad88a03f1befd49fb9129b2"
+    },
+    "ode": "dopri5",
+    "ode_atol": 1e-06,
+    "ode_interval": [
+      0.0,
+      1.0
+    ],
+    "ode_rtol": 0.001,
+    "output_grid_points": 50,
+    "output_grid_shift": 0.5,
+    "pilot_fit_features": null,
+    "pilot_fit_features_reason": "Separate future feature extraction required",
+    "probe_images": 32,
+    "probe_times": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "seed": 20261023,
+    "weights": "ema"
+  },
+  "execution_authorized": false,
+  "execution_authorized_reason": "PREPARATION_ONLY. Later coordinator receipt required.",
+  "hardware": {
+    "alternate": "Declare and resolve a revised matched protocol for all arms before execution",
+    "gpu_count": 4,
+    "model": "H100 80GB minimum"
+  },
+  "input": {
+    "checkpoint": null,
+    "checkpoint_reason": "From random initialization; released M14 reference weights are not loaded.",
+    "initialization": "random common64 construction, seed0, slice only latent_tokens table"
+  },
+  "method_id": "NATIVE16_RECON",
+  "model": {
+    "active_count": 16,
+    "candidate_count": 16,
+    "decoder_interface": "source grid interpolation,256image tokens plusCLS",
+    "family": "UNITE_BASE_BASE",
+    "gen_tok": {
+      "cfg_norm_order": "norm_first",
+      "decoder_model_size": "Base",
+      "diffusion_input_dim": 32,
+      "encoder_model_size": "Base",
+      "flow_mini_batch": 3,
+      "flow_steps_per_recon": 3,
+      "gradient_checkpointing_denoiser": false,
+      "in_content_len": 32,
+      "in_content_start": 4,
+      "lognorm_mu": 0.0,
+      "lognorm_sigma": 1.0,
+      "loss": {
+        "gen_loss_weight": 1.0,
+        "perceptual_weight": 1.0
+      },
+      "modulation_recon_timestep_max": 0.01,
+      "noising_t_start": 0.7,
+      "patch_size": 16,
+      "timestep_shift_alpha": 0.5,
+      "timestep_shift_base_dim": 4096,
+      "timestep_shift_effective_dim_mode": "total",
+      "timestep_shift_mode": "manual",
+      "use_qknorm_encoder": true
+    },
+    "latent_layer_norm": {
+      "elementwise_affine": true,
+      "eps": 1e-05,
+      "variance": "population"
+    },
+    "latent_width": 32,
+    "length_embeddings": false,
+    "native_count": 16,
+    "num_classes": 100,
+    "prefix_truncation": false,
+    "selector": false
+  },
+  "node_id": "A2",
+  "objective": "reconstruction_only",
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2",
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "plan_version": "1.1",
+  "prerequisite": "A1 UNITE reference acceptance and new native-path GPU checks",
+  "seed": 0,
+  "source": {
+    "branch": "research/jat-a2-20261024",
+    "code_sha256": {
+      "campaign/a2/__init__.py": "3140130f36cb41c91929f8f2c454ba6bd09e424343b021dd7277ea9922c7a9a3",
+      "campaign/a2/checkpoint.py": "d19aeb129c9923f29eb2ae94ad0c09a81897def8f7860b3be2dcfc006f4bb454",
+      "campaign/a2/cpu.sbatch": "f14b9de99120f457a669ee4108677ea220211f8f4386c5391be2edd3ec896bf8",
+      "campaign/a2/data.py": "b5282b246d09426d52d4f8da15895a81e34c0849e2ed28598336a1ba827ed89d",
+      "campaign/a2/evaluate.py": "f364578e50e7c4badee3b5c268d6d026e64ca9bae89a92a1350561adf717a979",
+      "campaign/a2/metric-protocol.json": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "campaign/a2/native.py": "450e71184bdb62ec15c34b9d70cd4ec988f4ad54b8fb49ba144d0e8714e8cddd",
+      "campaign/a2/resolve.py": "065d26fdddc4d1e85fe51773597d7adf7fd2046e82395cea1844f30fb703c3c8",
+      "campaign/a2/tests/check_cpu.py": "3c7eeb782f91cd95a0b858a557c36b5067ca45789ce5d125eebd094950303b79",
+      "campaign/a2/train.py": "cb1662119705746188bdec1046afb8e0912563f856a281e6b1a8265d1be1562a",
+      "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+      "reproduction/tools/stage_and_run.sh": "160f66e8e39b58d7175ee80327f6cd4c36a14df5e6941f671747f9b67e4ef9db",
+      "reproduction/tools/verify_stage.py": "1ca0560b3bcdff56cdca4fc11b6d051232149b78ea924217e953820561700a03"
+    },
+    "origin": "https://github.com/kw7243/UNITE-tokenization-generation.git",
+    "parent_commit": "51a29b63aaba705a23a9de0e39ed8818b74a77ec",
+    "patch_sha256": "7334d5f1ddf8c4f4308b3b8f06af1a7e13b031f5cc3150304806a7e267192b92",
+    "unite_commit": "2389f2c65fedbd43ada851e69b2b810efd23af7d",
+    "upstream": "https://github.com/ShivamDuggal4/UNITE-tokenization-generation"
+  },
+  "training": {
+    "accumulation": 4,
+    "adamw": {
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-06,
+      "lr": 0.0001,
+      "type": "adamw",
+      "weight_decay": 0.0
+    },
+    "checkpoint_every_updates": 1000,
+    "compile": false,
+    "denoising_class_dropout": 0.1,
+    "denoising_draws": 3,
+    "ema_decay": 0.9978,
+    "encoding_class_dropout": 1.0,
+    "flow_chunk_size": 3,
+    "generation_loss": "sum3draws,mean token/channel squared velocity error,denominator max(1-t,.05)",
+    "generation_time": {
+      "logit_normal_mu": 0.0,
+      "logit_normal_sigma": 1.0,
+      "shift": 0.5
+    },
+    "global_batch": 256,
+    "gpu_count": 4,
+    "gradient_clip_global_norm": 3.0,
+    "implicit_lr_multiplier": 1.0,
+    "main_lr": 0.0001,
+    "main_updates": 5000,
+    "microbatch_per_gpu": 16,
+    "mixed_precision": "bf16",
+    "monitor_every_updates": 100,
+    "muon": {
+      "eps": 1e-06,
+      "lr": 0.0001,
+      "momentum": 0.95,
+      "muon_adjust_lr_fn": "match_rms_adamw",
+      "muon_weight_decay": 0.0,
+      "type": "muon"
+    },
+    "parameter_partition": "source get_learnable_params;exactly once;frozen LPIPS excluded",
+    "parameter_precision": "fp32",
+    "reconstruction_corruption": {
+      "mask_probability": 0.5,
+      "noise": "independent Gaussian",
+      "time_uniform": [
+        0.7,
+        1.0
+      ]
+    },
+    "reduction_precision": "fp32",
+    "reporting_sums_precision": "fp64",
+    "schedule": "p*u/500 foru1..500;constant1e-4 after",
+    "source_vgg_lpips": "frozen,eval after every model.train,unclamped[0,1],weight1",
+    "stream_layout": "draw global B256 at64positions before rank/microbatch/native slice;consume all streams for every arm",
+    "streams": [
+      "data_order",
+      "flip",
+      "encoding_noise",
+      "encoding_time",
+      "recon_noise",
+      "recon_time",
+      "recon_mask",
+      "diffusion_noise",
+      "time_draws",
+      "class_dropout",
+      "assignment_shuffle",
+      "probe"
+    ],
+    "tf32": false,
+    "throughput_first_real_updates": 200,
+    "warmup_updates": 500
+  }
+}
