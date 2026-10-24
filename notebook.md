@@ -258,3 +258,24 @@
 - Section15.2 targeted rerun is predeclared in `campaign/configs/diagnostic-2830897.json`. The revised config is `campaign/configs/validation-400d3bce3a02.yaml`, SHA256 `400d3bce3a02dee9d7ad6e1e8290f0cbfd59a0fcecc5c33b09d38bd5c8fce0f4`.
 - The same checkpoint,seed,source sampler,32native generation-smoke samples,3native reconstructions and three essential checks remain fixed. No comparison/training arm is affected. Expected additional reservation is at most the requested0.5H100-hour; actual cost will be recorded. No estimate-based approval applies.
 - Current new GPU reservation cost is12/3600=0.003333H100-hours; legacy RTX spend stays separate. Full5000/50000reference remains unrun;noA2/training.
+
+## 2026-10-24 A1 essential checks measured and full reference prepared
+GPU2830982 completed0:0 in37reserved seconds on NVIDIA H100 NVL,CUDA12.8,Torch2.10.0+cu128.
+Execution source:e80c229dc4bd494e0eabf0c6bdeb4dc936fdbf19;config400d3bce3a02dee9d7ad6e1e8290f0cbfd59a0fcecc5c33b09d38bd5c8fce0f4.
+Stage:/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_074956-0912fa-e80c229-code.
+Output:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__UNITE_B_VALIDATE_ESSENTIAL__s20261023__400d3bce3a02.
+All three Section5.11 correctness checks pass in FP32,TF32 off,uncompiled.
+Identity and inactive-tail relative errors are0;group/single decode6.712846986881186e-7 and denoise maximum4.7122170492796403e-7.
+Generation target encoding is detached;reconstruction and generation shared-block gradients are nonzero;generation uses class/count/noise/settings without source image access.
+Fixture uses native256 identity then isolated64/M3 with zero optimizer updates.
+Proof:campaign/locks/essential-checks.json,SHA256664e75b27d64241135078dbc8b6a78d9046a90cfa80743ecd74a0c535d0a0368.
+Validation results SHA256ccbcc70b2c5d809ae888047c9f38c040c30834c4a7aaf766f75a025f48a31426.
+Native steady batch16 took2.91663317498751s;50000-generation-only projection2.531799631065547h,complete forecast2.5–3.5h.
+Full fixture peak allocation1956945920bytes.
+Prepared full reference:campaign/configs/reference-c89e740d3d08.yaml,SHA256c89e740d3d085426b1a75878c5da0d2bfa7db39d4e5d3c5aa370f2c1d81fc517.
+Request1H100,4CPU,24GiB,4h;forecast advisory under v1.1.
+Endpoint remains5000native reconstruction with rFID/L1/AlexLPIPS plus independent balanced50000generation with unchanged source FID/IS.
+No full quality metrics exist yet;this is correctness and throughput evidence.
+Actual new reserved GPU cost49/3600device-hours includes failed12s parser attempt plus37s validation;legacy RTX cost remains separate.
+No A2 training harness exists or is being written.
+PrefixAdapter correctness methods and check_adapter.py are available for independent CPU-only preparation in a separate source/branch.

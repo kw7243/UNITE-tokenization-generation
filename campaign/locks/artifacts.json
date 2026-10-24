@@ -343,13 +343,13 @@
       "new_execution": false
     }
   },
-  "adapter_patch_sha256": "336f4ecda8bb1e31b888464e401b0d345678557220891a6e0898373d6fc75163",
+  "adapter_patch_sha256": "2f1c48eb6e00de5e09f54a1f2662c08f27daaadf8545d2a2bafbb0f8205d172b",
   "code_sha256": {
     "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
     "campaign/scripts/check_adapter.py": "ba6bf92ccd9144dc7ba8ee685fa4c5544747cb21158138e05af6f1c295ecfc1a",
     "campaign/scripts/evaluate_a1.py": "3df4f29314f049b2fb731bb10e0da34657dd098b7c86642d71aa3afb4ee5c519",
     "campaign/scripts/reference.sbatch": "1d5e21433c4e458d4a2c16dda86114b46f2bbc6667d259a2393b6b2514edbd3a",
-    "campaign/scripts/resolve_reference.py": "d360e077ab49e1ed9a9cf6d321d5a9586d5e9db818694625fe5c466fbf3ae606"
+    "campaign/scripts/resolve_reference.py": "00444f3314b25b92e513b4a3461ca40359aeab276866c1624a27b587284a1a22"
   },
   "private_plan": "Only the verified digest is committed; the supplied plan remains in retained administrative outputs.",
   "pilot_data_accepted": {
@@ -561,5 +561,133 @@
       }
     },
     "A1_use": "Provenance only; pilot training rows are not consumed in A1."
+  },
+  "essential_checks": {
+    "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/campaign/locks/essential-checks.json",
+    "sha256": "664e75b27d64241135078dbc8b6a78d9046a90cfa80743ecd74a0c535d0a0368",
+    "evidence": {
+      "component": "Section5.11",
+      "scope": "A1 correctness only;not a paper-quality result or A2/training",
+      "plan_version": "1.1",
+      "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+      "job_id": 2830982,
+      "producer_source_revision": "e80c229dc4bd494e0eabf0c6bdeb4dc936fdbf19",
+      "producer_config_sha256": "400d3bce3a02dee9d7ad6e1e8290f0cbfd59a0fcecc5c33b09d38bd5c8fce0f4",
+      "stage": "/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_074956-0912fa-e80c229-code",
+      "results_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__UNITE_B_VALIDATE_ESSENTIAL__s20261023__400d3bce3a02/results.json",
+      "results_sha256": "ccbcc70b2c5d809ae888047c9f38c040c30834c4a7aaf766f75a025f48a31426",
+      "report_path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__UNITE_B_VALIDATE_ESSENTIAL__s20261023__400d3bce3a02/report.md",
+      "report_sha256": "f37e24a08d5c88accd48a2b58f02869d53d891e23a7f706d3036bdd48f2656e2",
+      "source_hashes": {
+        "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+        "campaign/scripts/check_adapter.py": "ba6bf92ccd9144dc7ba8ee685fa4c5544747cb21158138e05af6f1c295ecfc1a",
+        "campaign/scripts/evaluate_a1.py": "3df4f29314f049b2fb731bb10e0da34657dd098b7c86642d71aa3afb4ee5c519"
+      },
+      "checks": {
+        "precision": "FP32",
+        "tf32": false,
+        "tolerance": 1e-05,
+        "fixture": "BaseEMA checkpoint, no optimizer updates",
+        "test_batch_size": 3,
+        "counts": [
+          16,
+          64,
+          16
+        ],
+        "generation_counts": [
+          4,
+          16
+        ],
+        "core_fixture_num_classes": 1000,
+        "register_identity_256_relative_l2": 0.0,
+        "register_shape_256": [
+          1,
+          256,
+          32
+        ],
+        "length_embedding_fixture": "Zero initialization verified, then nonzero seeded0.01-scale values exercise all length paths.",
+        "register_shape_64": [
+          3,
+          64,
+          32
+        ],
+        "inactive_decode_relative_l2": 0.0,
+        "inactive_denoise_relative_l2_max": 0.0,
+        "group_vs_single_decode_relative_l2": 6.712846986881186e-07,
+        "group_vs_single_denoise_relative_l2_max": 4.7122170492796403e-07,
+        "per_image_reconstruction_loss_relative_l2": 8.875844904917088e-08,
+        "per_image_generation_loss_relative_l2": 2.5338447606283322e-08,
+        "image_weighted_scalar_relative_error": 0.0,
+        "generation_encoding_gradient_is_none": true,
+        "reconstruction_encoding_gradient_norm": 0.027418382465839386,
+        "generation_last_shared_block_gradient_norm": 6.909738540649414,
+        "reconstruction_last_shared_block_gradient_norm": 0.8802869319915771,
+        "generation_after_changed_image_relative_l2": 0.0,
+        "real_image_encoding_inputs": 9,
+        "generated_samples": 4,
+        "generation_signature": [
+          "labels",
+          "counts",
+          "noise",
+          "cfg_scale",
+          "cfg_interval"
+        ],
+        "source_images_forbidden_during_generation": true,
+        "frozen_lpips_eval_after_train": true,
+        "status": "PASS",
+        "elapsed_seconds": 4.972461659985129
+      },
+      "runtime": {
+        "memory_total_kib": 792272920,
+        "mounts": {
+          "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024": "nfs-prod-vision-2.csail.mit.edu:/export/vision/torralba/u/kwen1 nfs4  2147483648 184865664 1962617984       9% /data/vision/torralba/u/kwen1",
+          "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1__ENVIRONMENT_LOCK_R1__s20261023__da7c044db1c6": "nfs-prod-vision-2.csail.mit.edu:/export/vision/torralba/u/kwen1 nfs4  2147483648 184865664 1962617984       9% /data/vision/torralba/u/kwen1",
+          "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1": "nfs-prod-aia-1.csail.mit.edu:/scratch/scratch nfs4 23333463040 21238764800 2094698240      92% /data/scratch-fast",
+          "/data/vision/torralba/datasets/imagenet_pytorch_new/val": "nfs-prod-vision-2.csail.mit.edu:/export/vision/torralba/datasets nfs4 54758194560 52258335744 2499858816      96% /data/vision/torralba/datasets",
+          "/data/vision/torralba/u/kwen1/image-tokenization-20261023/UNITE-released-20261023-inputs/UNITE-B.pt": "nfs-prod-vision-2.csail.mit.edu:/export/vision/torralba/u/kwen1 nfs4  2147483648 184865664 1962617984       9% /data/vision/torralba/u/kwen1"
+        },
+        "slurm_job_id": "2830982",
+        "slurm_cpus_per_task": "4",
+        "slurm_mem_per_node": "24576",
+        "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+        "torch": "2.10.0+cu128",
+        "torch_cuda": "12.8",
+        "torch_fidelity": "0.3.0",
+        "gpu": "NVIDIA H100 NVL",
+        "uuid": "fd1fc794-b933-fa2d-31c0-22de78cd312f",
+        "vram_bytes": 99949674496,
+        "capability": [
+          9,
+          0
+        ],
+        "compiled_arches": [
+          "sm_70",
+          "sm_75",
+          "sm_80",
+          "sm_86",
+          "sm_90",
+          "sm_100",
+          "sm_120"
+        ],
+        "nvidia_smi": "NVIDIA H100 NVL, GPU-fd1fc794-b933-fa2d-31c0-22de78cd312f, 95830 MiB, 580.178.04",
+        "visible_devices": "0",
+        "cpus_allowed": "59-60,122-123",
+        "gcc": "gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+        "g++": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0"
+      },
+      "gpu_hours": 0.010277777777777778,
+      "terminal_accounting": {
+        "State": "COMPLETED",
+        "ExitCode": "0:0",
+        "ElapsedRaw": 37,
+        "AllocCPUS": 4,
+        "gpu_count": 1,
+        "memory_gib": 24,
+        "MaxRSS": "3586876K",
+        "NodeList": "andreas-h100-1",
+        "Start": "2026-10-24T07:50:43Z",
+        "End": "2026-10-24T07:51:20Z"
+      }
+    }
   }
 }

@@ -87,6 +87,13 @@ def main():
         lock["pilot_data_accepted"]={"path":str(pilot_path),"sha256":sha(pilot_path),
                                       "evidence":json.loads(pilot_path.read_text()),
                                       "A1_use":"Provenance only; pilot training rows are not consumed in A1."}
+    correctness_path=ROOT/"campaign/locks/essential-checks.json"
+    if correctness_path.exists():
+        correctness=json.loads(correctness_path.read_text())
+        for name,expected in correctness["source_hashes"].items():
+            assert sha(ROOT/name)==expected,"Result-critical path changed since5.11: "+name
+        lock["essential_checks"]={"path":str(correctness_path),"sha256":sha(correctness_path),
+                                  "evidence":correctness}
     lockpath=ROOT/"campaign/locks/artifacts.json"
     if lockpath.exists():
         previous=json.loads(lockpath.read_text())
