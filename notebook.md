@@ -302,3 +302,21 @@ Full-reference job2831095 remains this worker's sole submission and terminal res
 Independent CPU-only A2 preparation was assigned from stable51a29b63aaba705a23a9de0e39ed8818b74a77ec in retained joint-adaptive-tokenization-a2-20261024,branchresearch/jat-a2-20261024.
 That independent preparation permits no GPU/main updates and cannot modify this source or canonical notebook.
 No A2 harness implementation is needed or underway in this A1 lane.
+
+## 2026-10-24 Expanded resource assessment and controlled replacement prepared
+The first occupancy statement covered only newer classes;the expanded permitted node inventory also covers RTX3090,RTX2080Ti,TitanRTX and V100.
+Retained inventory:outputs/gpu-older-inventory-018.json;assessment:outputs/gpu-reassessment-018.json.
+One healthy RTX3090 GPU was free on torralba-3090-3;18RTX2080Ti,11TitanRTX and44V100 slots were also free.
+Older Turing/Volta have installed CUDA kernels but cannot execute nativeTF32;their full reference runtime is unmeasured.
+Select one RTX3090,SM86,24GB,nativeFP32/TF32,with measured source Base batch16 timing10.893116650986485s.
+Retained measured receipt:UNITE-released-20261023-results/gpu-diagnostic-2826865/base-smoke-r1/results.json,SHA2564432d4abd8f9a4a4b6be9e237fe0467197e06350a302df8c57567ac79ec470a8.
+That smoke used seed0,current run uses20261023;it is timing evidence,not a quality result. Torch/CUDA/source/checkpoint/CFG2/M14/native interval/batch16 match;metric version differs but is not invoked in the timed generation call.
+Generation-only projection9.455830426203546h;conditional128NFE sensitivity11.003148132309581h;complete forecast9.8–11.5h;request12h.
+No theoretical device conversion is used. Forecasts remain advisory.
+Prepared configuration:campaign/configs/reference-c43d8bbaa2d5.yaml,SHA256c43d8bbaa2d5bd2e936590e9d9f439f16a1fa34f49b8307d4132776bede7795b.
+Request1RTX3090,4CPU,24GiB,12h,vision-torralba-rtx3090,account/QoSvision-torralba-urops-meng,literalNIL,attachedsbatch--wait,no-requeue.
+Checkpoint,seed,sampling,reconstruction,data,metrics,environment and gate are exactly equal to the H100 configuration;tested execution files are unchanged.
+Only metadata resolver adds the RTX3090 hardware enum and24GB mapping.
+Section15.2 reason,old/new endpoint/config references,unaffected controls,forecasts and terminal-cost placeholders are retained in outputs/controlled-replacement-018-plan.json and the new config.
+H100 job2831095 remains pending until a fresh state check;cancel only this owned pending job,record terminal zero-GPU accounting and owner exit,then stage and submit one replacement.
+Do not submit duplicate jobs or run a new benchmark campaign.

@@ -19,7 +19,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--environment-run",type=Path,required=True)
     parser.add_argument("--workload",choices=["VALIDATION_AND_ESSENTIAL_CHECKS","FULL_REFERENCE"],required=True)
-    parser.add_argument("--gpu",choices=["H100","H200","A10080","RTX4090"],required=True)
+    parser.add_argument("--gpu",choices=["H100","H200","A10080","RTX4090","RTX3090"],required=True)
     parser.add_argument("--account",required=True)
     parser.add_argument("--partition",required=True)
     parser.add_argument("--qos",required=True)
@@ -62,6 +62,7 @@ def main():
         "H200":("H200",140_000_000_000),
         "A10080":("A100",80_000_000_000),
         "RTX4090":("RTX 4090",24_000_000_000),
+        "RTX3090":("RTX 3090",24_000_000_000),
     }[args.gpu]
     resolved_gen_tok=dict(state["gen_tok"])
     resolved_gen_tok.update(cfg_norm_order="norm_first",gradient_checkpointing_denoiser=True)
