@@ -543,3 +543,21 @@ The current matched configuration index is `campaign/a2/configs/r5-shared-visibl
 Snapshot, RNG, sampler and exposure restoration remain exact; floating next-update checks use the plan's numerical tolerances.
 The original blocked report is preserved. Its separate correction confirms that the earlier jobs also used 16 CPUs total, eight per node; the recorded CPU core-hours were correct.
 All earlier failures and stages remain retained. CONFIRM remains sealed.
+
+## 2026-10-24 A2 communication and direct denoiser checks pass
+
+Job 2834145 passed CUDA allocation, known-sum all-reduce and barrier on all four ranks through the shared node-local GPU launch.
+Direct native64/native16 denoiser predictions passed at FP32 relative L2 1.72e-7/2.45e-7 and BF16 0.002549/0.001905.
+The host pair was improbablex003 and torralba-3090-1; this supports the launch remedy while leaving host differences visible in the causal claim.
+The job then exposed a separate model-wrapper defect: DDP reduction was incomplete because trainable index 6 had no gradient.
+A metadata-only mapping identifies the unused source parameter `core.encoder.t_embedder.special_time_emb`.
+The pinned source defines but never reads it and enables `find_unused_parameters=True` in its own training code.
+A2 revision r6 restores that source setting in the training and check wrappers, with parameter membership, initialization and scientific controls unchanged.
+No legacy parameter is removed or frozen.
+
+Job 2834145 ended FAILED 1:0 after 172 seconds; it consumed 0.191111 RTX 3090 device-hours and 0.764444 allocated CPU core-hours.
+The diagnosed follow-on job 2834169 uses source `c3eafe8ffa8b809a92b18af429003ff199bffe00` and the same four-GPU layout.
+Stage: `/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_161607-e9fb9c-c3eafe8-code`.
+It reuses the passed direct prediction evidence and checks only current communication preflight plus the remaining native64/native16 distributed reduction, clipping, EMA and full checkpoint continuation.
+Scientific training remains unstarted and requires coordinator acceptance after these checks.
+All earlier attempts, costs, source stages and configuration identities are preserved.
