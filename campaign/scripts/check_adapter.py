@@ -31,7 +31,7 @@ def check_essential(core, images, seed=20261023):
     with torch.no_grad():
         torch.cuda.manual_seed_all(seed)
         native=core.encode(images[:1])
-        install_register_only(core.encoder)
+        original_forward=install_register_only(core.encoder)
         torch.cuda.manual_seed_all(seed)
         fixed=core.encode(images[:1])
         error=relative_l2(fixed,native)
@@ -41,7 +41,7 @@ def check_essential(core, images, seed=20261023):
         proof["register_shape_256"]=list(fixed.shape)
     # The source has been checked at256; now construct the isolated64-candidate fixture.
     # Restore the original encoder method before the PrefixAdapter installs one hook.
-    core.encoder.forward=core.encoder.forward.__closure__[1].cell_contents if False else core.encoder.forward
+    core.encoder.forward=original_forward
     core.num_latent_tokens=64
     core.latent_tokens=torch.nn.Parameter(core.latent_tokens.detach()[:,:64].clone())
     core.flow_steps_per_recon=3

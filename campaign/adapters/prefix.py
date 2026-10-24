@@ -21,6 +21,7 @@ def install_register_only(encoder):
         finally:
             handle.remove()
     encoder.forward = forward
+    return original
 
 
 class PrefixAdapter(nn.Module):
