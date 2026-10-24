@@ -327,3 +327,22 @@ Final prepared RTX3090 config:campaign/configs/reference-aeafc85486b8.yaml,SHA25
 The prior preparedc43d8bbaa2d5 config was never submitted;it remains retained.
 After terminal execution,compute overall allocator peak as the maximum of the recorded reconstruction and generation phase peaks;the payload's post-reset unqualified peak covers generation.
 No A2 training or new GPU benchmark is added.
+
+## 2026-10-24 Full reference2831212 running;5000 reconstruction complete
+Replacement job2831212 accepted and running since2026-10-24T08:46:36Z;attached owner remains unite-reproduce-20261023.
+Stage:/data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_084608-ede7a1-8b3c14d-code;execution source8b3c14d132768edf4c760fba3e0c28e5bf3cdec9.
+Configaeafc85486b84d51295c99e8b3d83aa7f50695759c98045e6762a7730983b94f;resources1RTX3090,4CPU,24GiB,12h.
+Actual node:torralba-3090-3;NVIDIA GeForce RTX3090,UUIDb731d69e-543b-e2ec-1b49-6a4c2ba63c59,VRAM25296044032bytes,SM86,CUDA12.8,driver580.178.04,Torch2.10.0+cu128,fidelity0.3.0.
+Actual environment/build,RAM allowance and retained storage mounts passed before model execution.
+Runtime record:outputs/A1__UNITE_B_REFERENCE__s20261023__aeafc85486b8/runtime.json,SHA256a190e00e172dc1647faa848a3862cbe16025edb22484cddf7d1a735e43c14995.
+BaseEMA strict load passed:152 compiled-key normalizations,no missing/unexpected keys,epoch240,step316000,CFG2.0.
+5000 prescribed reconstructions finished in114.07195800699992s.
+rFID4.15449338310998,L1mean0.0339586476677563,L1p900.056375064328312886,externalAlexLPIPSmean0.08381803412204608.
+Real/reconstruction Inception feature SHA256:20ddeca1b2463c27594e9bb4b07c762941a98eeaf1ee2ff26d1bfcc20ec409c7/d2edd761664656f48215b3d59cf306fdd6afbe33e67d1d171664a63b7a874013.
+Reconstruction phase peak allocated2792183808bytes,reserved4357881856bytes;79native reconstruction batches,one GE forward each.
+Phase snapshot:outputs/A1__UNITE_B_REFERENCE__s20261023__aeafc85486b8/reconstruction-phase-snapshot.json,SHA2563bfb90f21b8ae041fd20631199dc02abb1403121d894c56a1c7439999bfe611b.
+First16 reconstruction pairs and first16 independent generation samples were visually inspected through in-memory previews;reconstructions preserve the shown objects with some fine-detail smoothing.
+This limited grid is not a quantitative full-dataset quality claim.
+The5Ksubset has no matching published rFID value;paper120epoch reconstruction differs from released240epoch Base.
+50000 independent balanced generation remains active;FID/IS and actual terminal reservation cost are pending.
+No full A1 pass or training result is claimed.
