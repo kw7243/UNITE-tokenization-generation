@@ -1,0 +1,472 @@
+{
+  "node_id": "B1",
+  "phase_id": "SCREEN",
+  "preparation_status": "PASS",
+  "node_status": "NOT_STARTED",
+  "outcome_class": null,
+  "outcome_class_reason": "CPU preparation is not a scientific B1 outcome",
+  "plan_version": "1.1",
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "source": {
+    "parent_commit": "7a492f54a1974931d5d603b14b150263a8891f44",
+    "parent_tested_commit": "c3eafe8ffa8b809a92b18af429003ff199bffe00",
+    "tested_source_revision": "1b0f251ef3552592d4f407cb156562c07354d71f",
+    "backed_up_tested_source_revision": "1b0f251ef3552592d4f407cb156562c07354d71f",
+    "research_branch": "research/jat-b1-screen-prepare-20261024",
+    "source_manifest_patch_sha256": "4a5060a678f63046994c4abd3c9e5f4fb3ba0dbd027a287bf74d0e2c64a61213",
+    "git_implementation_patch_sha256": "8f7922192dd9a00c1072c108d2b2175c1cefcb0897b9e492bcee2d663510ffd6",
+    "implementation_patch": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/implementation.patch",
+    "parent_source_patch_sha256": "f18eb9c75f00da255b0940e6b2bacda1474e5d9ff36fb328036c3873618745ea",
+    "origin": "https://github.com/kw7243/UNITE-tokenization-generation",
+    "upstream": "https://github.com/ShivamDuggal4/UNITE-tokenization-generation",
+    "official_imports_unchanged": true,
+    "changed_files": [
+      "campaign/b1/README.md",
+      "campaign/b1/__init__.py",
+      "campaign/b1/checkpoint.py",
+      "campaign/b1/configs/NESTED_RANDOM.yaml",
+      "campaign/b1/configs/PREFIX16.yaml",
+      "campaign/b1/configs/PREFIX64.yaml",
+      "campaign/b1/configs/index.json",
+      "campaign/b1/convert.py",
+      "campaign/b1/counts.py",
+      "campaign/b1/cpu.sbatch",
+      "campaign/b1/evaluate.py",
+      "campaign/b1/metric-protocol.json",
+      "campaign/b1/resolve.py",
+      "campaign/b1/screen.py",
+      "campaign/b1/tests/check_cpu.py",
+      "campaign/b1/train.py",
+      "notebook.md"
+    ],
+    "environment_lock_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253"
+  },
+  "methods": [
+    {
+      "node_id": "B1",
+      "phase_id": "SCREEN",
+      "method_id": "PREFIX16",
+      "seed": 0,
+      "config_sha256": "ef900bdb78f6cc933859fedf727739f74013bc1a0487554cfa62fd5ca607bdcd",
+      "run_id": "B1__PREFIX16__s0__ef900bdb78f6",
+      "node_status": "NOT_STARTED",
+      "preparation_status": "PASS",
+      "outcome_class": null,
+      "outcome_class_reason": "No scientific training was authorized or run",
+      "budget_id": "FIXED16",
+      "allowed_counts": [
+        16,
+        64
+      ],
+      "prefix_loss_reduction": "one active prefix per image;image mean outside M3 sum",
+      "comparison_axis": "image_exposure",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "B1 scientific training has not started",
+      "input_a2_sha256": null,
+      "input_a2_sha256_reason": "No coordinator-accepted trained native64 checkpoint exists",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "d55715aaadcc1ca99b2a95459889a09b164cb53fc5a2ac742254d9bed4ba79ed",
+      "main_updates": 0,
+      "images_seen": 0,
+      "gpu_hours": 0.0,
+      "training_gpu_hours": 0.0,
+      "training": {
+        "realized_count_histogram": null,
+        "reason": "Only synthetic count-stream examples were drawn; no training exposure"
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "tail_gain": null,
+        "reason": "No image evaluation; CPU fixtures do not establish quality"
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "expected_mean_tokens": null,
+        "mean_tokens": null,
+        "reason": "No generated images or quality evaluation"
+      },
+      "checkpoint_roles": {
+        "SCREEN_PREFIX": null,
+        "COMMON_PREFIX": null
+      }
+    },
+    {
+      "node_id": "B1",
+      "phase_id": "SCREEN",
+      "method_id": "PREFIX64",
+      "seed": 0,
+      "config_sha256": "25a032b18a2469e27fa04bfcfaeeb62018162a4208f5517483df1bd4a2985572",
+      "run_id": "B1__PREFIX64__s0__25a032b18a24",
+      "node_status": "NOT_STARTED",
+      "preparation_status": "PASS",
+      "outcome_class": null,
+      "outcome_class_reason": "No scientific training was authorized or run",
+      "budget_id": "FIXED64",
+      "allowed_counts": [
+        16,
+        64
+      ],
+      "prefix_loss_reduction": "one active prefix per image;image mean outside M3 sum",
+      "comparison_axis": "image_exposure",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "B1 scientific training has not started",
+      "input_a2_sha256": null,
+      "input_a2_sha256_reason": "No coordinator-accepted trained native64 checkpoint exists",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "d55715aaadcc1ca99b2a95459889a09b164cb53fc5a2ac742254d9bed4ba79ed",
+      "main_updates": 0,
+      "images_seen": 0,
+      "gpu_hours": 0.0,
+      "training_gpu_hours": 0.0,
+      "training": {
+        "realized_count_histogram": null,
+        "reason": "Only synthetic count-stream examples were drawn; no training exposure"
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "tail_gain": null,
+        "reason": "No image evaluation; CPU fixtures do not establish quality"
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "expected_mean_tokens": null,
+        "mean_tokens": null,
+        "reason": "No generated images or quality evaluation"
+      },
+      "checkpoint_roles": {
+        "SCREEN_PREFIX": null,
+        "COMMON_PREFIX": null
+      }
+    },
+    {
+      "node_id": "B1",
+      "phase_id": "SCREEN",
+      "method_id": "NESTED_RANDOM",
+      "seed": 0,
+      "config_sha256": "d89834e31cc21d944b240a32580b49c9a4ddbdd5c502272413e3aa3551c6e6cb",
+      "run_id": "B1__NESTED_RANDOM__s0__d89834e31cc2",
+      "node_status": "NOT_STARTED",
+      "preparation_status": "PASS",
+      "outcome_class": null,
+      "outcome_class_reason": "No scientific training was authorized or run",
+      "budget_id": "NESTED40",
+      "allowed_counts": [
+        16,
+        64
+      ],
+      "prefix_loss_reduction": "one active prefix per image;image mean outside M3 sum",
+      "comparison_axis": "image_exposure",
+      "checkpoint_sha256": null,
+      "checkpoint_sha256_reason": "B1 scientific training has not started",
+      "input_a2_sha256": null,
+      "input_a2_sha256_reason": "No coordinator-accepted trained native64 checkpoint exists",
+      "data_manifest_sha256": {
+        "ALLOC.tsv": "8e8754ef26e985c927e8b72fcef842d7f911678bb7c13d58469d6430b11ac126",
+        "DEV.tsv": "bd5bbfb6bff9c38a07b4d7743f0b59369ef7ff220434712a68864576e0a85d3a",
+        "FIT.tsv": "e61a2f3994ef5d28a1c05df68f425ce705dcaf38ba423b0a4710f1f1d700b0c5",
+        "class_to_idx.json": "cad280772fed54b561c06ab6d3bb43f9c27d99ecd79c13878054147e38eb4115"
+      },
+      "metric_protocol_sha256": "d55715aaadcc1ca99b2a95459889a09b164cb53fc5a2ac742254d9bed4ba79ed",
+      "main_updates": 0,
+      "images_seen": 0,
+      "gpu_hours": 0.0,
+      "training_gpu_hours": 0.0,
+      "training": {
+        "realized_count_histogram": null,
+        "reason": "Only synthetic count-stream examples were drawn; no training exposure"
+      },
+      "reconstruction": {
+        "allocation_distortion": null,
+        "recon_l1": null,
+        "recon_lpips": null,
+        "recon_l1_p90": null,
+        "rfid_eval": null,
+        "latent_image_variance": null,
+        "tail_gain": null,
+        "reason": "No image evaluation; CPU fixtures do not establish quality"
+      },
+      "generation": {
+        "gfid_5k": null,
+        "kid_5k": null,
+        "nfe": null,
+        "expected_mean_tokens": null,
+        "mean_tokens": null,
+        "reason": "No generated images or quality evaluation"
+      },
+      "checkpoint_roles": {
+        "SCREEN_PREFIX": null,
+        "COMMON_PREFIX": null
+      }
+    }
+  ],
+  "cpu_checks": {
+    "passed": true,
+    "preparation_status": "PASS",
+    "b1_status": "NOT_STARTED",
+    "checks": {
+      "configs_sources_data_sealed_confirm": {
+        "passed": true,
+        "configs": {
+          "PREFIX16": {
+            "path": "campaign/b1/configs/PREFIX16.yaml",
+            "sha256": "ef900bdb78f6cc933859fedf727739f74013bc1a0487554cfa62fd5ca607bdcd",
+            "run_id": "B1__PREFIX16__s0__ef900bdb78f6"
+          },
+          "PREFIX64": {
+            "path": "campaign/b1/configs/PREFIX64.yaml",
+            "sha256": "25a032b18a2469e27fa04bfcfaeeb62018162a4208f5517483df1bd4a2985572",
+            "run_id": "B1__PREFIX64__s0__25a032b18a24"
+          },
+          "NESTED_RANDOM": {
+            "path": "campaign/b1/configs/NESTED_RANDOM.yaml",
+            "sha256": "d89834e31cc21d944b240a32580b49c9a4ddbdd5c502272413e3aa3551c6e6cb",
+            "run_id": "B1__NESTED_RANDOM__s0__d89834e31cc2"
+          }
+        },
+        "rows": {
+          "FIT": 120289,
+          "DEV": 3200,
+          "ALLOC": 3200
+        },
+        "confirm_opened": false
+      },
+      "exact_quota_independent_stream_replay": {
+        "passed": true,
+        "mean_tokens": 40,
+        "mean_tokens_sq": 2176
+      },
+      "synthetic_grouping_order_loss_detach": {
+        "passed": true,
+        "counts": [
+          16,
+          64,
+          16
+        ],
+        "empty_count_groups_skipped": true,
+        "empty_logical_batch_refused": true,
+        "draws_summed": 3,
+        "encode_calls": 1,
+        "limitation": "Synthetic blocks, not full-model numerical proof"
+      },
+      "synthetic_length_class_dropout_cfg_boundary": {
+        "passed": true,
+        "table_order": [
+          4,
+          16,
+          64
+        ],
+        "cfg_halves_same_length": true,
+        "encoder_selected_count_absent": true,
+        "source_ode_exercised": false
+      },
+      "synthetic_ddp_image_weighted_math": {
+        "passed": true,
+        "distributed_runtime_exercised": false
+      },
+      "full_model_meta_optimizer_ema_capacity": {
+        "passed": true,
+        "new_parameters": 6912,
+        "limitation": "Metadata tensors and frozen LPIPS fixture; no full-model CPU/GPU forward"
+      },
+      "synthetic_strict_conversion_refusals": {
+        "passed": true,
+        "rejected": [
+          "engineering_complete_role",
+          "generic_complete_role_2_updates",
+          "missing_optimizer",
+          "wrong_native",
+          "missing_ema",
+          "missing_rng",
+          "missing_names",
+          "missing_moment",
+          "wrong_schema",
+          "wrong_boundary",
+          "incomplete_exposure",
+          "nonfinite",
+          "checkpoint_sha256",
+          "source_config_history",
+          "synthetic_cannot_be_scientific"
+        ],
+        "fixture_sha256": "d78505556e5a3afa9bce6cfb3cf4b1ac94f378969111af74c3bbddd5a19f87af",
+        "scientific_conversion": false,
+        "real_resume_proven": false,
+        "optimizer_updates": 0
+      }
+    },
+    "job_id": "2834485",
+    "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_170251-75d085-1b0f251-code",
+    "node": "groenig-3.csail.mit.edu",
+    "source_revision": "1b0f251ef3552592d4f407cb156562c07354d71f",
+    "elapsed_seconds": 10.633243366028182,
+    "main_updates": 0,
+    "images_seen": 0,
+    "gpu_hours": 0.0,
+    "environment": {
+      "python": "3.10.22 | packaged by conda-forge | (main, Oct  6 2026, 23:02:24) [GCC 14.4.0]",
+      "torch": "2.10.0+cu128",
+      "cuda": "12.8",
+      "visible_gpus": 0,
+      "locked_package_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253",
+      "frozen_packages_sha256": "41b5c4ee15094b54d9151687fb091d654ed6ca9d0adc53612d6e46218668010f",
+      "unchanged": true
+    }
+  },
+  "cost": {
+    "cpu_jobs": [
+      {
+        "attempt": 1,
+        "job_id": "2834299",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "start": "2026-10-24T16:56:59",
+        "end": "2026-10-24T16:58:19",
+        "elapsed_seconds": 80,
+        "allocated_cpus": 2,
+        "requested_memory": "8G",
+        "alloc_tres": "billing=42,cpu=2,mem=8G,node=1",
+        "max_rss": "825644K",
+        "total_cpu": "00:18.136",
+        "reserved_cpu_core_hours": 0.044444444444444446,
+        "accounting_sha256": "ce9e86d48002c0d99442023209072ab69108d7ec0aa82c72ad5cc894f86f01ff",
+        "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-1",
+        "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165633-ccc403-ebac620-code"
+      },
+      {
+        "attempt": 2,
+        "job_id": "2834302",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "start": "2026-10-24T17:00:11",
+        "end": "2026-10-24T17:01:11",
+        "elapsed_seconds": 60,
+        "allocated_cpus": 2,
+        "requested_memory": "8G",
+        "alloc_tres": "billing=42,cpu=2,mem=8G,node=1",
+        "max_rss": "351284K",
+        "total_cpu": "00:19.126",
+        "reserved_cpu_core_hours": 0.03333333333333333,
+        "accounting_sha256": "d298de63a704ad516ca1046b4ed213fcd44a485be7010aaf17a275d23d5fd178",
+        "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-2",
+        "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165938-d78fa7-712ff9d-code"
+      },
+      {
+        "attempt": 3,
+        "job_id": "2834485",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "start": "2026-10-24T17:03:19",
+        "end": "2026-10-24T17:04:12",
+        "elapsed_seconds": 53,
+        "allocated_cpus": 2,
+        "requested_memory": "2G",
+        "alloc_tres": "billing=40,cpu=2,mem=2G,node=1",
+        "max_rss": "352012K",
+        "total_cpu": "00:17.402",
+        "reserved_cpu_core_hours": 0.029444444444444443,
+        "accounting_sha256": "51fed2abc4a1aac5660ef4e7af8519cfc297fd4ae7a97bfd14db45c33ab38459",
+        "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-3",
+        "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_170251-75d085-1b0f251-code"
+      }
+    ],
+    "total_reserved_cpu_core_hours": 0.10722222222222222,
+    "total_allocated_job_wall_seconds": 193,
+    "gpu_hours": 0.0,
+    "training_gpu_hours": 0.0,
+    "scientific_updates": 0,
+    "scientific_images_seen": 0,
+    "actual_gpu_cost_basis": "All own jobs requested CPU/memory only; no GPU TRES",
+    "cost_basis": "Reserved CPU cores times terminal elapsed; TotalCPU is retained separately; no monetary tariff is assumed"
+  },
+  "unknown_artifact_hashes": {
+    "a2_checkpoint_sha256": null,
+    "a2_accepted_configuration_sha256": null,
+    "a2_acceptance_sha256": null,
+    "gpu_correctness_receipt_sha256": null,
+    "pilot_fit_feature_manifest_sha256": null,
+    "b1_checkpoint_sha256": null,
+    "screen_prefix_sha256": null,
+    "common_prefix_sha256": null,
+    "generated_features_sha256": null
+  },
+  "unknown_artifact_hash_reasons": {
+    "a2_checkpoint_sha256": "No coordinator-accepted trained native64 checkpoint exists",
+    "a2_accepted_configuration_sha256": "Actual final trained source/config history must be bound by coordinator",
+    "a2_acceptance_sha256": "Coordinator acceptance has not been issued",
+    "gpu_correctness_receipt_sha256": "Affected full-model GPU checks not run",
+    "pilot_fit_feature_manifest_sha256": "Existing pilot FIT feature artifact must be verified later; no extraction in this task",
+    "b1_checkpoint_sha256": "B1 scientific training has not started",
+    "screen_prefix_sha256": "No passing SCREEN endpoint exists",
+    "common_prefix_sha256": "RATE is outside scope and has not run",
+    "generated_features_sha256": "No generation or quality evaluation run"
+  },
+  "remaining_checks": [
+    "Coordinator accept stable NATIVE64_JOINT at5000completed updates, hash actual checkpoint bytes, bind exact trained source/config history and complete model/optimizer/EMA/names/RNG/sampler/exposure state.",
+    "Real Base/Base register identity and no patch leakage; retain accepted unchanged256identity proof, and exercise64candidate image pass.",
+    "Actual mixed16/64 grouped/single-image and inactive-slot FP32 relativeL2<=1e-5; BF16<=5e-3 with FP32 rerun on failure; unequal and empty groups, exact image reduction.",
+    "Actual shared-GE reconstruction and denoising gradients; detached clean/noised denoising target/input; M3 sum and k*32normalization.",
+    "Actual source ODE and both CFG halves retain length after class dropout; no image/patch/feature inputs during generation; original positions/context and both decoder table placements.",
+    "Four-rank DDP with uneven/empty count groups, accumulation4, EMA inclusion, finite gradients/states and memory fit on declared hardware.",
+    "Accepted real A2-to-B1 conversion and complete optimizer-boundary resume: exact old named moments, zero new moments/EMA tables, next FIT IDs/flips/full64noise/source RNG and count-stream replay.",
+    "Coordinator bind new executable configs and exact GPU evidence/authorization receipt; inspect current permitted inventory; stage final full source before separately authorized launches.",
+    "Verify existing pilot FIT feature manifest/hash before endpoint metrics; do not replace with standard1Kstats or duplicate extraction here.",
+    "After launch only: matched5000initial continuation, scheduled512DEV/1000, common10000extension if Section8.1requires, later matched Section15.2extensions, full3200DEV and required four paired5Kfixed-count sets. CONFIRM remains sealed."
+  ],
+  "installations": [],
+  "environment_unchanged": true,
+  "scientific_conversion_performed": false,
+  "synthetic_fixture_notice": "The CPU fixture manually supplies synthetic5000update fields/moments to test refusals and mapping. It is labeled SYNTHETIC and proves no real update or resume.",
+  "issues": [
+    {
+      "attempt": 1,
+      "kind": "technical",
+      "description": "Over-broad validation opened absent unused KARL paths; fixed by reusing the UNITE-only applicable import boundary. Failed stage/output retained.",
+      "resolved": true
+    },
+    {
+      "kind": "provenance",
+      "description": "Attempt1 separate submission receipt was written about4seconds after batch start; its complete source/env/script bytes were already staged. Attempts2and3 recorded exact argv and artifact hashes before submission. Final PASS relies on attempt3.",
+      "resolved": true
+    }
+  ],
+  "scope_excluded": [
+    "GPU allocation",
+    "scientific optimizer updates",
+    "scientific trained checkpoint conversion",
+    "quality evaluation",
+    "FIT feature extraction",
+    "PAIRED",
+    "RATE",
+    "selector",
+    "C2",
+    "later nodes",
+    "CONFIRM"
+  ],
+  "checkpoint_roles": {
+    "SCREEN_PREFIX": null,
+    "COMMON_PREFIX": null
+  }
+}

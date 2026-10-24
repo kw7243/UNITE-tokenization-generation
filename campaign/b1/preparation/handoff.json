@@ -1,0 +1,233 @@
+{
+  "preparation_status": "PASS",
+  "b1_status": "NOT_STARTED",
+  "source": {
+    "parent_commit": "7a492f54a1974931d5d603b14b150263a8891f44",
+    "parent_tested_commit": "c3eafe8ffa8b809a92b18af429003ff199bffe00",
+    "tested_source_revision": "1b0f251ef3552592d4f407cb156562c07354d71f",
+    "backed_up_tested_source_revision": "1b0f251ef3552592d4f407cb156562c07354d71f",
+    "research_branch": "research/jat-b1-screen-prepare-20261024",
+    "source_manifest_patch_sha256": "4a5060a678f63046994c4abd3c9e5f4fb3ba0dbd027a287bf74d0e2c64a61213",
+    "git_implementation_patch_sha256": "8f7922192dd9a00c1072c108d2b2175c1cefcb0897b9e492bcee2d663510ffd6",
+    "implementation_patch": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/implementation.patch",
+    "parent_source_patch_sha256": "f18eb9c75f00da255b0940e6b2bacda1474e5d9ff36fb328036c3873618745ea",
+    "origin": "https://github.com/kw7243/UNITE-tokenization-generation",
+    "upstream": "https://github.com/ShivamDuggal4/UNITE-tokenization-generation",
+    "official_imports_unchanged": true,
+    "changed_files": [
+      "campaign/b1/README.md",
+      "campaign/b1/__init__.py",
+      "campaign/b1/checkpoint.py",
+      "campaign/b1/configs/NESTED_RANDOM.yaml",
+      "campaign/b1/configs/PREFIX16.yaml",
+      "campaign/b1/configs/PREFIX64.yaml",
+      "campaign/b1/configs/index.json",
+      "campaign/b1/convert.py",
+      "campaign/b1/counts.py",
+      "campaign/b1/cpu.sbatch",
+      "campaign/b1/evaluate.py",
+      "campaign/b1/metric-protocol.json",
+      "campaign/b1/resolve.py",
+      "campaign/b1/screen.py",
+      "campaign/b1/tests/check_cpu.py",
+      "campaign/b1/train.py",
+      "notebook.md"
+    ],
+    "environment_lock_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253"
+  },
+  "report": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/final/report.md",
+  "results": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/final/results.json",
+  "notebook_entry": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/final/notebook-entry.md",
+  "retained_clone": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024",
+  "retained_outputs": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation",
+  "stages": [
+    "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165633-ccc403-ebac620-code",
+    "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165938-d78fa7-712ff9d-code",
+    "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_170251-75d085-1b0f251-code"
+  ],
+  "jobs": [
+    {
+      "attempt": 1,
+      "job_id": "2834299",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "start": "2026-10-24T16:56:59",
+      "end": "2026-10-24T16:58:19",
+      "elapsed_seconds": 80,
+      "allocated_cpus": 2,
+      "requested_memory": "8G",
+      "alloc_tres": "billing=42,cpu=2,mem=8G,node=1",
+      "max_rss": "825644K",
+      "total_cpu": "00:18.136",
+      "reserved_cpu_core_hours": 0.044444444444444446,
+      "accounting_sha256": "ce9e86d48002c0d99442023209072ab69108d7ec0aa82c72ad5cc894f86f01ff",
+      "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-1",
+      "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165633-ccc403-ebac620-code"
+    },
+    {
+      "attempt": 2,
+      "job_id": "2834302",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start": "2026-10-24T17:00:11",
+      "end": "2026-10-24T17:01:11",
+      "elapsed_seconds": 60,
+      "allocated_cpus": 2,
+      "requested_memory": "8G",
+      "alloc_tres": "billing=42,cpu=2,mem=8G,node=1",
+      "max_rss": "351284K",
+      "total_cpu": "00:19.126",
+      "reserved_cpu_core_hours": 0.03333333333333333,
+      "accounting_sha256": "d298de63a704ad516ca1046b4ed213fcd44a485be7010aaf17a275d23d5fd178",
+      "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-2",
+      "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165938-d78fa7-712ff9d-code"
+    },
+    {
+      "attempt": 3,
+      "job_id": "2834485",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "start": "2026-10-24T17:03:19",
+      "end": "2026-10-24T17:04:12",
+      "elapsed_seconds": 53,
+      "allocated_cpus": 2,
+      "requested_memory": "2G",
+      "alloc_tres": "billing=40,cpu=2,mem=2G,node=1",
+      "max_rss": "352012K",
+      "total_cpu": "00:17.402",
+      "reserved_cpu_core_hours": 0.029444444444444443,
+      "accounting_sha256": "51fed2abc4a1aac5660ef4e7af8519cfc297fd4ae7a97bfd14db45c33ab38459",
+      "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-3",
+      "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_170251-75d085-1b0f251-code"
+    }
+  ],
+  "config_index": {
+    "PREFIX16": {
+      "path": "campaign/b1/configs/PREFIX16.yaml",
+      "sha256": "ef900bdb78f6cc933859fedf727739f74013bc1a0487554cfa62fd5ca607bdcd",
+      "run_id": "B1__PREFIX16__s0__ef900bdb78f6"
+    },
+    "PREFIX64": {
+      "path": "campaign/b1/configs/PREFIX64.yaml",
+      "sha256": "25a032b18a2469e27fa04bfcfaeeb62018162a4208f5517483df1bd4a2985572",
+      "run_id": "B1__PREFIX64__s0__25a032b18a24"
+    },
+    "NESTED_RANDOM": {
+      "path": "campaign/b1/configs/NESTED_RANDOM.yaml",
+      "sha256": "d89834e31cc21d944b240a32580b49c9a4ddbdd5c502272413e3aa3551c6e6cb",
+      "run_id": "B1__NESTED_RANDOM__s0__d89834e31cc2"
+    }
+  },
+  "cost": {
+    "cpu_jobs": [
+      {
+        "attempt": 1,
+        "job_id": "2834299",
+        "state": "FAILED",
+        "exit_code": "1:0",
+        "start": "2026-10-24T16:56:59",
+        "end": "2026-10-24T16:58:19",
+        "elapsed_seconds": 80,
+        "allocated_cpus": 2,
+        "requested_memory": "8G",
+        "alloc_tres": "billing=42,cpu=2,mem=8G,node=1",
+        "max_rss": "825644K",
+        "total_cpu": "00:18.136",
+        "reserved_cpu_core_hours": 0.044444444444444446,
+        "accounting_sha256": "ce9e86d48002c0d99442023209072ab69108d7ec0aa82c72ad5cc894f86f01ff",
+        "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-1",
+        "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165633-ccc403-ebac620-code"
+      },
+      {
+        "attempt": 2,
+        "job_id": "2834302",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "start": "2026-10-24T17:00:11",
+        "end": "2026-10-24T17:01:11",
+        "elapsed_seconds": 60,
+        "allocated_cpus": 2,
+        "requested_memory": "8G",
+        "alloc_tres": "billing=42,cpu=2,mem=8G,node=1",
+        "max_rss": "351284K",
+        "total_cpu": "00:19.126",
+        "reserved_cpu_core_hours": 0.03333333333333333,
+        "accounting_sha256": "d298de63a704ad516ca1046b4ed213fcd44a485be7010aaf17a275d23d5fd178",
+        "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-2",
+        "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_165938-d78fa7-712ff9d-code"
+      },
+      {
+        "attempt": 3,
+        "job_id": "2834485",
+        "state": "COMPLETED",
+        "exit_code": "0:0",
+        "start": "2026-10-24T17:03:19",
+        "end": "2026-10-24T17:04:12",
+        "elapsed_seconds": 53,
+        "allocated_cpus": 2,
+        "requested_memory": "2G",
+        "alloc_tres": "billing=40,cpu=2,mem=2G,node=1",
+        "max_rss": "352012K",
+        "total_cpu": "00:17.402",
+        "reserved_cpu_core_hours": 0.029444444444444443,
+        "accounting_sha256": "51fed2abc4a1aac5660ef4e7af8519cfc297fd4ae7a97bfd14db45c33ab38459",
+        "output": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-b1-screen-prepare-20261024/outputs/b1-preparation/attempt-3",
+        "stage": "/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261024_170251-75d085-1b0f251-code"
+      }
+    ],
+    "total_reserved_cpu_core_hours": 0.10722222222222222,
+    "total_allocated_job_wall_seconds": 193,
+    "gpu_hours": 0.0,
+    "training_gpu_hours": 0.0,
+    "scientific_updates": 0,
+    "scientific_images_seen": 0,
+    "actual_gpu_cost_basis": "All own jobs requested CPU/memory only; no GPU TRES",
+    "cost_basis": "Reserved CPU cores times terminal elapsed; TotalCPU is retained separately; no monetary tariff is assumed"
+  },
+  "remaining_checks": [
+    "Coordinator accept stable NATIVE64_JOINT at5000completed updates, hash actual checkpoint bytes, bind exact trained source/config history and complete model/optimizer/EMA/names/RNG/sampler/exposure state.",
+    "Real Base/Base register identity and no patch leakage; retain accepted unchanged256identity proof, and exercise64candidate image pass.",
+    "Actual mixed16/64 grouped/single-image and inactive-slot FP32 relativeL2<=1e-5; BF16<=5e-3 with FP32 rerun on failure; unequal and empty groups, exact image reduction.",
+    "Actual shared-GE reconstruction and denoising gradients; detached clean/noised denoising target/input; M3 sum and k*32normalization.",
+    "Actual source ODE and both CFG halves retain length after class dropout; no image/patch/feature inputs during generation; original positions/context and both decoder table placements.",
+    "Four-rank DDP with uneven/empty count groups, accumulation4, EMA inclusion, finite gradients/states and memory fit on declared hardware.",
+    "Accepted real A2-to-B1 conversion and complete optimizer-boundary resume: exact old named moments, zero new moments/EMA tables, next FIT IDs/flips/full64noise/source RNG and count-stream replay.",
+    "Coordinator bind new executable configs and exact GPU evidence/authorization receipt; inspect current permitted inventory; stage final full source before separately authorized launches.",
+    "Verify existing pilot FIT feature manifest/hash before endpoint metrics; do not replace with standard1Kstats or duplicate extraction here.",
+    "After launch only: matched5000initial continuation, scheduled512DEV/1000, common10000extension if Section8.1requires, later matched Section15.2extensions, full3200DEV and required four paired5Kfixed-count sets. CONFIRM remains sealed."
+  ],
+  "unknown_hashes": {
+    "a2_checkpoint_sha256": null,
+    "a2_accepted_configuration_sha256": null,
+    "a2_acceptance_sha256": null,
+    "gpu_correctness_receipt_sha256": null,
+    "pilot_fit_feature_manifest_sha256": null,
+    "b1_checkpoint_sha256": null,
+    "screen_prefix_sha256": null,
+    "common_prefix_sha256": null,
+    "generated_features_sha256": null
+  },
+  "unknown_hash_reasons": {
+    "a2_checkpoint_sha256": "No coordinator-accepted trained native64 checkpoint exists",
+    "a2_accepted_configuration_sha256": "Actual final trained source/config history must be bound by coordinator",
+    "a2_acceptance_sha256": "Coordinator acceptance has not been issued",
+    "gpu_correctness_receipt_sha256": "Affected full-model GPU checks not run",
+    "pilot_fit_feature_manifest_sha256": "Existing pilot FIT feature artifact must be verified later; no extraction in this task",
+    "b1_checkpoint_sha256": "B1 scientific training has not started",
+    "screen_prefix_sha256": "No passing SCREEN endpoint exists",
+    "common_prefix_sha256": "RATE is outside scope and has not run",
+    "generated_features_sha256": "No generation or quality evaluation run"
+  },
+  "ownership": {
+    "worker": "B1 preparation clone,branch notebook,three submitted CPU jobs and terminal receipts; no running job remains",
+    "coordinator": "Accept trained A2 artifact; bind exact configs and GPU evidence; choose future experiment owners/allocations/endpoints/next node",
+    "canonical_notebook_writer": "jat-a2-20261024 only; consume notebook-entry.md; this worker did not edit main",
+    "future_b1_jobs": "Unassigned; no scientific B1 job submitted; preparation owner releases execution responsibility at handoff"
+  },
+  "execution_disabled": true,
+  "scientific_conversion_performed": false,
+  "checkpoint_roles": {
+    "SCREEN_PREFIX": null,
+    "COMMON_PREFIX": null
+  }
+}
