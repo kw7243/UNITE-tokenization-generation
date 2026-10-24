@@ -229,6 +229,19 @@ def run(output):
     def forbid(*unused): raise AssertionError('Generation used image patches')
     hook=model.core.patch_embed.register_forward_pre_hook(forbid)
     model.generate(labels,counts,draws['encoding_noise']); hook.remove()
+    # Record both decoder projection outputs while the physical16prefix is active.
+    observed={}
+    with torch.no_grad(),model._length(16):
+        h1=model.core.up_sample_decoder.register_forward_hook(lambda m,i,o:observed.update(up=o.clone()))
+        h2=model.core.decoder.decoder_embed.register_forward_hook(lambda m,i,o:observed.update(embed=o.clone()))
+        physical=z[:1,:16].detach()
+        model.core.decode(physical,representation_phase=False)
+        h1.remove();h2.remove()
+    up=torch.nn.functional.linear(physical,model.core.up_sample_decoder.weight,model.core.up_sample_decoder.bias)+model.decoder_length_after_up.weight[1]
+    embed=torch.nn.functional.linear(up,model.core.decoder.decoder_embed.weight,model.core.decoder.decoder_embed.bias)+model.decoder_length_after_embed.weight[1]
+    assert observed['up'].shape[1]==observed['embed'].shape[1]==16
+    torch.testing.assert_close(observed['up'],up)
+    torch.testing.assert_close(observed['embed'],embed)
     checks['synthetic_length_class_dropout_cfg_boundary']=dict(passed=True,table_order=[4,16,64],
         cfg_halves_same_length=True,encoder_selected_count_absent=True,source_ode_exercised=False)
 

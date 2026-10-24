@@ -54,9 +54,8 @@ def verify_config(cfg):
     for name,expected in cfg['source']['code_sha256'].items():
         require(sha(ROOT/name)==expected,'Source hash mismatch: '+name)
     imports=json.loads((ROOT/'campaign/locks/source-imports.json').read_text())
-    for family,files in imports['files'].items():
-        for name,expected in files.items():
-            require(sha(ROOT/'third_party'/family/name)==expected,'Imported source changed')
+    for name,expected in imports['files']['unite'].items():
+        require(sha(ROOT/'third_party/unite'/name)==expected,'Imported UNITE source changed')
     require(sha(cfg['environment']['packages'])==cfg['environment']['packages_sha256'],'Environment lock mismatch')
     for package,version in cfg['environment']['package_versions'].items():
         require(importlib.metadata.version(package)==version,'Package version mismatch: '+package)
@@ -102,6 +101,8 @@ def main():
         provenance=state['provenance']
     else:
         source,actual=load_accepted(cfg['input']['checkpoint'],acceptance)
+        require(source['resolved_config']['model']['gen_tok']==cfg['model']['gen_tok'],
+                'Accepted A2 model semantics differ from B1 configuration')
         # Validate real FIT queue membership before accepting the inherited exposure.
         sampler.load_state_dict(source['sampler'])
         state=convert_snapshot(source,acceptance,actual,model.state_dict(),names)

@@ -437,3 +437,10 @@ Main training awaits coordinator acceptance of this receipt; no scientific A2 pa
 - Environment remains read-only at `/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1`.
 - CPU stages will remain under `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages`; outputs remain under this clone's `outputs/b1-preparation`.
 - The A2 owner retains sole canonical main notebook ownership. This branch returns a notebook entry for that writer.
+
+### CPU attempt1 - technical failure retained
+
+- Job2834299 failed before tensor checks, exit1:0,80seconds,2CPUs,8GiB,no GPUs; batch MaxRSS825644K.
+- The B1 source check incorrectly required unused KARL manifest paths that are absent from the pinned repository. A2's accepted validator checks the applicable UNITE import only.
+- Fix: reuse that UNITE-only boundary; do not change inherited KARL files or manifests. B1 does not import KARL model code.
+- Retained source stage and stderr remain in `outputs/b1-preparation/attempt-1` and the recorded scratch stage. This failure supplies no scientific result.

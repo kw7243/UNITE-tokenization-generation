@@ -338,8 +338,8 @@
       "campaign/b1/metric-protocol.json": "d55715aaadcc1ca99b2a95459889a09b164cb53fc5a2ac742254d9bed4ba79ed",
       "campaign/b1/resolve.py": "1328b429efecf9ae0997758c319dbdcb858b17a69259aba4266f2fa496d33788",
       "campaign/b1/screen.py": "efbed04a40afb856496cae39283a39a7616673709e3548efb5b4722727f4d98a",
-      "campaign/b1/tests/check_cpu.py": "aadbafe9c53cb9244a3b34248d7a5fbd39d5bca351afbf7bf9a58fe0d9750876",
-      "campaign/b1/train.py": "21a4af0c632feb793badeeb17c1b59e6a751109655af7fd0778ec6f9e2c52583",
+      "campaign/b1/tests/check_cpu.py": "03547157869b85204d7d1b5459e08c2de0bc26200a21b249825fbe267e265026",
+      "campaign/b1/train.py": "dcbd88a5b456382cf0ec5790be32858d1983b68e47e6425ebb81280a737c5882",
       "reproduction/tools/stage_and_run.sh": "160f66e8e39b58d7175ee80327f6cd4c36a14df5e6941f671747f9b67e4ef9db",
       "reproduction/tools/verify_stage.py": "1ca0560b3bcdff56cdca4fc11b6d051232149b78ea924217e953820561700a03"
     },
@@ -348,7 +348,7 @@
     "parent_patch_sha256": "f18eb9c75f00da255b0940e6b2bacda1474e5d9ff36fb328036c3873618745ea",
     "parent_tested_commit": "c3eafe8ffa8b809a92b18af429003ff199bffe00",
     "patch_definition": "SHA256 canonical sorted compact JSON of exact source-path/SHA256 map",
-    "patch_sha256": "aa601fcfe8747ec1511ac97653d9743addec5f9536660f3d30f4f7c81d0a49c8",
+    "patch_sha256": "d7b75fb861a81e355cb5b749c7cefe8765cd3142f3d1aa30204800bb39b47bc5",
     "unite_commit": "2389f2c65fedbd43ada851e69b2b810efd23af7d",
     "upstream": "https://github.com/ShivamDuggal4/UNITE-tokenization-generation"
   },
