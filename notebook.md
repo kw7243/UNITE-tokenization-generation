@@ -694,3 +694,23 @@ The accepted B1 CPU preparation entry was already consolidated in canonical note
 - No validation run or new Slurm test started. No source/environment changes, scientific updates or GPU-hours.
 - Firstmate owns shared daemon repair. After repair, review substantive B1 and relevant reused helpers/evaluation, run required local stages and justified actual technical tests, then freeze and fully stage corrected source.
 - B1 remains NOT_STARTED. Trained checkpoint/real conversion and scientific release remain separate prerequisites. A2 retains canonical notebook ownership.
+
+## 2026-10-24 Both joint arms measured at 200 updates
+
+Native64 job 2834281 completed 200 optimizer updates and 51200 exposures in 2912.479696 seconds.
+Its recorded global throughput is 17.5795 images/s, with peak allocated/reserved memory 16.7062/17.7608 GB.
+The first-200 projection is 80.9022 RTX 3090 device-hours for 5000 updates.
+Native16 job 2834282 records 669.845825 seconds, 76.4355 images/s, peak allocated/reserved memory 14.2305/15.6594 GB and 18.6068 RTX 3090 device-hours.
+The paired training projection is 99.5090 RTX 3090 device-hours; evaluation and allocation overhead are additional.
+The arms use different node pairs, so these observations cannot isolate a token-count effect on speed.
+The forecasts are advisory. No fixed reserve, budget cap, estimate stop or matched-control change is imposed.
+The native64 forecast is within its existing 23-hour request; later throughput, data stalls and evaluations can change completion time.
+
+These are reads of outputs from unchanged pre-policy jobs, not a new scientific analysis or validation pass.
+At 21:41 UTC the FIT job remained active with 96000 images recorded; its extraction-only projection was 0.7260 RTX 2080 Ti hours.
+Exact first-200 files, their hashes and the observed FIT progress are retained in `outputs/A2/training-receipts-r6/first200-paired-handoff.json` in the A2 source.
+Both training jobs and the FIT job retain their frozen stages and exact configurations.
+DEV quality, the paired endpoint, gradient probes, eligible generation, the conditional RECON decision and a scientific stable64 checkpoint remain pending.
+The configured NoMistakes socket remains unreachable from the login context; primary owns service/context resolution.
+No pipeline has started and no local stage has passed. The policy blocker remains open.
+No new affected-code launch or reported numerical analysis proceeds before required local validation.
