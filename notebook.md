@@ -444,3 +444,36 @@ Large checkpoint inspection remains recorded; its actual113epochs differ from ad
 The full-training scale remains8H200140GB at26minutes/epoch,about832H200GPU-hours for240epochs; no such run was started.
 Next action: coordinator acceptance of A1, then scope a separate A2 GPU preparation/training assignment.
 This worker submits no A2 job and imports no A2 experiment code.
+
+## 2026-10-24 Coordinator acceptance: A1 PASS
+
+The coordinator accepted UNITE A1 at2026-10-24T19:25:39.957919Z as PASS CHECKPOINT_EFFECT_REPRODUCTION.
+The full50000 generation result is FID2.1035501171916167 andIS295.81353759765625;paper headline2.12/294.1.
+The declared5Kreconstruction rFID is4.15449338310998,with no matching paper protocol.
+All complete terminal,finite,count,balanced-label,strict-load and unchangedSection5.11 gates passed.
+The coordinator independently verified all13 administrative artifact hashes; no rescoring or extra experiment ran for acceptance.
+
+Accepted coordinator record:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1/final/coordinator-acceptance.json.
+Acceptance SHA256:226576dc95cb00fc3c59eca5b7ea59c037fb5e10565c108f3824851ca7dff97d.
+Final retained report:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1/final/report.md.
+Final retained results:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1/final/results.json.
+Final artifact index:/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024/outputs/A1/final/artifacts.json;SHA256b37c03400622ac425fff4abf4da3c806f6cec47a2777ccc326b93147ee791d73.
+Per-run final report/results are in outputs/A1__UNITE_B_REFERENCE__s20261023__aeafc85486b8/final/.
+The original payload and all13 reviewed pre-acceptance artifacts stay unchanged at their reviewed paths.
+Final accepted records are separate, so the coordinator's reviewed hashes remain valid.
+
+Executed_source_revision is8b3c14d132768edf4c760fba3e0c28e5bf3cdec9.
+The earlier metrics-publication heads944a40d040c8f74e566797e81ce9ca1ac05990bb/research and5f40f8982b08f4eb1636cc6eee531916e23d830c/main contain notebook changes only.
+This acceptance publication is also notebook-only.
+Its exact branch/main revisions and file URLs are recorded after push in outputs/accepted-notebook-publication.json.
+No experiment code is merged into main; canonical main differs from official2389f2c only innotebook.md.
+
+Close headline agreement does not establish the authors' exact RNG/config reproduction or resolve appendix2.735/IS268.1.
+IS splitstd3.021472454071045 is not a confidence interval.
+No adaptive-token,from-scratch,native16/64training orA2scientific claim follows.
+The final evaluation cost is10.551666666666666RTX3090-hours;total newA1 allocation10.565277777777778heterogeneousGPU-hours,legacy/sibling/A2costs separate.
+All owned jobs are terminal and all source/stages/data/results remain retained.
+
+Publication completes this worker's bounded A1 assignment and releases its terminal,campaign/source and canonical notebook writer ownership to the coordinator.
+The coordinator assigns the next writer explicitly.
+The separate A2 assignment is prepared and coordinator-owned; this worker starts no A2 job.
