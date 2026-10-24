@@ -1,0 +1,10 @@
+{
+  "inspection": "Read-only scoped search of approved research root through depth 4 and approved shared dataset roots; no matching pilot training content or split manifest found.",
+  "existing_manifest": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/karl-reproduction-results/cpu-prepare-2826204/dataset-manifest.json",
+  "existing_manifest_root": "/data/vision/torralba/datasets/imagenet100/val",
+  "existing_manifest_rows": 5000,
+  "compatible": false,
+  "reason": "Only official validation images, no training images. A1's separate validation/label preparation is not duplicated.",
+  "shared_archive_sha256": null,
+  "shared_archive_sha256_reason": "Original train archive bytes are unavailable at the approved extracted dataset root; no archive identity inferred from extraction."
+}
