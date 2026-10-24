@@ -157,3 +157,17 @@
 - Update 68d1c7d prepares native allocated-node GPU binding, NCCL all-reduce and the original source evaluator's unequal-count gather on 2,000 synthetic rows before long inference. No model or scientific metric is used in this test. Actual multi-rank GPU execution remains unverified.
 - Future preflight and full evaluation each receive a new complete stage inside the submitted immutable stage; inherited skip-stage state is explicitly cleared.
 - Next: obtain the controller-side cancellation reason or a verified remedy. Research/terminal/notebook ownership remains with unite-reproduce-20261023; no owned job is active.
+
+
+## 2026-10-24 — A1 campaign scope and TIG-safe launch validation
+
+- Immutable joint adaptive tokenization plan SHA256 71728da427a6946146d12cc4bff4eddfbf308e6f79d15a86c39b993d64196f5b is verified and retained privately in campaign outputs.
+- New independent plain source /data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-20261024, branch research/joint-adaptive-tokenization-20261024, parent a19c1501ed9d28e251a90950349bf2a739c9a9f3. Setup8bc4374 and environment preparationea61231 are backed up to the approved UNITE fork.
+- Untouched pinned sources are imported under third_party with byte manifests: UNITE2389f2c65fedbd43ada851e69b2b810efd23af7d; KARL5c1a5693edf87228f988f363b2acdb7eb826a889. No KARL research copy or notebook changed.
+- Current worker scope is A1 Base5000 fixed validation reconstructions, independent balanced50000 generation and the three Section5.11 adapter checks. No A2, training, Large or alternate-interval campaign is started.
+- A1 evaluation seed20261023 and torch-fidelity0.3.0 supersede old seed0/fidelity0.4.0. Preserve native M14 checkpoint identity and sampling. Saved CFG2.0 must be reverified. Practical gate is gFID<=3.1 plus valid reconstruction/strict load, labeled CHECKPOINT_EFFECT_REPRODUCTION. Headline2.12 and appendix2.735 remain distinct.
+- Supplied TIG evidence identifies ALL,variables export as unsupported. The effective2827364 argv matches it exactly. Historical inherited SBATCH_EXPORT is unrecorded, current unset. This is a documented matching cause/remedy, not new controller-log proof.
+- Literal-NIL CPU canary2830341 COMPLETED0:0 ongroenig-3,06:21:25–06:21:30 UTC,5CPU-core-seconds,zeroGPUs. Both first-script markers exist; submit sentinel and inherited export value are absent. Required environment is set after every directive; Git fsck passed.
+- Canary full stage /data/scratch-fast/kwen1/joint-adaptive-tokenization-20261024-stages/20261024_062106-ed7829-8bc4374-code;252-file/link/Git verification. Retained run outputs/A1__LAUNCH_NIL_CPU__s20261023__0d8d0039dc3d includes exact argv, latch, owner log, resolved config, report, results and accounting.
+- Initial A1 allowance19.2H100-hours; coordinator retains4.8 reserve and owns gates. Legacy0.483333device-hours remain separate. This worker is sole campaign source/artifact-lock, UNITE canonical notebook, submission and terminal owner.
+- CPU environment/artifact reconciliation is starting from a new complete stage. Actual GPU software identity and every A1 scientific result remain unverified.
