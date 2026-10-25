@@ -829,3 +829,24 @@ The private daemon is healthy in B1-owned CPU2835069, but its existing agent lau
 B1 owns service/terminal state; primary owns supported auth direction. A2 made no independent service or auth change. The original keyed blocker remains open.
 Jobs2834281/2834282 continue unchanged; no other job is adopted. Next scheduled owned observation is2026-10-25T00:35Z for native16 update4000 and both jobs, or sooner on a concrete owned failure or exact released review route.
 No scientific native64 stability, endpoint generation/RECON release, outcome or downstream decision is claimed by this preparation.
+
+## 2026-10-25 Native16 scheduled4000DEV retained; endpoint preparation r2 complete
+
+The planned00:35 observation was taken at this natural checkpoint because the fixed4000DEV output was already available.
+Both pre-policy jobs remain RUNNING: native64 job2834281 at919updates and native16 job2834282 at4127 in the retained snapshot.
+Native16's fixed512DEV at4000 records L1 0.1061953906, AlexNet LPIPS 0.6753305676, shared distortion 0.7815259582, L1p90 0.1498626947, latent image variance 0.2978399927, latent RMS 0.5950979848.
+Original checkpoint4000 hash record `b90b1d10ad15001b13041c428ca95fcf2b4bca747efad62f752921579c5cd269`. No checkpoint was loaded or independently rehashed.
+Raw outputs and exact original source/config/data/metric/checkpoint/Slurm/runtime/stderr provenance are retained in `outputs/A2/training-receipts-r6/observation-4000/` in the A2 source.
+Native64 has no DEV point; no paired quality or stability claim follows from unequal unfinished progress. No new affected-code numerical analysis ran.
+Next ordinary owned observation:2026-10-25T01:05Z for native64's first scheduled DEV/checkpoint and both job states, or sooner on a concrete owned failure or exact released review route.
+
+Final coherent endpoint preparation r2 source is `3f9a30372da5a6c2807b3745cd8cc0004b4bdeb0`, implementation `745f5be9863acc4a486a05291267422c90de8a51`.
+It includes the concrete GPU endpoint and CPU aggregation Slurm payloads in the same review unit, with literalNIL, explicit staged/config paths and environment/preflight rules. Neither payload was submitted.
+Current r2 templates bind the final helpers and payloads and remain disabled. The r1 drafts are preserved byte-for-byte at33ba97e as unused history.
+Explicit collection releases native closure cycles between arms before memory measurements. All original native/train/data/optimizer/checkpoint/evaluate and official source bytes remain unchanged.
+Four new Python files compile and both new payloads pass shell syntax. No new numerical/CPU/GPU/render test, pipeline stage, analysis or scientific job ran.
+The separate plotting environment and its requirements remain as recorded above; original training packages are unchanged. Actual tests remain null with reasons.
+Prepared r2 report/results/protocol/intent/test plan/scope are in `outputs/A2/no-mistakes-local-20261024/endpoint-preparation/r2/`.
+ScopeSHA256 `4a68eb0ddf532df8ed9750fc354ee3ea80210d6b008e7687748d196a61b8e558`; patchSHA256 `60a7f71c319ed3a20928b1c1c093a7df97e25dea2cc93155f7a023c3a7005a59`. Preserve the earlier preparation receipts; unused intermediate commits need no separate review.
+No usable local validation/agent route is released. B1 retains service/CPU2835069 ownership, primary owns supported auth direction, and A2 made no service/auth change.
+Every required local stage, actual new check and final frozen stage remains pending. No valid64, scientific outcome, generation/RECON release or downstream run is asserted.
