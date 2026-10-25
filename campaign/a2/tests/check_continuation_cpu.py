@@ -79,7 +79,8 @@ def check_snapshot_contract(parent_config):
         with patch.object(checkpoint.torch, 'load', return_value=value), \
              patch.object(checkpoint.dist, 'get_world_size', return_value=4), \
              patch.object(checkpoint.dist, 'get_rank', return_value=0), \
-             patch.object(checkpoint, 'restore_rng'):
+             patch.object(checkpoint, 'restore_rng'), \
+             patch.object(checkpoint, 'process_rng', return_value=value['process_rng_by_rank'][0]):
             checkpoint.load('synthetic-fixture-only.pt', model, ema, optimizers,
                 cfg['training']['optimizer_parameter_names'], FitQueue(rows, 0), Streams(0),
                 'fixture-digest', cfg=cfg, expected_update=4000)

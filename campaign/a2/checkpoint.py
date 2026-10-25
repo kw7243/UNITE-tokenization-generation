@@ -142,5 +142,12 @@ def load(path, model, ema, optimizers, names, sampler, streams, config_sha,
     streams.load_state_dict(state['streams'])
     assert sampler.updates == state['counters']['main_updates']
     assert sampler.images_seen == state['counters']['images_seen'] == sampler.updates*256
-    restore_rng(state['process_rng_by_rank'][dist.get_rank()])
+    wanted_rng = state['process_rng_by_rank'][dist.get_rank()]
+    restore_rng(wanted_rng)
+    actual_rng = process_rng()
+    assert actual_rng['python'] == wanted_rng['python']
+    assert actual_rng['numpy'][0] == wanted_rng['numpy'][0]
+    assert np.array_equal(actual_rng['numpy'][1], wanted_rng['numpy'][1])
+    assert actual_rng['numpy'][2:] == wanted_rng['numpy'][2:]
+    assert all(torch.equal(actual_rng[k], wanted_rng[k]) for k in ('torch_cpu', 'torch_cuda'))
     return state['counters'], state['evaluation_history']

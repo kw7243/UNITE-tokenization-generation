@@ -3,6 +3,7 @@ import argparse
 import gc
 import json
 import os
+import subprocess
 from pathlib import Path
 import sys
 
@@ -42,6 +43,7 @@ def main():
     assert cfg['hardware']['device_name_substring'] in props.name
     assert props.total_memory >= cfg['hardware']['minimum_vram_bytes']
     assert torch.cuda.is_bf16_supported()
+    assert (torch.ones(1, device=device)+1).item() == 2
     torch.backends.cuda.matmul.allow_tf32 = False; torch.backends.cudnn.allow_tf32 = False
     torch.set_float32_matmul_precision('highest')
     out = args.output
@@ -51,6 +53,13 @@ def main():
         gpu=props.name, uuid=str(props.uuid), memory_bytes=props.total_memory,
         torch=torch.__version__, cuda=torch.version.cuda, stage=str(ROOT), config_sha256=digest,
         precision=args.precision, engineering_only=True, scientific_updates=0)
+    runtime['mounts'] = {p:subprocess.check_output(['df', '-PT', p], text=True).splitlines()[-1]
+                         for p in (str(ROOT), str(out), cfg['data']['root'])}
+    ranks = [None]*4; dist.all_gather_object(ranks, runtime)
+    assert len({v['uuid'] for v in ranks}) == 4
+    assert len({v['gpu'] for v in ranks}) == 1
+    assert len({v['node'] for v in ranks}) == 2
+    assert all(sum(v['node'] == node for v in ranks) == 2 for node in {v['node'] for v in ranks})
     (out/f'runtime-rank{rank}.json').write_text(json.dumps(runtime, indent=2)+'\n')
     splits = read_interface(cfg['data']); reference = None; records = []; baseline = None
     torch.cuda.reset_peak_memory_stats(device)

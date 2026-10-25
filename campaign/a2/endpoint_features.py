@@ -28,10 +28,11 @@ from utils.fid import extract_inception_features, get_inception_model
 def completed_metadata(arm):
     """Bind completed arm bytes to its actual training stage and physical lineage."""
     train, result = locked_json(arm['training_config']), locked_json(arm['result'])
-    verify_config(train, source_root=stage_root(arm['training_stage']))
+    verify_config(train, source_root=stage_root(arm['training_stage'], train))
     terminal = locked_json(arm['terminal_receipt'])
     terminal_state(terminal, arm['training_config']['sha256'])
     assert arm['training_stage'] == terminal['stage']
+    assert arm['training_stage']['config_sha256'] == arm['training_config']['sha256']
     assert result['config_sha256'] == arm['training_config']['sha256']
     assert result.get('continuation') == train.get('continuation')
     assert result['main_updates'] == 5000 and result['images_seen'] == 1280000

@@ -158,7 +158,10 @@ def restore_and_wrap(model, ema, optimizers, names, sampler, streams, cfg, diges
             assert history == lineage['history']
         counters['inherited_attempted_images_at_restore'] = counters['attempted_images_this_process']
         counters['attempted_images_this_process'] = 0
+    restored_rng = checkpoint.process_rng() if resume else None
     ddp = DDP(model, device_ids=[device.index], broadcast_buffers=False, find_unused_parameters=True)
+    if restored_rng is not None:
+        checkpoint.restore_rng(restored_rng)
     return ddp, counters, history
 
 

@@ -19,7 +19,7 @@ def locked_rows(lock):
     return [json.loads(line) for line in Path(lock['path']).read_text().splitlines()]
 
 
-def stage_root(lock):
+def stage_root(lock, cfg=None):
     root = Path(lock['path']).resolve()
     manifest = root/'STAGING_MANIFEST.json'
     assert sha(manifest) == lock['staging_manifest_sha256']
@@ -29,6 +29,11 @@ def stage_root(lock):
     assert revision == lock['source_revision']
     assert any(v['command'] == ['git', 'rev-parse', 'HEAD'] and v['value'].strip() == revision
                for v in saved['git_identity'])
+    if cfg is not None:
+        for name, digest in cfg['source']['code_sha256'].items():
+            assert saved['files'][name]['kind'] == 'file' and not (root/name).is_symlink()
+            assert (root/name).stat().st_mode & 0o111 == saved['files'][name]['execute_bits']
+            assert saved['files'][name]['sha256'] == sha(root/name) == digest, name
     return root
 
 
@@ -96,7 +101,8 @@ def continuation(cfg):
     assert str(terminal['job_id']) == str(item['parent_job_id'])
     assert terminal['last_saved_main_updates'] == 4266
     assert terminal['stage'] == item['parent_stage']
-    assert stage_root(item['parent_stage']) == Path(item['parent_stage']['path']).resolve()
+    assert stage_root(item['parent_stage'], parent) == Path(item['parent_stage']['path']).resolve()
+    assert item['parent_stage']['config_sha256'] == item['parent_config']['sha256']
     source = locked_json(item['parent_result'])
     assert source['config_sha256'] == item['parent_config']['sha256']
     assert source['main_updates'] == 4266 and source['images_seen'] == 4266*256
