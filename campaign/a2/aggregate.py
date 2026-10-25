@@ -196,6 +196,8 @@ def main():
     assert cfg['source']['code_sha256']['campaign/a2/aggregate.py'] == sha(__file__)
     stage = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
     subprocess.run(['git', 'merge-base', '--is-ancestor', cfg['source']['implementation_revision'], stage], check=True)
+    assert len(os.sched_getaffinity(0)) >= cfg['cpu_threads']
+    assert int(os.environ['SLURM_CPUS_PER_TASK']) >= cfg['cpu_threads']
     torch.set_num_threads(cfg['cpu_threads'])
     import matplotlib
     plot_env = cfg['plot_environment']
@@ -206,6 +208,7 @@ def main():
     for name, version in plot_env['additional_versions'].items():
         assert importlib.metadata.version(name) == version, name
     first = locked_json(cfg['arms']['NATIVE64_JOINT']['training_config'])
+    assert cfg['plan_sha256'] == first['plan_sha256']
     rows = read_interface(first['data'])['DEV']
     assert set(cfg['arms']) in ({'NATIVE64_JOINT', 'NATIVE16_JOINT'},
                                {'NATIVE64_JOINT', 'NATIVE16_JOINT', 'NATIVE64_RECON', 'NATIVE16_RECON'})
@@ -272,6 +275,11 @@ def main():
         node_status='IN_PROGRESS' if eligible and scores is None else 'AWAITING_COORDINATOR',
         outcome_class=None, outcome_class_reason='Coordinator classifies the paired scientific evidence and conditional next action.',
         config_sha256=digest, source_revision=stage, inputs=cfg['arms'], metric_protocol_sha256=cfg['metric_protocol_sha256'],
+        runtime=dict(job_id=os.environ['SLURM_JOB_ID'], node=os.uname().nodename,
+                     cpu_affinity=sorted(os.sched_getaffinity(0)), cpu_threads=cfg['cpu_threads'],
+                     stage=str(ROOT), mounts={p: subprocess.check_output(['df', '-PT', p], text=True).splitlines()[-1]
+                         for p in (str(ROOT), str(out), first['data']['root'])}),
+        plot_environment=cfg['plot_environment'],
         training={k: dict(v['result']['training'], monitor_history=v['monitor']) for k, v in arms.items()},
         reconstruction=recon, generation=generation,
         generation_eligible=eligible, paired_reconstruction=paired,
@@ -285,6 +293,8 @@ def main():
             full_snapshot_schema_and_ema_strict_load_verified=True,
             coordinator_acceptance=None, reason='Worker evidence is not coordinator acceptance or downstream release.'),
         stable64_checkpoint=cfg['arms']['NATIVE64_JOINT']['checkpoint'],
+        unpublished_run_configuration_comparison=None,
+        unpublished_run_configuration_comparison_reason='The reported unpublished16-token run logs/configuration were not supplied; source inspection cannot identify its cause.',
         costs={k: v['terminal'] for k, v in arms.items()},
         additional_cost_receipts=[locked_json(lock) for lock in cfg['additional_cost_receipts']],
         analysis_job_terminal_cost=None, analysis_job_terminal_cost_reason='Reconcile this job after its Slurm terminal state.',
@@ -305,7 +315,7 @@ def main():
         ('3 Baseline', 'Native counts, common seed0 initialization, same FIT/flips/full64-position draws, global256 exposures, source M3 sum and fixed protocol. RECON arms, if present, are mechanism probes rather than compute-matched generation baselines.'),
         ('4 Results', json.dumps(result, indent=2, allow_nan=False)),
         ('5 Interpretation', 'Use paired reconstruction intervals, readable matched curves and the32-image gradient probes together. A pilot gFID difference is a screen, not a statistical guarantee; a joint-pressure ratio is a mechanism hypothesis, not proof.'),
-        ('6 Limitations', 'One training seed. No CONFIRM, guidance search or later-node run. Different training node pairs limit speed attribution. Full terminal owner-ledger costs and local review/test identities remain part of the worker handoff. Scientific acceptance remains with the coordinator.'),
+        ('6 Limitations', 'One training seed. Pilot5K gFID against100-class FIT is not equivalent to A1 full50K/1000-class gFID. A1 used M14; this paired pilot deliberately uses M3 and random initialization. No CONFIRM, guidance search or later-node run. Different training node pairs limit speed attribution. Full terminal owner-ledger costs and local review/test identities remain part of the worker handoff. Scientific acceptance remains with the coordinator.'),
         ('7 Next action', 'Coordinator reviews the joint endpoint, decides conditional RECON if still pending and accepts the valid64 handoff before dispatching a later node. This script releases no downstream run.')]
     (out/'report.md').write_text('\n\n'.join('## '+k+'\n\n'+v for k, v in sections)+'\n')
 
