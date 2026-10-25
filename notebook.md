@@ -1157,3 +1157,27 @@ Primary launcher selection is pending and no usable substantive-review route exi
 The coordinator must direct bounded recovery from retained4000 boundary versus logged4266 progress, with explicit exposure/control accounting and required validation.
 No recovery resource/run is selected here; next meaningful condition is coordinator recovery direction and released review route, not another poll of a terminated job.
 A2 remains incomplete; no generation/RECON/stable64/downstream release follows.
+
+## 2026-10-25 Native64 checkpoint4000 recovery prepared; execution disabled
+
+Coordinator036 selected bounded recovery preparation under the original5000-update plan.
+Specification `campaign/a2/configs/native64-continuation-r1.disabled.json`, SHA256 `e0dee53858796806760395e15b1774349d6a02d5a57c0a53e4c97ecc96b6814d`; seven-section report `campaign/a2/RECOVERY.md` and receipt `outputs/A2/native64-recovery-preparation-r1-20261025T1725Z/results.json`.
+The specification is not a train.py runtime config, and no launch command, authorization, future output or stage exists.
+All original r2/stages/outputs, native16 and FIT are preserved.
+
+Source tracing found config-digest/new-output incompatibility, destination-only replay guard, missing parent snapshot/history paths, inherited counter accounting, endpoint source/config/ledger lineage gaps, terminal state/job_state mismatch and production-vs-engineering DDP/load order difference.
+Reuse saved real four-rank resume evidence, but do not infer checkpoint4000 acceptance from engineering checkpoint1 or a partial COMPLETE role.
+Required model/EMA/named optimizer/schedule/queues/all-stream/all-rank RNG/counter/history checks and affected actual production checks remain NOT_RUN.
+
+Original result4266 completed vs retained4000 means266 abandoned completed updates/68096images.
+The immutable exposure ledger also has unfinished attempted4267; replay acknowledgement must cover4267, with actual partial processing unknown.
+Target remains5000 effective/1280000images. A single successful1000-update recovery would make5266 physical completed updates/1348096images plus the unknown original partial attempt; engineering work is extra with zero effective science.
+The saved first200 timing predicts16.180443RTX3090h for the remaining1000 updates, plus separately identified unmeasured check/evaluation/setup costs; no cap or device conversion applies.
+
+Message037 requires the same future terminal owner to retain live terminal/preemption/failure monitoring between DEV observations through the existing monitor or bounded foreground polling, without a new service/wrapper.
+Original job end2026-10-25T13:36:48Z and first observation17:01:53Z remain distinct. Scheduled four-hour DEV observations cannot replace terminal monitoring.
+All9owned jobs are terminal; no current monitor/allocation is running.
+
+No model-byte load/hash, new tests/analysis, resume, allocation, submission or executable code change ran.
+Usable substantive-review route and primary launcher selection remain pending. Exact reviewed code/config/checkpoint/check acceptance is required before later execution.
+A2 remains scientifically incomplete; native64 valid64/generation/RECON/downstream releases remain false, and only accepted256 reference quality is established.
