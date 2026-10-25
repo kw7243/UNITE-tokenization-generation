@@ -850,3 +850,28 @@ Prepared r2 report/results/protocol/intent/test plan/scope are in `outputs/A2/no
 ScopeSHA256 `4a68eb0ddf532df8ed9750fc354ee3ea80210d6b008e7687748d196a61b8e558`; patchSHA256 `60a7f71c319ed3a20928b1c1c093a7df97e25dea2cc93155f7a023c3a7005a59`. Preserve the earlier preparation receipts; unused intermediate commits need no separate review.
 No usable local validation/agent route is released. B1 retains service/CPU2835069 ownership, primary owns supported auth direction, and A2 made no service/auth change.
 Every required local stage, actual new check and final frozen stage remains pending. No valid64, scientific outcome, generation/RECON release or downstream run is asserted.
+
+## 2026-10-25 Scheduled01:05 owned-job observation
+
+Both original A2 joint jobs remain RUNNING, including all recorded steps.
+The retained snapshot records native64 job2834281 at1060 completed updates and native16 job2834282 at4774.
+Native64's first fixed512DEV at update1000 records L1 0.23755374737083912, AlexNet LPIPS 0.857935709063895, shared distortion 1.0954894564347342, L1p90 0.3190992504358292, latent image variance 0.00042255650653950656, and latent RMS 0.9984315361796424.
+Its original checkpoint1000 hash record is `ec6a549264cd686fb4afdeca348be5d3c143ce055909966d0038253cf0150357`.
+No checkpoint was loaded or independently rehashed.
+Native16's latest scheduled DEV remains update4000, as recorded above.
+
+Original results, complete per-image DEV files, monitor/exposure records, runtime, stdout/stderr, checkpoint hash records and submissions were copied and hashed under `outputs/A2/training-receipts-r6/observation-0105/` in the A2 source.
+The handoff preserves exact config/data/metric identities; both immutable stage Git revisions and staging-manifest bytes were rechecked against the submissions.
+Each file is copied separately while training runs, so the snapshots can reflect different instants.
+Running0:0 fields are not terminal success.
+Only the accepted256 A1 reference has established stable quality; one native64 DEV point and unfinished unequal progress do not establish stable64 or a paired outcome.
+
+Message016 transferred the old authentication blocker to the existing B1-held primary compute-authentication call.
+The transfer did not establish a usable review route; do not open a duplicate call.
+Message018 authorizes this original-output observation only.
+Prepared endpoint r2 source/configs remain frozen and unreviewed.
+No new numerical analysis, helper/test execution, submission, scientific gate or generation/RECON release occurred.
+B1 retains its service/job ownership, and A2 retains sole ownership of2834281/2834282 and canonical notebook writes.
+
+Next ordinary observation:2026-10-25T01:30Z for native16's original endpoint/terminal evidence and both job states, or sooner on a concrete owned failure or a released usable validation route.
+The next review follows native16's approach to5000; it is not an estimate-triggered stop or extension.
