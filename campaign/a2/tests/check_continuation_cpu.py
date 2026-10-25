@@ -96,6 +96,16 @@ def check_snapshot_contract(parent_config):
         lambda v:v['optimizers']['muon']['state'][0].update(momentum_buffer=torch.zeros(3, 2)),
         lambda v:v['ema'].update(matrix=torch.ones(2, 2, dtype=torch.float64)),
     ]
+    complete = copy.deepcopy(state)
+    complete['counters'].update(main_updates=5000, images_seen=1280000)
+    complete['sampler'].update(updates=5000, images_seen=1280000)
+    complete['scheduler']['completed_updates'] = 5000
+    complete['optimizers']['adamw']['state'][0]['step'] = torch.tensor(5000.)
+    complete['evaluation_history'].append(dict(complete['evaluation_history'][-1], update=5000))
+    checkpoint.validate_state(complete, cfg, 'fixture-digest', expected_update=5000)
+    broken_endpoint = copy.deepcopy(complete)
+    broken_endpoint['optimizers']['adamw']['state'][0].pop('exp_avg')
+    rejects(lambda: checkpoint.validate_state(broken_endpoint, cfg, 'fixture-digest', expected_update=5000))
     for mutate in mutations:
         changed = copy.deepcopy(state); mutate(changed)
         rejects(lambda: restore(changed))

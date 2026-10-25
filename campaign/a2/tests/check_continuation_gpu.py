@@ -83,6 +83,8 @@ def main():
             # Preview and restore only dedicated streams to check all full64 draws.
             before_streams = streams.state_dict(); preview = streams.draw(256)
             draw_digest = fingerprint(preview); streams.load_state_dict(before_streams); del preview
+            draw_hashes = [None]*4; dist.all_gather_object(draw_hashes, draw_digest)
+            assert len(set(draw_hashes)) == 1, 'Full64 draws differ across ranks'
             old_ema = {n:p.detach().cpu().clone() for n,p in ema.named_parameters()
                        if dict(model.named_parameters())[n].requires_grad}
             attempts = []

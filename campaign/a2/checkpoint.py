@@ -58,6 +58,31 @@ def save(path, model, ema, optimizers, names, sampler, streams, config_sha, cfg,
     dist.barrier()
 
 
+def validate_optimizer_state(state):
+    """Validate named slots for resume and complete endpoint consumers alike."""
+    from campaign.a2.native import executed_lr
+    cfg = state['resolved_config']
+    for key, saved in state['optimizers'].items():
+        names = state['optimizer_parameter_names'][key]
+        parameters = [p for group in saved['param_groups'] for p in group['params']]
+        assert len(parameters) == len(names) and len(set(parameters)) == len(parameters)
+        by_id = dict(zip(parameters, names))
+        expected_ids = {i for i, name in by_id.items()
+                        if name not in cfg['distributed']['expected_unused_trainable_parameters']}
+        assert set(saved['state']) == expected_ids
+        assert all(group['lr'] == executed_lr(state['counters']['main_updates']) for group in saved['param_groups'])
+        for parameter_id, slot in saved['state'].items():
+            parameter = state['model'][by_id[parameter_id]]
+            assert parameter.dtype == torch.float32
+            assert set(slot) == ({'momentum_buffer'} if key == 'muon' else {'step', 'exp_avg', 'exp_avg_sq'})
+            for slot_name, value in slot.items():
+                assert torch.is_tensor(value) and torch.isfinite(value).all()
+                if slot_name == 'step':
+                    assert value.numel() == 1 and value.item() == state['counters']['main_updates']
+                else:
+                    assert value.shape == parameter.shape and value.dtype == parameter.dtype
+
+
 def validate_state(state, cfg, config_sha, expected_update=None):
     """Check the complete saved contract before mutating live training state."""
     from campaign.a2.data import Streams
@@ -79,6 +104,7 @@ def validate_state(state, cfg, config_sha, expected_update=None):
         assert torch.isfinite(value).all() and torch.isfinite(other).all()
     assert state['optimizer_parameter_names'] == cfg['training']['optimizer_parameter_names']
     assert set(state['optimizers']) == {'muon', 'adamw'}
+    validate_optimizer_state(state)
     assert set(state['sampler']) == {'queues', 'cursor', 'rng', 'updates', 'images_seen', 'exposure_chain'}
     assert set(state['sampler']['queues']) == set(state['sampler']['cursor']) == set(range(100))
     assert len(state['process_rng_by_rank']) == 4
@@ -121,19 +147,6 @@ def load(path, model, ema, optimizers, names, sampler, streams, config_sha,
         for group, reference in zip(saved['param_groups'], groups):
             assert {k:v for k,v in group.items() if k != 'lr'} == {k:v for k,v in reference.items() if k != 'lr'}
             assert group['lr'] == executed_lr(state['counters']['main_updates'])
-        expected_ids = {i for i, name in zip(parameters, names[key])
-                        if name not in state['resolved_config']['distributed']['expected_unused_trainable_parameters']}
-        assert len(parameters) == len(names[key]) and set(saved['state']) == expected_ids
-        live_parameters = [p for group in optimizer.param_groups for p in group['params']]
-        by_id = dict(zip(parameters, live_parameters))
-        for parameter_id, slot in saved['state'].items():
-            assert set(slot) == ({'momentum_buffer'} if key == 'muon' else {'step', 'exp_avg', 'exp_avg_sq'})
-            for slot_name, value in slot.items():
-                assert torch.is_tensor(value) and torch.isfinite(value).all()
-                if slot_name == 'step':
-                    assert value.numel() == 1 and value.item() == state['counters']['main_updates']
-                else:
-                    assert value.shape == by_id[parameter_id].shape and value.dtype == by_id[parameter_id].dtype
     model.load_state_dict(state['model'], strict=True)
     ema.load_state_dict(state['ema'], strict=True)
     for key, optimizer in optimizers.items():
