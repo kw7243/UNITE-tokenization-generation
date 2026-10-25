@@ -41,3 +41,5 @@ The GPU fixture uses random initialization and the role `A2_ENDPOINT_ENGINEERING
 Training/DDP/EMA/resume and unchanged source numerical checks inherit the exact accepted GPU evidence only while affected bytes/semantics remain unchanged.
 Any relevant review fix invalidates inherited proof and needs the affected real checks. CPU fixtures alone do not supply that proof.
 Keep all test outputs, terminal receipts, source/config hashes, costs and notebook records on CSAIL.
+
+Concrete launch payloads are endpoint.sbatch and aggregate.sbatch; each receives an already verified full-stage path and a frozen resolved-config path. Resource/account/partition/time requests are explicit caller arguments after current inventory. Clear inherited SBATCH_EXPORT and pass literal --export=NIL. The GPU payload uses the original environment and source one-GPU visibility; CPU aggregation uses the separate plot environment and CPU-only visibility. These payloads have syntax checks only and have never been submitted.
