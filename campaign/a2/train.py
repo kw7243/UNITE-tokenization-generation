@@ -18,6 +18,7 @@ import torch
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from campaign.a2 import checkpoint
+from campaign.a2.continuation import continuation, check_replay
 from campaign.a2.data import FitQueue, Streams, eval_rows, load_images, local_indices, read_interface, select_draws, sha
 from campaign.a2.evaluate import reconstruction, gradient_probe
 from campaign.a2.native import build_native, executed_lr, make_optimizers, backward_mean, clip_gradients
@@ -30,7 +31,8 @@ def append(path, record):
         os.fsync(stream.fileno())
 
 
-def verify_config(cfg):
+def verify_config(cfg, source_root=ROOT):
+    source_root = Path(source_root)
     assert cfg['node_id'] == 'A2' and cfg['config_family'] == 'PILOT_M3' and cfg['seed'] == 0
     assert cfg['plan_sha256'] == '4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5'
     assert cfg['training']['global_batch'] == 256
@@ -40,14 +42,14 @@ def verify_config(cfg):
     assert cfg['model']['native_count'] in (16, 64)
     assert cfg['model']['candidate_count'] == cfg['model']['native_count']
     for name, expected in cfg['source']['code_sha256'].items():
-        assert sha(ROOT/name) == expected, name
-    imports = json.loads((ROOT/'campaign/locks/source-imports.json').read_text())
+        assert sha(source_root/name) == expected, name
+    imports = json.loads((source_root/'campaign/locks/source-imports.json').read_text())
     for name, expected in imports['files']['unite'].items():
-        assert sha(ROOT/'third_party/unite'/name) == expected, name
+        assert sha(source_root/'third_party/unite'/name) == expected, name
     assert sha(cfg['environment']['packages']) == cfg['environment']['packages_sha256']
     for package, version in cfg['environment']['package_versions'].items():
         assert importlib.metadata.version(package) == version, package
-    assert sha(ROOT/'campaign/a2/metric-protocol.json') == cfg['evaluation']['metric_protocol_sha256']
+    assert sha(source_root/'campaign/a2/metric-protocol.json') == cfg['evaluation']['metric_protocol_sha256']
     assets = cfg['evaluation']['asset_lock']
     for value in assets['metric_weight_files'].values():
         assert sha(value['path']) == value['sha256']
@@ -67,6 +69,99 @@ def save_report(out, cfg, record):
     (out/'report.md').write_text('\n\n'.join('## '+title+'\n\n'+body for title,body in sections)+'\n')
 
 
+def optimizer_update(ddp, model, ema, optimizers, sampler, streams, splits,
+                     device, rank, update, attempt_record, *, bf16=True):
+    """The production update, also used by the isolated recovery comparison."""
+    assert sampler.updates+1 == update
+    trainable = [p for p in model.parameters() if p.requires_grad]
+    indices, draws = sampler.next(), streams.draw(256)
+    rows = [splits['FIT'][i] for i in indices]
+    attempt = dict(optimizer_update_attempted=update,
+                   image_ids=[r['image_id'] for r in rows], flips=draws['flip'].tolist(),
+                   exposure_chain=sampler.exposure_chain,
+                   encoding_noise_sha256=hashlib.sha256(draws['encoding_noise'].numpy().tobytes()).hexdigest())
+    attempt_record(attempt)
+    for optimizer in optimizers.values():
+        optimizer.zero_grad(set_to_none=True)
+        for group in optimizer.param_groups:
+            group['lr'] = executed_lr(update)
+    totals = torch.zeros(2, dtype=torch.float64, device=device)
+    zsum = torch.zeros((model.count, 32), dtype=torch.float64, device=device)
+    zsquare = torch.zeros_like(zsum)
+    flow_bins = torch.zeros((4,2), dtype=torch.float64, device=device)
+    for acc in range(4):
+        local = local_indices(rank, acc)
+        images = load_images([rows[i] for i in local], draws['flip'][local], device)
+        labels = torch.tensor([rows[i]['class_index'] for i in local], device=device)
+        selected = select_draws(draws, local, device)
+        context = ddp.no_sync() if acc < 3 else nullcontext()
+        with context:
+            with torch.autocast('cuda', dtype=torch.bfloat16, enabled=bf16):
+                values = ddp(images, labels, selected)
+            finite = torch.isfinite(values['per_image']).all().int()
+            dist.all_reduce(finite, op=dist.ReduceOp.MIN)
+            if not finite.item():
+                raise FloatingPointError('Nonfinite loss before update')
+            backward_mean(values['per_image']).backward()
+        totals += torch.stack([values['reconstruction'].detach().double().sum(), values['generation_sum'].detach().double().sum()])
+        if model.joint:
+            times = selected['diffusion_time'].flatten()
+            bins = torch.bucketize(times, torch.tensor([.25,.5,.75], device=device))
+            flow = values['generation_draws'].detach().double().flatten()
+            for noise_bin in range(4):
+                mask = bins == noise_bin
+                flow_bins[noise_bin,0] += flow[mask].sum()
+                flow_bins[noise_bin,1] += mask.sum()
+        z = values['latents'].double()
+        zsum += z.sum(0)
+        zsquare += z.square().sum(0)
+    norm = clip_gradients(trainable)
+    for optimizer in optimizers.values():
+        optimizer.step()
+    with torch.no_grad():
+        # All trainable GE/decoder/normalization parameters, once per optimizer update.
+        live = dict(model.named_parameters())
+        for name, param in ema.named_parameters():
+            if live[name].requires_grad:
+                param.mul_(.9978).add_(live[name], alpha=1-.9978)
+        parameter_norms = torch.stack([p.detach().float().norm() for p in trainable])
+        opt_values = [v for optimizer in optimizers.values() for state in optimizer.state.values()
+                      for v in state.values() if torch.is_tensor(v) and v.is_floating_point()]
+        state_norms = torch.stack([v.float().norm().to(device) for v in opt_values])
+        finite = (torch.isfinite(parameter_norms).all() & torch.isfinite(state_norms).all()).int()
+        dist.all_reduce(finite, op=dist.ReduceOp.MIN)
+        if not finite.item():
+            raise FloatingPointError('Nonfinite parameter/optimizer state')
+    return totals, zsum, zsquare, flow_bins, norm
+
+
+def restore_and_wrap(model, ema, optimizers, names, sampler, streams, cfg, digest,
+                     device, resume=None, lineage=None):
+    """Production order: construct all state, restore all state, then construct DDP."""
+    counters = dict(main_updates=0, images_seen=0, training_seconds=0., evaluation_seconds=0.,
+                    first200_update_seconds=0., attempted_images_this_process=0)
+    history = []
+    if resume:
+        options = dict(cfg=cfg)
+        restore_digest = digest
+        if lineage is not None:
+            item = cfg['continuation']
+            assert Path(resume).resolve() == Path(item['parent_checkpoint']['path']).resolve()
+            restore_digest = item['parent_config']['sha256']
+            options = dict(cfg=lineage['config'], expected_update=4000,
+                           expected_sha=item['parent_checkpoint']['sha256'])
+        counters, history = checkpoint.load(resume, model, ema, optimizers, names,
+                                             sampler, streams, restore_digest, **options)
+        assert sampler.updates < 5000
+        if lineage is not None:
+            assert sampler.exposure_chain == lineage['attempts'][4000]['exposure_chain']
+            assert history == lineage['history']
+        counters['inherited_attempted_images_at_restore'] = counters['attempted_images_this_process']
+        counters['attempted_images_this_process'] = 0
+    ddp = DDP(model, device_ids=[device.index], broadcast_buffers=False, find_unused_parameters=True)
+    return ddp, counters, history
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, required=True)
@@ -80,6 +175,7 @@ def main():
     raw = args.config.read_bytes()
     cfg = json.loads(raw)
     digest = hashlib.sha256(raw).hexdigest()
+    assert cfg.get('execution_enabled', True) is True, 'Disabled candidate; freeze a new reviewed enabled config first.'
     receipt = json.loads(args.authorization.read_text())
     assert receipt['allow_a2_training'] is True and receipt['a1_unite_pass'] is True
     assert receipt['gpu_native_checks_passed'] is True
@@ -91,6 +187,12 @@ def main():
     assert (Path.cwd()/'STAGING_MANIFEST.json').is_file()
     assert os.environ.get('SLURM_JOB_ID')
     verify_config(cfg)
+    lineage = continuation(cfg) if 'continuation' in cfg else None
+    if lineage is not None:
+        assert args.resume and args.ack_replay_through == 4267
+        assert receipt['continuation_checks_passed'] is True
+        assert receipt['continuation_parent_checkpoint_sha256'] == cfg['continuation']['parent_checkpoint']['sha256']
+        assert receipt['continued_from_update'] == 4000 and receipt['highest_parent_attempted_update'] == 4267
     device = torch.device('cuda', int(os.environ['LOCAL_RANK']))
     torch.cuda.set_device(device)
     dist.init_process_group('nccl', device_id=device)
@@ -106,7 +208,7 @@ def main():
     torch.set_float32_matmul_precision('highest')
     out = Path(cfg['output_parent'])/f"A2__{cfg['method_id']}__s0__{digest[:12]}"
     if rank == 0:
-        out.mkdir(parents=True, exist_ok=True)
+        out.mkdir(parents=True, exist_ok=lineage is None)
         if (out/'resolved.yaml').exists():
             assert args.resume and (out/'resolved.yaml').read_bytes() == raw
         else:
@@ -135,16 +237,11 @@ def main():
     optimizers, names = make_optimizers(model, cfg['training'])
     if rank == 0:
         (out/'optimizer-parameter-names.json').write_text(json.dumps(names, indent=2)+'\n')
-    counters = dict(main_updates=0, images_seen=0, training_seconds=0., evaluation_seconds=0.,
-                    first200_update_seconds=0., attempted_images_this_process=0)
-    history = []
-    prior_training_seconds = 0.
-    prior_evaluation_seconds = 0.
-    if args.resume:
-        counters, history = checkpoint.load(args.resume, model, ema, optimizers, names, sampler, streams, digest)
-        assert sampler.updates < 5000
-        prior_training_seconds = counters['training_seconds']
-        prior_evaluation_seconds = counters['evaluation_seconds']
+    ddp, counters, history = restore_and_wrap(model, ema, optimizers, names, sampler, streams,
+                                               cfg, digest, device, args.resume, lineage)
+    attempt_start_update = sampler.updates
+    prior_training_seconds = counters['training_seconds']
+    prior_evaluation_seconds = counters['evaluation_seconds']
     if rank == 0:
         ledger = out/'exposure.jsonl'
         previous = [json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
@@ -156,79 +253,30 @@ def main():
         elif not args.resume:
             assert not previous, 'Existing exposure cannot be overwritten.'
     dist.barrier()
-    ddp = DDP(model, device_ids=[device.index], broadcast_buffers=False, find_unused_parameters=True)
-    trainable = [p for p in model.parameters() if p.requires_grad]
     dev512 = eval_rows(splits['DEV'], 512, cfg['evaluation']['seed'])
     probe32 = eval_rows(splits['DEV'], 32, cfg['evaluation']['seed'])
     if rank == 0:
         (out/'evaluation-image-ids.json').write_text(json.dumps(dict(
             dev512=[r['image_id'] for r in dev512], probe32=[r['image_id'] for r in probe32],
             dev_full=[r['image_id'] for r in splits['DEV']]), indent=2)+'\n')
+    if lineage is not None:
+        expected_ids = dict(dev512=[r['image_id'] for r in dev512], probe32=[r['image_id'] for r in probe32],
+                            dev_full=[r['image_id'] for r in splits['DEV']])
+        assert expected_ids == lineage['evaluation_ids']
+    def record_attempt(event):
+        if lineage is not None:
+            check_replay(event, lineage)
+        if rank == 0:
+            append(out/'exposure.jsonl', event)
+        counters['attempted_images_this_process'] += 256
     torch.cuda.reset_peak_memory_stats(device)
     first200_start = time.perf_counter()
     try:
         for update in range(sampler.updates+1, 5001):
             torch.cuda.synchronize(device)
             start = time.perf_counter()
-            indices, draws = sampler.next(), streams.draw(256)
-            rows = [splits['FIT'][i] for i in indices]
-            if rank == 0:
-                append(out/'exposure.jsonl', dict(optimizer_update_attempted=update,
-                       image_ids=[r['image_id'] for r in rows], flips=draws['flip'].tolist(),
-                       exposure_chain=sampler.exposure_chain,
-                       encoding_noise_sha256=hashlib.sha256(draws['encoding_noise'].numpy().tobytes()).hexdigest()))
-            counters['attempted_images_this_process'] += 256
-            for optimizer in optimizers.values():
-                optimizer.zero_grad(set_to_none=True)
-                for group in optimizer.param_groups:
-                    group['lr'] = executed_lr(update)
-            totals = torch.zeros(2, dtype=torch.float64, device=device)
-            zsum = torch.zeros((model.count, 32), dtype=torch.float64, device=device)
-            zsquare = torch.zeros_like(zsum)
-            flow_bins = torch.zeros((4,2), dtype=torch.float64, device=device)
-            for acc in range(4):
-                local = local_indices(rank, acc)
-                images = load_images([rows[i] for i in local], draws['flip'][local], device)
-                labels = torch.tensor([rows[i]['class_index'] for i in local], device=device)
-                selected = select_draws(draws, local, device)
-                context = ddp.no_sync() if acc < 3 else nullcontext()
-                with context:
-                    with torch.autocast('cuda', dtype=torch.bfloat16):
-                        values = ddp(images, labels, selected)
-                    finite = torch.isfinite(values['per_image']).all().int()
-                    dist.all_reduce(finite, op=dist.ReduceOp.MIN)
-                    if not finite.item():
-                        raise FloatingPointError('Nonfinite loss before update')
-                    backward_mean(values['per_image']).backward()
-                totals += torch.stack([values['reconstruction'].detach().double().sum(), values['generation_sum'].detach().double().sum()])
-                if model.joint:
-                    times = selected['diffusion_time'].flatten()
-                    bins = torch.bucketize(times, torch.tensor([.25,.5,.75], device=device))
-                    flow = values['generation_draws'].detach().double().flatten()
-                    for noise_bin in range(4):
-                        mask = bins == noise_bin
-                        flow_bins[noise_bin,0] += flow[mask].sum()
-                        flow_bins[noise_bin,1] += mask.sum()
-                z = values['latents'].double()
-                zsum += z.sum(0)
-                zsquare += z.square().sum(0)
-            norm = clip_gradients(trainable)
-            for optimizer in optimizers.values():
-                optimizer.step()
-            with torch.no_grad():
-                # All trainable GE/decoder/normalization parameters, once per optimizer update.
-                live = dict(model.named_parameters())
-                for name, param in ema.named_parameters():
-                    if live[name].requires_grad:
-                        param.mul_(.9978).add_(live[name], alpha=1-.9978)
-                parameter_norms = torch.stack([p.detach().float().norm() for p in trainable])
-                opt_values = [v for optimizer in optimizers.values() for state in optimizer.state.values()
-                              for v in state.values() if torch.is_tensor(v) and v.is_floating_point()]
-                state_norms = torch.stack([v.float().norm().to(device) for v in opt_values])
-                finite = (torch.isfinite(parameter_norms).all() & torch.isfinite(state_norms).all()).int()
-                dist.all_reduce(finite, op=dist.ReduceOp.MIN)
-                if not finite.item():
-                    raise FloatingPointError('Nonfinite parameter/optimizer state')
+            totals, zsum, zsquare, flow_bins, norm = optimizer_update(
+                ddp, model, ema, optimizers, sampler, streams, splits, device, rank, update, record_attempt)
             counters['main_updates'], counters['images_seen'] = update, update*256
             torch.cuda.synchronize(device)
             elapsed = torch.tensor(time.perf_counter()-start, device=device, dtype=torch.float64)
@@ -299,16 +347,21 @@ def main():
                                 digest, cfg, counters, history)
             if rank == 0:
                 result = dict(node_id='A2', method_id=cfg['method_id'], seed=0, config_sha256=digest,
-                              checkpoint_sha256=(out/f'checkpoint-{update//1000*1000}.pt.sha256').read_text().strip() if update >= 1000 else None,
+                              checkpoint_sha256=(cfg['continuation']['parent_checkpoint']['sha256'] if lineage is not None and update < 5000
+                                  else (out/f'checkpoint-{update//1000*1000}.pt.sha256').read_text().strip() if update >= 1000 else None),
                               checkpoint_sha256_reason='No optimizer-boundary snapshot yet.' if update < 1000 else None,
                               data_manifest_sha256=cfg['data']['hashes'], metric_protocol_sha256=cfg['evaluation']['metric_protocol_sha256'],
                               node_status='AWAITING_COORDINATOR' if update == 5000 else 'IN_PROGRESS',
                               outcome_class=None, outcome_class_reason='Coordinator must classify paired scientific trajectories.',
                               main_updates=update, images_seen=update*256, gpu_hours=None,
                               gpu_hours_reason='Terminal allocated-time accounting is required, including failures.',
-                              training_gpu_hours=counters['training_seconds']*4/3600,
-                              evaluation_gpu_hours=counters['evaluation_seconds']*4/3600,
-                              cost_basis='Process wall time minus evaluation, times four GPUs; terminal allocation setup/tail overhead must also be reconciled.',
+                              training_gpu_hours=(counters['training_seconds']-prior_training_seconds)*4/3600,
+                              evaluation_gpu_hours=(counters['evaluation_seconds']-prior_evaluation_seconds)*4/3600,
+                              cost_basis='This process only; inherited checkpoint prefix counters are excluded. Unique parent allocations reconcile all physical work and setup/tail.',
+                              continuation=cfg.get('continuation'),
+                              physical_attempt=dict(start_update=attempt_start_update, completed_updates=update-attempt_start_update,
+                                  attempted_images=counters['attempted_images_this_process'],
+                                  completed_images=(update-attempt_start_update)*256),
                               training=dict(**counters, first200_images_per_s=51200/counters['first200_update_seconds'] if update >= 200 else None),
                               reconstruction=dict(history=history), generation=dict(gfid_5k=None, kid_5k=None,
                               reason='Both joint arms must pass the finite/improving gate before a separate endpoint workload.'))

@@ -15,7 +15,9 @@ sys.path.insert(0, str(ROOT))
 
 import numpy as np
 import torch
-from campaign.a2.checkpoint import SCHEMA
+from campaign.a2.checkpoint import validate_state
+from campaign.a2.continuation import (locked_json, original_config, stage_root, terminal_state,
+                                      effective_histories, allocation_costs)
 from campaign.a2.data import Streams, load_images, per_image_draws, read_interface, sha
 from campaign.a2.evaluate import generation_eligible, generation_inputs
 from campaign.a2.native import build_native, seed_all
@@ -23,9 +25,29 @@ from campaign.a2.train import verify_config
 from utils.fid import extract_inception_features, get_inception_model
 
 
-def locked_json(lock):
-    assert sha(lock['path']) == lock['sha256'], lock['path']
-    return json.loads(Path(lock['path']).read_text())
+def completed_metadata(arm):
+    """Bind completed arm bytes to its actual training stage and physical lineage."""
+    train, result = locked_json(arm['training_config']), locked_json(arm['result'])
+    verify_config(train, source_root=stage_root(arm['training_stage']))
+    terminal = locked_json(arm['terminal_receipt'])
+    terminal_state(terminal, arm['training_config']['sha256'])
+    assert arm['training_stage'] == terminal['stage']
+    assert result['config_sha256'] == arm['training_config']['sha256']
+    assert result.get('continuation') == train.get('continuation')
+    assert result['main_updates'] == 5000 and result['images_seen'] == 1280000
+    assert result['checkpoint_sha256'] == arm['checkpoint']['sha256']
+    monitor, exposure_sha, physical = effective_histories(train, arm)
+    if 'continuation' in train:
+        assert result['reconstruction']['history'][:4] == original_config_history(train)
+        assert result['physical_attempt'] == dict(start_update=4000, completed_updates=1000,
+                                                  attempted_images=256000, completed_images=256000)
+    return dict(config=train, result=result, terminal=terminal, monitor=monitor,
+                effective_exposure_sha256=exposure_sha, physical_history=physical,
+                allocation_costs=allocation_costs(train, terminal))
+
+
+def original_config_history(train):
+    return locked_json(train['continuation']['parent_result'])['reconstruction']['history']
 
 
 def paired_configs(configs, objective='joint'):
@@ -33,7 +55,7 @@ def paired_configs(configs, objective='joint'):
     suffix = 'JOINT' if objective == 'joint' else 'RECON'
     controls = []
     for count in (64, 16):
-        cfg = copy.deepcopy(configs[count])
+        cfg = copy.deepcopy(original_config(configs[count]))
         assert cfg.pop('method_id') == f'NATIVE{count}_{suffix}'
         assert cfg['objective'] == objective
         for key in ('active_count', 'candidate_count', 'native_count'):
@@ -43,18 +65,12 @@ def paired_configs(configs, objective='joint'):
 
 
 def complete_inputs(cfg):
-    configs, results = {}, {}
+    configs, results, exposures = {}, {}, {}
     for count in (64, 16):
         arm = cfg['inputs'][str(count)]
-        train = locked_json(arm['training_config'])
-        verify_config(train)
-        result = locked_json(arm['result'])
-        terminal = locked_json(arm['terminal_receipt'])
-        assert terminal['job_state'] == 'COMPLETED' and terminal['exit_code'] == '0:0'
-        assert terminal['config_sha256'] == arm['training_config']['sha256']
-        assert result['config_sha256'] == arm['training_config']['sha256']
-        assert result['main_updates'] == 5000 and result['images_seen'] == 1280000
-        assert result['checkpoint_sha256'] == arm['checkpoint']['sha256']
+        metadata = completed_metadata(arm)
+        train, result = metadata['config'], metadata['result']
+        exposures[count] = metadata['effective_exposure_sha256']
         history = result['reconstruction']['history']
         assert [r['update'] for r in history] == [1000, 2000, 3000, 4000, 5000]
         assert all(r['images'] == 512 for r in history)
@@ -64,6 +80,7 @@ def complete_inputs(cfg):
         assert result['metric_protocol_sha256'] == cfg['metric_protocol_sha256']
         configs[count], results[count] = train, result
     paired_configs(configs)
+    assert exposures[64] == exposures[16], 'Unmatched effective image/flip/noise exposure'
     assert generation_eligible({f'NATIVE{k}_JOINT': [r['allocation_distortion']
                for r in results[k]['reconstruction']['history']] for k in (64, 16)}), \
         'Both complete joint arms must pass the finite/improving generation condition'
@@ -74,27 +91,7 @@ def load_ema(arm, train, result, device):
     # Only the owner's hash-locked, complete research snapshots are unpickled.
     assert sha(arm['checkpoint']['path']) == arm['checkpoint']['sha256']
     state = torch.load(arm['checkpoint']['path'], map_location='cpu', weights_only=False)
-    assert state['schema'] == SCHEMA and state['world_size'] == 4
-    assert set(state['model']) == set(state['ema'])
-    assert all(v.shape == state['ema'][k].shape and v.dtype == state['ema'][k].dtype
-               for k, v in state['model'].items())
-    assert state['boundary'] == 'AFTER_COMPLETE_OPTIMIZER_UPDATE'
-    assert state['configuration_sha256'] == arm['training_config']['sha256']
-    assert state['resolved_config'] == train
-    assert state['checkpoint_role'] == f'A2_NATIVE{train["model"]["native_count"]}_COMPLETE'
-    assert state['counters']['main_updates'] == state['sampler']['updates'] == 5000, \
-        'Not a complete5000-update scientific checkpoint'
-    assert state['counters']['images_seen'] == state['sampler']['images_seen'] == 1280000
-    assert state['scheduler'] == dict(completed_updates=5000, warmup=500, after_warmup='constant')
-    assert set(state['sampler']) == {'queues', 'cursor', 'rng', 'updates', 'images_seen', 'exposure_chain'}
-    assert set(state['sampler']['queues']) == set(state['sampler']['cursor']) == set(range(100))
-    assert state['optimizer_parameter_names'] == train['training']['optimizer_parameter_names']
-    assert set(state['optimizers']) == {'muon', 'adamw'}
-    assert len(state['process_rng_by_rank']) == 4
-    assert all(set(v) == {'python', 'numpy', 'torch_cpu', 'torch_cuda'} for v in state['process_rng_by_rank'])
-    assert all(v['torch_cuda'] is not None for v in state['process_rng_by_rank'])
-    assert set(state['streams']) == {'generators', 'times'}
-    assert set(state['streams']['generators']) == set(Streams.names)
+    validate_state(state, train, arm['training_config']['sha256'], expected_update=5000)
     assert state['evaluation_history'] == result['reconstruction']['history']
     model = build_native(train).eval().requires_grad_(False)
     model.load_state_dict(state['ema'], strict=True)

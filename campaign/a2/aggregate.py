@@ -17,9 +17,9 @@ import numpy as np
 import torch
 from torch_fidelity.metric_kid import polynomial_mmd
 from campaign.a2.data import eval_rows, read_interface, sha
-from campaign.a2.endpoint_features import load_ema, locked_json, paired_configs, save_json
+from campaign.a2.endpoint_features import load_ema, locked_json, paired_configs, save_json, completed_metadata
 from campaign.a2.evaluate import generation_eligible, paired_interference_interval
-from campaign.a2.train import verify_config
+from campaign.a2.continuation import original_config
 from utils.fid import compute_fid_from_features
 
 
@@ -37,11 +37,8 @@ def aligned_records(records, rows):
 
 
 def complete_arm(arm, method, rows):
-    train, result = locked_json(arm['training_config']), locked_json(arm['result'])
-    verify_config(train)
-    terminal = locked_json(arm['terminal_receipt'])
-    assert terminal['job_state'] == 'COMPLETED' and terminal['exit_code'] == '0:0'
-    assert terminal['config_sha256'] == arm['training_config']['sha256'] == result['config_sha256']
+    metadata = completed_metadata(arm)
+    train, result, terminal = metadata['config'], metadata['result'], metadata['terminal']
     assert train['method_id'] == method and result['method_id'] == method
     assert result['main_updates'] == 5000 and result['images_seen'] == 1280000
     assert result['checkpoint_sha256'] == arm['checkpoint']['sha256']
@@ -56,21 +53,7 @@ def complete_arm(arm, method, rows):
     assert [r['update'] for r in history] == [1000, 2000, 3000, 4000, 5000]
     assert all(r['images'] == 512 for r in history)
     assert np.isfinite([r[k] for r in history for k in METRICS]).all()
-    assert sha(arm['monitor']['path']) == arm['monitor']['sha256']
-    records = [json.loads(line) for line in Path(arm['monitor']['path']).read_text().splitlines()]
-    assert sha(arm['exposure']['path']) == arm['exposure']['sha256']
-    attempted, completed = [], []
-    with Path(arm['exposure']['path']).open() as stream:
-        for line in stream:
-            event = json.loads(line)
-            assert 'resume_discontinuity' not in event, 'Replayed exposure needs a declared matched revision'
-            if 'optimizer_update_attempted' in event:
-                attempted.append(event['optimizer_update_attempted'])
-                assert len(event['image_ids']) == len(event['flips']) == 256
-            else:
-                completed.append(event['optimizer_update_completed'])
-    assert attempted == completed == list(range(1, 5001))
-    assert [r['update'] for r in records] == list(range(100, 5001, 100))
+    records = metadata['monitor']
     assert np.isfinite([r[k] for r in records for k in
                        ('reconstruction_loss', 'gradient_norm_before_clip', 'latent_image_variance', 'latent_rms')]).all()
     if train['objective'] == 'joint':
@@ -83,7 +66,9 @@ def complete_arm(arm, method, rows):
         ('reconstruction_gradient_norm', 'generation_gradient_norm', 'grad_cos_last_block')]).all()
     assert np.allclose(values.mean(0), [full['summary'][k] for k in METRICS], rtol=1e-10, atol=1e-12)
     return dict(config=train, result=result, full=full, probe=probe, rows=ordered, values=values,
-                terminal=terminal, monitor=records, input=arm)
+                terminal=terminal, monitor=records, input=arm,
+                effective_exposure_sha256=metadata['effective_exposure_sha256'],
+                physical_history=metadata['physical_history'], allocation_costs=metadata['allocation_costs'])
 
 
 def paired_difference(short, long, classes):
@@ -215,7 +200,7 @@ def main():
                                {'NATIVE64_JOINT', 'NATIVE16_JOINT', 'NATIVE64_RECON', 'NATIVE16_RECON'})
     arms = {k: complete_arm(v, k, rows) for k, v in cfg['arms'].items()}
     paired_configs({k: arms[f'NATIVE{k}_JOINT']['config'] for k in (64, 16)})
-    assert len({v['input']['exposure']['sha256'] for v in arms.values()}) == 1, 'Unmatched image/flip/full-noise exposure logs'
+    assert len({v['effective_exposure_sha256'] for v in arms.values()}) == 1, 'Unmatched image/flip/full-noise exposure logs'
     assert all(v['probe']['parameter_names'] == arms['NATIVE64_JOINT']['probe']['parameter_names'] for v in arms.values())
     checked64 = load_ema(arms['NATIVE64_JOINT']['input'], arms['NATIVE64_JOINT']['config'],
                          arms['NATIVE64_JOINT']['result'], torch.device('cpu'))
@@ -250,8 +235,8 @@ def main():
         recon = {k: arms[f'NATIVE{k}_RECON']['config'] for k in (64, 16)}
         paired_configs(recon, objective='reconstruction_only')
         for count in (64, 16):
-            a = json.loads(json.dumps(arms[f'NATIVE{count}_JOINT']['config']))
-            b = json.loads(json.dumps(arms[f'NATIVE{count}_RECON']['config']))
+            a = json.loads(json.dumps(original_config(arms[f'NATIVE{count}_JOINT']['config'])))
+            b = json.loads(json.dumps(original_config(arms[f'NATIVE{count}_RECON']['config'])))
             for item in (a, b):
                 for key in ('method_id', 'objective', 'conditional'):
                     item.pop(key)
@@ -297,7 +282,8 @@ def main():
         stable64_checkpoint=cfg['arms']['NATIVE64_JOINT']['checkpoint'],
         unpublished_run_configuration_comparison=None,
         unpublished_run_configuration_comparison_reason='The reported unpublished16-token run logs/configuration were not supplied; source inspection cannot identify its cause.',
-        costs={k: v['terminal'] for k, v in arms.items()},
+        costs={k: v['allocation_costs'] for k, v in arms.items()},
+        exposure_accounting={k: v['physical_history'] for k, v in arms.items()},
         additional_cost_receipts=[locked_json(lock) for lock in cfg['additional_cost_receipts']],
         analysis_job_terminal_cost=None, analysis_job_terminal_cost_reason='Reconcile this job after its Slurm terminal state.',
         figures=None, figures_reason='Plot generation pending.', confirm_consumed=False)
