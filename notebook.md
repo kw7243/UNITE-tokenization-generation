@@ -845,3 +845,24 @@ Static native source indicates a final LF in the normal rebase prompt, so the ea
 Actual native prompt bytes/hash, substantive review JSON/model identity and the usable research-validation route remain unproved.
 This current fixture selection is separate from the exact historical proposal above.
 A2 made no additional job observation, source/config change, test, analysis or endpoint execution. Native64 remains unchanged, prepared source/configs stay frozen and the next observation remains09UTC.
+
+
+## 2026-10-25: synthetic native-transport preparation
+
+Instruction023 finite suite PASS on CPU job2840626:12 candidate contracts passed and3 legacy controls recorded. Candidate `786d58400dd6f951b4b75986b4e075e2c327c3a2990293a6b3153f9778665951`, patch `87a19ee72ab20c1d825a8d870389c22f6d1563d633aaf5458a2ab60a1f32205f`, driver `23691daf3681ab10a9ff3520804e9e670c5ddcc029f480af09edf6ed5dffc89e`; all unchanged. Exact bytes/EOF, argv/schema, raw JSON streams, logs, exit/error paths and bounded cancellation passed with fake tools only. Legacy LF controls also lost data/no EOF. Static native source expects final LF; no captured full live prompt or proved live cause.
+
+Fresh 338-file full stage: `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261025_032324-28d091-d11d67a-code`; stage manifest `07cad167ce7f2f04e6bb26cbd5f3ccc8a844fd82146cc4fdf188e9fc693ce8a0`. Source/backup remains clean at `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`. Protected launcher/config/runtime unchanged; accepted32-file proposal manifest `852c3f75370ac1a8ae3437fbe144d29241b3e3cf474323c255a4fcc5f14498de` preserved. All 4 accounting rows terminal, queue empty;103 allocated CPU-seconds=0.0286111111 core-hours,0 GPU-hours,0 scientific updates. No installations.
+
+Report/results/patch/disabled acceptance+restore proposal: `/data/scratch-fast/kwen1/no-mistakes-research-20261024/setup-evidence/native-finite-fixtures-20261025/delivery`. No protected apply/restore or new native/model attempt authorized. Original native review gates remain open. B1 NOT_STARTED, trained input hash unresolved; real-checkpoint/GPU prerequisites remain. SCREEN_PREFIX/COMMON_PREFIX absent. This is a returned entry for coordinator insertion; canonical notebook untouched.
+
+
+## 2026-10-25: current coordinator assessment of terminal finite fixtures
+
+The coordinator accepted356 hashes, saved received count/hash/EOF identities and independent Slurm accounting.
+The12 candidate contracts passed. The3 legacy observations are transport failures, not legacy PASS results.
+Job2840626 and all4 accounting rows are terminal; allocation cost103CPU-seconds=.0286111111CPU core-hours, counted once.
+Protected launcher, configuration, runtime and research source remained unchanged. No real Codex/model/service, GPU or scientific execution occurred.
+The B1 owner is waiting for primary technical selection of the exact shared-launcher application, guarded restoration and bounded real native acceptance.
+The current receipt does not select that protected change or a new native service/model attempt.
+Synthetic success does not establish the complete live prompt, substantive review JSON/model identity or a usable research-validation route.
+No new credential or scientific release follows. Native64 remains unchanged; A2 endpoint source/configs stay frozen and the next original-output observation remains09UTC.
