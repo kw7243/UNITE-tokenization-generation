@@ -9,7 +9,7 @@
   "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
   "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
   "source": {
-    "implementation_revision": "fdceae7e386c9d418d63548048cc9c50942f4aca",
+    "implementation_revision": "dc1a9ddcba2e986da1cbec153fc98c9466a56b63",
     "code_sha256": {
       "campaign/a2/__init__.py": "3140130f36cb41c91929f8f2c454ba6bd09e424343b021dd7277ea9922c7a9a3",
       "campaign/a2/asset-lock.json": "c496a886268c16a1154dc9bc89ba47cb9114f47dbff8cadf2957f7d14feb3ec2",
@@ -40,9 +40,7 @@
       "campaign/a2/tests/check_endpoint_cpu.py": "dc5eaf415329c14c1587bd038a39ec1e30824b2008eaba101cefd14e7835c78a",
       "campaign/a2/tests/check_endpoint_gpu.py": "809e2df6c2743713127ca3b026e2d7222e6000e28ac5c875cb446223e3a7f528",
       "campaign/a2/postprocess-additions.txt": "8e5b83fb8735141c2a028f6b5c87b764ab6f91d043201f5972afdec515c2f657",
-      "campaign/a2/postprocess-environment.json": "552284543909e7e7b13a81881aa290dd299e3b4ab72d25c2e21a9a6c100d76de",
-      "campaign/a2/endpoint.sbatch": "0a0f64e83dfe5fc918b3b0f6c1eb1d5977d62a5aeaa154e0333112e520073544",
-      "campaign/a2/aggregate.sbatch": "0b90d4f888504870e214836ae63c91315c16d3f7dd225078e8addcb193e31a93"
+      "campaign/a2/postprocess-environment.json": "552284543909e7e7b13a81881aa290dd299e3b4ab72d25c2e21a9a6c100d76de"
     }
   },
   "plot_environment": {

@@ -19,7 +19,7 @@ It retains full per-image error pairs, gradient probes, monitoring, readable cur
 Conditional RECON input requires exact coordinator per-arm release receipts and unchanged controls beyond the objective.
 The ratio screen remains a mechanism hypothesis, not proof. The script does not issue coordinator acceptance or dispatch B1.
 
-All three configuration templates are disabled. Missing future endpoint, terminal and review/test evidence is a prerequisite, not a scientific failure.
+The three current r2 configuration templates are disabled; the original r1 drafts are preserved byte-for-byte as unused history. Missing future endpoint, terminal and review/test evidence is a prerequisite, not a scientific failure.
 Before use, bind actual immutable input hashes and the completed source/configuration to the required local NoMistakes evidence.
 Do not treat a reviewed disabled template as proof that a later changed scientific recipe was reviewed.
 The supported path skips only push,pr,ci, keeps every required local stage, recovers offered fixes and preserves source custody.
