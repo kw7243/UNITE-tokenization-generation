@@ -617,3 +617,27 @@ The following exact B1 setup entry is imported as setup evidence only. It proves
 B1 retains the service/CPU2835069 ownership; primary owns the supported authentication direction. A2 performs no independent service or authentication work.
 
 2026-10-24: Adopted standing local research-validation preference corr5c51861d32935c7e: one coherent completed revision review, include reused unreviewed aggregation; independent approved work may overlap, active pipeline owns source; offered fix recovery, actual-environment checks, fresh frozen full stage, exact head/config/stage receipts in branch and canonical notebooks. CPU2835069 native v1.84.0 private daemon passed health and daemon cgroup proof on groenig-6. Actual B1 run01M5R3Y1GM1Y5E4SGNV98S69WD failed at rebase-fix agent launcher Kerberos preflight; compute klist -s1 versus login0. No native Codex agent cgroup proof or usable validation route, no review/test/document/lint pass. Source d11d67a1e8efa97c717df3a4a066abe57a4bdad2 clean, user_owned, unchanged. Allocation running with bounded native stop near2026-10-25T03:16:36Z and terminal accounting pending. Preserve attempts, no credential/Codex change or scientific rerun. A2 remains sole canonical writer; B1 NOT_STARTED.
+
+## 2026-10-25 A2 endpoint preparation ready for substantive local review
+
+The coherent endpoint preparation is backed up at `33ba97ecee4c030da1f9c309af886f247b81b2b0`, with implementation `dc1a9ddcba2e986da1cbec153fc98c9466a56b63`.
+It adds retained paired native sampling/DEV features, CPU FID/KID and matched result aggregation, strict complete-checkpoint checks, readable curves and focused synthetic CPU/initialized BF16 GPU checks.
+The original native/train/data/optimizer/checkpoint/evaluate bytes and pinned official source files are unchanged. Both pre-policy job stages remain untouched.
+Four Python files compile, static source locks match and all three configuration templates are disabled. No helper, numerical test, render, scoring or new scientific job has run.
+Missing complete endpoint artifact hashes remain null. A disabled draft is not launch approval or proof that a later changed recipe was reviewed.
+
+The locked training environment has no Matplotlib and remains read-only.
+A separate `/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1` adds eight pinned binary plot wheels and reads original scientific packages through a read-only `.pth` path.
+Package metadata/requirements checks passed; original Torch2.10.0+cu128, NumPy1.26.0, SciPy1.15.3, torch-fidelity0.3.0 and LPIPS0.1.4 versions match.
+New freeze--all SHA256 `958dd94309578461725d851a84a7f4d037a28ec12a4cba9e080296c5dbaa7901`. No actual numerical/render check is inferred from installation metadata. Lightweight login setup CPU time was not metered as a Slurm allocation.
+
+Concrete report, results, protocol, intent, test reconciliation and hashed scope are under `outputs/A2/no-mistakes-local-20261024/endpoint-preparation/` in the A2 source.
+Review-scope SHA256 `9ef0b3517458c32047dceed66d1a347c3259a3e5a797da46d6bc7877d536eb34`; preparation patch SHA256 `d739717587719e83490bc3a879ba59784f02b439650e1b48ebd4b0d99f726e7d`.
+One substantive NoMistakes review must cover this coherent change plus all relevant reused unreviewed training/evaluation/sampling/feature/metric/staging paths and aggregation. Unused intermediate commits need no separate review.
+No local pipeline has started. Every required local stage and actual CPU/GPU/render result remains null with a reason.
+Use the supported local path with only push/pr/ci skipped, preserve pipeline custody, route ask-user findings, recover offered fixes, verify each required result and relevant actual checks, then freeze a fresh full final source/configuration stage.
+
+The private daemon is healthy in B1-owned CPU2835069, but its existing agent launcher failed compute Kerberos before an actual agent or containment proof. No usable A2 route is released.
+B1 owns service/terminal state; primary owns supported auth direction. A2 made no independent service or auth change. The original keyed blocker remains open.
+Jobs2834281/2834282 continue unchanged; no other job is adopted. Next scheduled owned observation is2026-10-25T00:35Z for native16 update4000 and both jobs, or sooner on a concrete owned failure or exact released review route.
+No scientific native64 stability, endpoint generation/RECON release, outcome or downstream decision is claimed by this preparation.
