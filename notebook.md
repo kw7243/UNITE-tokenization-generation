@@ -1252,3 +1252,18 @@ All4B1 accounting rows are terminal:868allocatedCPU-seconds/0.2411111111CPUcore-
 The route remains unusable. B1 alone owns launcher maintenance and the pending primary technical selection, correlation `f2ba3d59910fcf02`; A2 retains sole canonical notebook writing.
 A2 r3 code/config/tests remain frozen/disabled at candidate source7d5e9127883b41bda92c8232d42cfa8006867e9c, implementation617961b5916ea1da702852467dcad6235a2e2b77 and config490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6.
 No new A2 candidate, review context, model-byte check, test, allocation, resume or scientific execution follows. Native review, exact full-state/four-rank/final-stage prerequisites and all scientific gates remain open; no independent science is eligible.
+
+## 2026-10-25 Accepted read-only model compatibility comparison
+
+Read-only model comparison027: owned local Codex0.160.0 completed gpt-6.1-sol/xhigh turns. CSAIL0.146.0 nonbundled catalog omits it; bundled5.5 listing was disproved as entitlement by actual prior rejection. debug models uses OnlineIfUncached, not forced refresh. Same-account identity unknown. No allocation, auth transfer, configuration change or scientific update. Exact028 now selects one guarded6.1 attempt; no scientific release.
+
+## 2026-10-25 Explicit model selection and parent-source limits
+
+The preceding paragraph is the exact accepted B1 compatibility entry, SHA256 `5ea9c093d0364540dcaa95f0895df82b124f7717dd1abaf76398ae93c43f6672`. Its local model evidence belongs to the comparison worker, not a successful CSAIL review.
+The user explicitly selected `gpt-6.1-sol`; primary selection SHA256 `2f0d45124f1444a8a1e4265dadef69f3ac09ae66118923d08a67dcc2e397cff1`, correlation `a225ebbde9703564`. No model-choice question remains from this comparison.
+B1 alone may change the single private `agent_config.codex.model` field from the accepted baseline and perform one guarded launcher/native acceptance with2CPUs/4GiB/2hours/noGPU. No alternative model, global AFS/provider/effort/trust/credential/sandbox edit, auth transfer or Codex update is selected.
+Actual argv/returned model identity, substantive native review/schema and runtime proof are still required. Local Codex0.160.0 gpt-6.1-sol turns do not prove CSAIL0.146.0 access or account equivalence. Catalog omission/listing is not entitlement proof; same-account identity and successful CSAIL6.1 inference remain unknown. The known AFS prehash/mtime/writer gap remains unresolved.
+Parent-source answer SHA256 `c8717739db6442a19339095bccab368bd55d374652df404b9e1ee147bd515b15` checked Firstmate `ffb2aca0546ca8f540df67ed41c227a30e22d2f0` and NoMistakes `2f6b7a13340db91367a35c8cd7f1915a1ff2f271`. Their public settings do not pin an active review model. Commented examples are not maintainer settings, and private active configuration is not visible.
+The parent-source answer already supplies exact source links; this documentation import does not repeat its lookup or claim a fixed parent model. Installed source supports the bounded private selector, while prior AFS fallback remains supported rather than a proven private parent preference.
+A2 remains sole canonical notebook writer. r3 code/config/tests remain frozen/disabled at candidate7d5e9127883b41bda92c8232d42cfa8006867e9c/implementation617961b5916ea1da702852467dcad6235a2e2b77/config490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6.
+No usable route, new A2 native context, model-byte check, test, allocation, source change or scientific execution follows. All9owned A2 jobs are terminal; all review/check/final-stage/scientific gates remain open.
