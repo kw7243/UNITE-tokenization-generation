@@ -1,0 +1,221 @@
+{
+  "schema": "jat-a2-aggregate-config.v1",
+  "execution_enabled": false,
+  "disabled_reason": "Conditional draft only. Paired RECON has no coordinator release and no results; initial joint source/runs remain unchanged.",
+  "node_id": "A2",
+  "bootstrap_seed": 917,
+  "bootstrap_resamples": 1000,
+  "cpu_threads": 8,
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+  "source": {
+    "implementation_revision": "dc1a9ddcba2e986da1cbec153fc98c9466a56b63",
+    "code_sha256": {
+      "campaign/a2/__init__.py": "3140130f36cb41c91929f8f2c454ba6bd09e424343b021dd7277ea9922c7a9a3",
+      "campaign/a2/asset-lock.json": "c496a886268c16a1154dc9bc89ba47cb9114f47dbff8cadf2957f7d14feb3ec2",
+      "campaign/a2/checkpoint.py": "d19aeb129c9923f29eb2ae94ad0c09a81897def8f7860b3be2dcfc006f4bb454",
+      "campaign/a2/cpu.sbatch": "d52dceb7eddac2fe870f7dffc7243bd791b85bb1d1f769c63347dd9d12bce1c0",
+      "campaign/a2/data.py": "b5282b246d09426d52d4f8da15895a81e34c0849e2ed28598336a1ba827ed89d",
+      "campaign/a2/distributed.sbatch": "d3a783fd495d983c10e5f4218d90d6524f9e3f949764eef0b0163e8690941117",
+      "campaign/a2/evaluate.py": "1de36bd6abdc46ff9163e42367c84dcd6f96cb381f328b1a307145e06b4dccdd",
+      "campaign/a2/metric-protocol.json": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "campaign/a2/native-check.sbatch": "a390ccdfaef2f0742dae26792983df29daab1c813d5e45a234edc1e080338ad4",
+      "campaign/a2/native.py": "2dfce647009660730f9e126a6acb535c5eeaa3fdd6085db0a5946a44dd4b00f7",
+      "campaign/a2/node-launch.sh": "87afdb5a17af2ef20668302e7742ba0424b0246b1e04878178b7091c13f4cb8e",
+      "campaign/a2/optimizer-structure.json": "3ca864345991bc7602f576fe2ad0437cf5225515aae302bb91f5abe810ae1c98",
+      "campaign/a2/rank.sh": "ac63649ed8ff3ba0fadb938cf06bc1d77c7693eafd27c43f9e8a219a38c34b2d",
+      "campaign/a2/resolve.py": "362b94ed67a75c16c1acfb71da34f88c5289d37f6116b6a07f48db7d90311140",
+      "campaign/a2/shared-visible-check.sbatch": "5f51bae0f718f91988e937e3435176a786096f545b2bacddad10f3f5974d4a6c",
+      "campaign/a2/tests/check_collective.py": "ffe5535ec63a28d7722a510b5f8e5ef65c058e678def7d356a3d45a55d1cba70",
+      "campaign/a2/tests/check_cpu.py": "be531b776010a6cb9a30fa960e7bc4914be7558f269130055dfebbd409d80f1d",
+      "campaign/a2/tests/check_ddp_gpu.py": "b60ef7d1704f7d05aedf16db051cc5b921bd95aa86898df0c50770190fd98599",
+      "campaign/a2/tests/check_denoise_output.py": "4909ee7db78d2d2bd8177c15c3104578da55357806ce6caa9d98356a61ca2d11",
+      "campaign/a2/tests/check_native_gpu.py": "c426545d1492494150f1d612acf27924e1d920a0ef9bc0f60ba2cd8362a98096",
+      "campaign/a2/train.py": "224566dc3eb00399e02a62e43487af3d78ac2a699fd2a5c897979df4a43107d3",
+      "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+      "reproduction/tools/stage_and_run.sh": "160f66e8e39b58d7175ee80327f6cd4c36a14df5e6941f671747f9b67e4ef9db",
+      "reproduction/tools/verify_stage.py": "1ca0560b3bcdff56cdca4fc11b6d051232149b78ea924217e953820561700a03",
+      "campaign/a2/endpoint_features.py": "5d47f1beef25dd3a30449f5a2ec0f355356cd27435e96d5e3697b0b21ae9a6b6",
+      "campaign/a2/aggregate.py": "e9143430ea00bfb90887d34c7d125a8b03a2c6ee9535819750d351f7fe1e6c73",
+      "campaign/a2/tests/check_endpoint_cpu.py": "dc5eaf415329c14c1587bd038a39ec1e30824b2008eaba101cefd14e7835c78a",
+      "campaign/a2/tests/check_endpoint_gpu.py": "809e2df6c2743713127ca3b026e2d7222e6000e28ac5c875cb446223e3a7f528",
+      "campaign/a2/postprocess-additions.txt": "8e5b83fb8735141c2a028f6b5c87b764ab6f91d043201f5972afdec515c2f657",
+      "campaign/a2/postprocess-environment.json": "552284543909e7e7b13a81881aa290dd299e3b4ab72d25c2e21a9a6c100d76de"
+    }
+  },
+  "plot_environment": {
+    "path": "/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1",
+    "freeze_all": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/no-mistakes-local-20261024/endpoint-preparation/postprocess-environment/freeze-all.txt",
+    "freeze_all_sha256": "958dd94309578461725d851a84a7f4d037a28ec12a4cba9e080296c5dbaa7901",
+    "base_pth": "/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1/lib/python3.10/site-packages/jat-locked-base.pth",
+    "base_pth_sha256": "ad47556104f1211b2f3a89bab30b91a41466d9bda15b1a4761095ac5ea41f902",
+    "matplotlib_version": "3.9.4",
+    "base_environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+    "original_packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253",
+    "reason": "The locked training environment lacks Matplotlib and every required plotting helper; required A2 matched curves need a plotting tool. No installed native gnuplot/Rscript/dot was found.",
+    "additional_versions": {
+      "matplotlib": "3.9.4",
+      "contourpy": "1.3.0",
+      "cycler": "0.12.1",
+      "fonttools": "4.55.3",
+      "kiwisolver": "1.4.7",
+      "pyparsing": "3.2.0",
+      "python-dateutil": "2.9.0.post0",
+      "six": "1.17.0"
+    }
+  },
+  "arms": {
+    "NATIVE64_JOINT": {
+      "training_config": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/configs/r6-source-ddp-unused/NATIVE64_JOINT.yaml",
+        "sha256": "115e15e348d2c928aaba88a4c2654cb37cfd8d19d22580117bac9213b525c7b6"
+      },
+      "result": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_JOINT__s0__115e15e348d2/results.json",
+        "sha256": null
+      },
+      "terminal_receipt": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/training-receipts-r6/terminal-NATIVE64_JOINT.json",
+        "sha256": null
+      },
+      "checkpoint": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_JOINT__s0__115e15e348d2/checkpoint-5000.pt",
+        "sha256": null
+      },
+      "dev_full": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_JOINT__s0__115e15e348d2/dev-full-5000.json",
+        "sha256": null
+      },
+      "gradient_probe": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_JOINT__s0__115e15e348d2/gradient-probe.json",
+        "sha256": null
+      },
+      "monitor": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_JOINT__s0__115e15e348d2/monitor.jsonl",
+        "sha256": null
+      },
+      "exposure": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_JOINT__s0__115e15e348d2/exposure.jsonl",
+        "sha256": null
+      }
+    },
+    "NATIVE16_JOINT": {
+      "training_config": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/configs/r6-source-ddp-unused/NATIVE16_JOINT.yaml",
+        "sha256": "deca12b2ce6936e91f604ec88e9b2c4bfa1c57a18b0468ea40754ff52f5fcb14"
+      },
+      "result": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/results.json",
+        "sha256": null
+      },
+      "terminal_receipt": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/training-receipts-r6/terminal-NATIVE16_JOINT.json",
+        "sha256": null
+      },
+      "checkpoint": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/checkpoint-5000.pt",
+        "sha256": null
+      },
+      "dev_full": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/dev-full-5000.json",
+        "sha256": null
+      },
+      "gradient_probe": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/gradient-probe.json",
+        "sha256": null
+      },
+      "monitor": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/monitor.jsonl",
+        "sha256": null
+      },
+      "exposure": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/exposure.jsonl",
+        "sha256": null
+      }
+    },
+    "NATIVE64_RECON": {
+      "training_config": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/configs/r6-source-ddp-unused/NATIVE64_RECON.yaml",
+        "sha256": "f07104c9d9c1d7918ed6c64f1d57f13481941b3388ef8d1e68a54a381a1ba3b9"
+      },
+      "result": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_RECON__s0__f07104c9d9c1/results.json",
+        "sha256": null
+      },
+      "terminal_receipt": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/training-receipts-r6/terminal-NATIVE64_RECON.json",
+        "sha256": null
+      },
+      "checkpoint": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_RECON__s0__f07104c9d9c1/checkpoint-5000.pt",
+        "sha256": null
+      },
+      "dev_full": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_RECON__s0__f07104c9d9c1/dev-full-5000.json",
+        "sha256": null
+      },
+      "gradient_probe": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_RECON__s0__f07104c9d9c1/gradient-probe.json",
+        "sha256": null
+      },
+      "monitor": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_RECON__s0__f07104c9d9c1/monitor.jsonl",
+        "sha256": null
+      },
+      "exposure": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE64_RECON__s0__f07104c9d9c1/exposure.jsonl",
+        "sha256": null
+      }
+    },
+    "NATIVE16_RECON": {
+      "training_config": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/configs/r6-source-ddp-unused/NATIVE16_RECON.yaml",
+        "sha256": "f33f045fc18bf859519d9f6c40892ea72bf840c4579a8e7bfd780c8e34ef9cfc"
+      },
+      "result": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_RECON__s0__f33f045fc18b/results.json",
+        "sha256": null
+      },
+      "terminal_receipt": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/training-receipts-r6/terminal-NATIVE16_RECON.json",
+        "sha256": null
+      },
+      "checkpoint": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_RECON__s0__f33f045fc18b/checkpoint-5000.pt",
+        "sha256": null
+      },
+      "dev_full": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_RECON__s0__f33f045fc18b/dev-full-5000.json",
+        "sha256": null
+      },
+      "gradient_probe": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_RECON__s0__f33f045fc18b/gradient-probe.json",
+        "sha256": null
+      },
+      "monitor": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_RECON__s0__f33f045fc18b/monitor.jsonl",
+        "sha256": null
+      },
+      "exposure": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_RECON__s0__f33f045fc18b/exposure.jsonl",
+        "sha256": null
+      }
+    }
+  },
+  "endpoint_features": null,
+  "endpoint_features_reason": "No paired eligible endpoint feature run exists yet.",
+  "conditional_reconstruction_releases": {
+    "NATIVE64_RECON": {
+      "path": null,
+      "sha256": null,
+      "reason": "Coordinator conditional decision and exact per-arm release remain pending."
+    },
+    "NATIVE16_RECON": {
+      "path": null,
+      "sha256": null,
+      "reason": "Coordinator conditional decision and exact per-arm release remain pending."
+    }
+  },
+  "additional_cost_receipts": [],
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2"
+}

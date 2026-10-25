@@ -1,0 +1,21 @@
+{
+  "path": "/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1",
+  "freeze_all": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/no-mistakes-local-20261024/endpoint-preparation/postprocess-environment/freeze-all.txt",
+  "freeze_all_sha256": "958dd94309578461725d851a84a7f4d037a28ec12a4cba9e080296c5dbaa7901",
+  "base_pth": "/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1/lib/python3.10/site-packages/jat-locked-base.pth",
+  "base_pth_sha256": "ad47556104f1211b2f3a89bab30b91a41466d9bda15b1a4761095ac5ea41f902",
+  "matplotlib_version": "3.9.4",
+  "base_environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+  "original_packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253",
+  "reason": "The locked training environment lacks Matplotlib and every required plotting helper; required A2 matched curves need a plotting tool. No installed native gnuplot/Rscript/dot was found.",
+  "additional_versions": {
+    "matplotlib": "3.9.4",
+    "contourpy": "1.3.0",
+    "cycler": "0.12.1",
+    "fonttools": "4.55.3",
+    "kiwisolver": "1.4.7",
+    "pyparsing": "3.2.0",
+    "python-dateutil": "2.9.0.post0",
+    "six": "1.17.0"
+  }
+}
