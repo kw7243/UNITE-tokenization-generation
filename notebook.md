@@ -1045,3 +1045,22 @@ B1 remains sole launcher maintainer and owner of this acceptance attempt. A2 ret
 No new candidate, allocation, native review context, test, model-byte check, resume or submission is selected or executed.
 All9owned A2 jobs remain terminal. Actual route proof must arrive before further review-context or execution work.
 This update changes notebook documentation only and does not accept scientific A2, valid64, generation, conditional RECON or downstream work.
+
+## 2026-10-25: native review acceptance failed; launcher restored
+
+Selected native run `01M5T84YT6S31KCSFMY22B3A64`, CPU job 2845813, failed before substantive review. Own session/argv prove requested gpt-5.5/openai/xhigh, native Codex 0.146.0 and pipe streams in job/step cgroups. API 400 model_not_found: requested gpt-5.5 is unsupported with the ChatGPT account. No source fix was committed; native returned clean user_owned custody at backed-up `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`.
+
+Exact launcher candidate 786d58400dd6f951b4b75986b4e075e2c327c3a2990293a6b3153f9778665951 was applied under guards, then original 2c1aca190c78a62f1575b0b98b68843ee1102680f27ba992c7799dcc417cc5dc atomically restored after quiescence. Required uid 28131/gid 65534/mode 0775 retained; original backup preserved. No config/model/version/trust/credential change was made by this task. AFS config has only a post-attempt hash, not a proven pre/post identity. Existing model-cache evidence and disabled `agent_config.codex.model` proposal are retained; no alternative was tried.
+
+Fresh 338-file stage: `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261025_151856-18ab2d-d11d67a-code`. All 4 accounting rows terminal; 868 allocated CPU-seconds=0.2411111111 core-hours, zero GPU-hours/scientific updates. No live owner context remains. Native full local review and all real-checkpoint/GPU prerequisites remain open; B1 NOT_STARTED. SCREEN_PREFIX/COMMON_PREFIX absent. Report/results/terminal bundle: `/data/scratch-fast/kwen1/no-mistakes-research-20261024/setup-evidence/native-real-acceptance-20261025/delivery`. This entry is returned for coordinator insertion; canonical notebook was not edited.
+
+## 2026-10-25 Coordinator assessment of failed native acceptance
+
+The preceding entry is imported verbatim from B1, SHA256 `98cb333cea60806b03a42e6a9574e5bba1bf10c865976085ff548c7481ff440a`. Its canonical-writing statement describes B1 before this A2-owned import.
+Coordinator assessment SHA256 `7e2eeb750d6d1557ccb9635eec7773eab4729d20e1aa6c8428a8c2d474b5350f` accepts the complete99-file report as failure/restoration evidence only; manifest `57347ee2c51f1489e0c6106e4459ccd44b7f0a72d4d2b7d7aa8a5079f3b8cb55`.
+AFS pre-attempt config hash was not captured. The post snapshot mtime falls during the attempt; the writer and changed bytes are unknown. Verified unchanged private NoMistakes config does not prove unchanged AFS config.
+The actual requested gpt-5.5/openai/xhigh rejection is observed. AFS model fallback is strongly supported, while a different explicit model remains an untested counterfactual. Catalog membership is not successful account/workload proof; no alternative model/configuration or retry is selected.
+All4B1 accounting rows are terminal:868allocatedCPU-seconds/0.2411111111CPUcore-hours, zeroGPU/science. This is B1 service overhead, not a new A2-owned job or A2 training cost.
+The route remains unusable. B1 alone owns launcher maintenance and the pending primary technical selection, correlation `f2ba3d59910fcf02`; A2 retains sole canonical notebook writing.
+A2 r3 code/config/tests remain frozen/disabled at candidate source7d5e9127883b41bda92c8232d42cfa8006867e9c, implementation617961b5916ea1da702852467dcad6235a2e2b77 and config490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6.
+No new A2 candidate, review context, model-byte check, test, allocation, resume or scientific execution follows. Native review, exact full-state/four-rank/final-stage prerequisites and all scientific gates remain open; no independent science is eligible.
