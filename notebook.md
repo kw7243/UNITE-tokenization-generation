@@ -1204,3 +1204,21 @@ All9owned jobs remain terminal; original native16/FIT/official source/environmen
 One substantive NoMistakes review must include the complete reused unreviewed surface and this fix, not just the latest documentation diff.
 Usable route, exact review/test/fix/final-commit evidence, parent full-state/actual-environment acceptance, new enabled config/consumer bindings and a fresh final stage remain required before continuation.
 A2 is incomplete; valid64/generation/RECON/downstream releases remain false and only accepted256 reference quality is established.
+
+## 2026-10-25 Recovery candidate r3: shared complete endpoint optimizer validation
+
+The disabled recovery candidate is now implementation `617961b5916ea1da702852467dcad6235a2e2b77`.
+Runtime config `campaign/a2/configs/r8-checkpoint4000-recovery/NATIVE64_JOINT.disabled.json`, SHA256 `490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6`.
+Full reused-source review patch `8ca8a707503057b4673817f985b346c436a62c64fa5748d60ffd6b43484888a5` from base `51a29b63aaba705a23a9de0e39ed8818b74a77ec`; recovery-only patch `1f46de60affec60c1fd9403ac0a446c59a709ffc98b6b8c0259ac4f714e00835`.
+Report `campaign/a2/RECOVERY_R3.md`; receipts `outputs/A2/native64-recovery-candidate-r3-20261025/`. Earlier r1/r2 candidate artifacts/source/configs and all original stages/outputs are preserved.
+
+Static tracing found optimizer-slot checks were only in the resume loader. They now run in the shared snapshot validator used by complete endpoint consumers too, with ordered names/IDs/slot names/shapes/dtypes/finite values/LR/Adam steps checked against the saved model/config.
+A focused tiny-state CPU rejection case covers a missing optimizer slot at the complete5000 boundary; the GPU candidate also compares full64 draw fingerprints across all ranks.
+The rest of the bounded G1..G7 continuation implementation and exact original scientific projection are unchanged.
+All runtime/engineering/r4 consumer templates remain disabled. No tests, changed project imports, model-byte hash/load, scientific analysis, resume, allocation or submission ran.
+Static AST/hash/config/Git/preservation checks only; no behavioral or scientific PASS.
+
+Remaining1000-update training forecast16.180443RTX3090h plus separately unmeasured checks/evaluation/setup; no cap/reserve/device conversion.
+All9owned jobs remain terminal. Same-owner live terminal monitoring between DEV observations remains required, with original end13:36:48Z and first-observed17:01:53Z distinct.
+The full reused unreviewed source and related fix remain one substantive NoMistakes unit; route/review/check/final-enabled-binding/fresh-stage/launch acceptance are pending.
+A2 is incomplete; valid64/generation/conditional RECON/downstream releases remain false. Native16/FIT and accepted256 reference evidence are unchanged.
