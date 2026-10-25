@@ -74,6 +74,9 @@ def load_ema(arm, train, result, device):
     assert sha(arm['checkpoint']['path']) == arm['checkpoint']['sha256']
     state = torch.load(arm['checkpoint']['path'], map_location='cpu', weights_only=False)
     assert state['schema'] == SCHEMA and state['world_size'] == 4
+    assert set(state['model']) == set(state['ema'])
+    assert all(v.shape == state['ema'][k].shape and v.dtype == state['ema'][k].dtype
+               for k, v in state['model'].items())
     assert state['boundary'] == 'AFTER_COMPLETE_OPTIMIZER_UPDATE'
     assert state['configuration_sha256'] == arm['training_config']['sha256']
     assert state['resolved_config'] == train
