@@ -997,3 +997,20 @@ Matched harmless shell controls and the conditional actual native review proof r
 The hostname bootstrap failure neither tests nor refutes the shell correction; whole-second CPUTime0 does not mean exactly zero use, since measured TotalCPU was.022seconds.
 No usable review route or scientific gate is released. B1 retains service/job ownership.
 A2 made no extra job observation, source/config change, test, analysis or scientific execution; its prepared source/config freeze and09UTC native64 observation remain unchanged.
+
+
+## 2026-10-25: temporary absolute shell passes launch; EOF contract remains unresolved
+
+Instructions020–021 recovered the logging-only hostname -f failure with a new task-local candidate proving Slurm single owned node=kernel hostname=SLURMD_NODENAME. Full stage `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261025_020144-ef6ac0-d11d67a-code` verified337files/links. Matched bare/absolute shell controls passed. Actual native launcher161632/recorder161651/Codex0.146.0 executable161654 all retained temporary SHELL=/bin/bash and2838716/step0 containment. Native run `01M5RTFD4M732M1MPR5R529RDA` never produced thread/turn/review JSON; only partial echoed prompt. Synthetic exact-byte consumer controls passed with6182LF-terminated bytes. Removing twoLF yielded6180bytes: direct pipe delivered exact hash+EOF; recorder delivered exact hash but noEOF before8second bound. No live-model injection. Actual complete native prompt/tail/hash remains unknown, so sole live cause is not proven.
+
+Supported own-run cancellation and offered sync --recover returned clean unchanged backed-up `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`; observer/native daemon stopped; SSH exited and2838716 released. All8rows terminal,931s×2CPU=1862CPU-seconds=.5172222222core-hours. No install, Codex update, protected launcher/config/credential/source change, GPU-hours or scientific updates. Native substantive review/model identity and trained-checkpoint/GPU/resume gates remain unresolved; B1 NOT_STARTED, no SCREEN_PREFIX/COMMON_PREFIX. Exact runtime need reported without implementing a new adapter or prompt change. No next allocation selected. Report `/home/ubuntu/.treehouse/firstmate-557e63/23/firstmate/data/jat-b1-screen-prepare-20261024/native-absolute-shell-attempt-20261025-v2/report.md`; retained receipt `/data/scratch-fast/kwen1/no-mistakes-research-20261024/setup-evidence/native-observed-attempt-20261025/allocation-2838716`. Return to coordinator; A2 owner alone writes canonical notebook.
+
+
+## 2026-10-25: current coordinator direction after terminal absolute-shell attempt
+
+The B1 owner is preparing an exact noninteractive proposal and validation procedure.
+No next service or allocation is selected. No protected launcher or configuration change is selected.
+The synthetic recorder EOF failure is separate from the unknown complete native prompt and does not prove the sole live cause.
+Temporary absolute-shell launch and executable containment passed; substantive native review JSON, model identity and full prompt handling remain unproved.
+No usable research-validation route or scientific result is established.
+A2 retains its source/config freeze, unchanged native64 job and09UTC original-output observation; no additional A2 job observation, analysis, test or endpoint execution occurred.
