@@ -1087,3 +1087,38 @@ No new endpoint analysis/test/generation/resume/model load, source/config or job
 The primary has not selected the shared launcher change; no usable native review route or new scientific release exists.
 Prepared endpoint r2 source/configs remain frozen; only accepted256 A1 reference quality is established.
 Next meaningful original-output observation:2026-10-25T13:00Z for native64 scheduled4000DEV/checkpoint/state, or sooner on concrete owned failure or released usable route.
+
+## 2026-10-25 Scheduled13:00 original native64 update4000 observation
+
+At13:01:39Z, owned native64 job2834281 parent/batch/extern/numbered step remain RUNNING.
+Original results record4114 completed optimizer updates and1,053,184 image exposures.
+Saved fixed512DEV identity artifact SHA256 is unchanged from09UTC.
+The original DEV summaries are retained without recomputation.
+
+| Update | DEV images | L1 | AlexNet LPIPS | Shared distortion | L1 p90 | Latent image variance | Latent RMS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1000 | 512 | 0.23755374737083912 | 0.857935709063895 | 1.0954894564347342 | 0.3190992504358292 | 0.00042255650653950656 | 0.9984315361796424 |
+| 2000 | 512 | 0.1736747955728788 | 0.7565707248868421 | 0.9302455204597209 | 0.23051212728023532 | 0.18956032191690392 | 0.8983145090088012 |
+| 3000 | 512 | 0.10375457500049379 | 0.6562352759065107 | 0.7599898509070044 | 0.1448198735713959 | 0.29502178106646687 | 0.7276047675173041 |
+| 4000 | 512 | 0.08738722509588115 | 0.5500048617541324 | 0.6373920868500136 | 0.12836152762174607 | 0.3213966909841697 | 0.6189393756451841 |
+
+Original scheduled monitor4000: reconstruction loss 0.5309544447809458, flowSUM 0.9500950630754232, per-drawmean 0.3166983543584744, gradient norm beforeclip 2.8496365547180176, LR 0.0001.
+Its exact original row is retained in scheduled-monitor-4000-original.json.
+The latest saved monitor at snapshot is4100; full original noise-bin/latent/norm fields remain retained.
+Training remains the summed M3 loss, distinct from the per-draw report convention.
+Original checkpoint1000/2000/3000/4000 files are present; latest4000 original SHA256 record `9fb9c31deb782cb845ef34c20d539dda10651e720304f26339d24467be74ab7d`.
+No independent model-byte rehash/load, full-state acceptance, conversion or resume ran; these checkpoints remain partial.
+
+At the stated observation, parent elapsed58,303seconds corresponds to64.78111111111112 incurredRTX3090 device-hours and259.12444444444446 allocatedCPUcore-hours.
+This is running incurred cost, not terminal totals; overlapping steps are not added again and process-phase counters have different boundaries.
+No concrete failure is visible in captured accounting/stderr; existing torchvision warnings remain preserved.
+Raw results/per-image DEV/monitor/exposure/runtime, original stage/config/data/metric identities, checkpoint records and Slurm/stdout/stderr evidence are under `outputs/A2/training-receipts-r6/observation-1300-native64/` in the A2 source.
+Handoff SHA256 `123bc01d04cd437f927b77cd2d123aacf1584c4878720a2d7ac1d9859bb65704`.
+Stage Git/manifest/configuration bytes were rechecked against the original submission; separately copied running files can reflect different instants.
+Native16 terminal and FIT receipts remain intact and unchanged; no new ownership.
+
+Saved DEV losses decrease across the fixed points, without establishing native64 full-state/scientific acceptance or a paired5000 endpoint outcome.
+No new analysis/test/generation/model-byte load/rehash/resume, job change or source/configuration edit occurred.
+Primary launcher selection is pending; no usable substantive-review route or new scientific release exists.
+Prepared endpoint r2 source/configs remain frozen; only the accepted256 A1 reference has established stable quality.
+Next meaningful original-output condition:2026-10-25T17:00Z for original5000 endpoint/fullDEV/probes/checkpoint and terminal accounting, or sooner concrete owned failure/released usable route.
