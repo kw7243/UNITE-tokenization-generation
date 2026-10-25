@@ -826,3 +826,22 @@ The synthetic recorder EOF failure is separate from the unknown complete native 
 Temporary absolute-shell launch and executable containment passed; substantive native review JSON, model identity and full prompt handling remain unproved.
 No usable research-validation route or scientific result is established.
 A2 retains its source/config freeze, unchanged native64 job and09UTC original-output observation; no additional A2 job observation, analysis, test or endpoint execution occurred.
+
+
+## 2026-10-25: noninteractive route proposal only
+
+Instruction022 preparation complete: one existing-launcher patch, candidate SHA256 `786d58400dd6f951b4b75986b4e075e2c327c3a2990293a6b3153f9778665951`, diff `87a19ee72ab20c1d825a8d870389c22f6d1563d633aaf5458a2ab60a1f32205f`. Not applied or selected. Native gate exec branch proposes direct exact stdin, separate stdout/stderr tees/logs, existing auth/AFS/keepalive/per-launch SQLite, exact child exit and bounded drain; no new runtime wrapper/configuration or Codex update. Syntax/fixture-data checks passed;15 finite runtime cases remain NOT_RUN. No new job/service/model, allocated CPU cost, GPU-hours or scientific updates. Source clean unchanged backed-up `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`; protected launcher/config/binary hashes unchanged.
+
+Read-only NoMistakes1.84.0 source bounds normal rebase input to expected trailing LF. The prior no-final-LF transport counterexample does not by itself explain the live wait. Full live prompt bytes/tail/hash remain unknown. Exact future argv/environment, finite checks, real substantive-review/model/schema/cgroup acceptance, conditional protected application and guarded restore are prepared with execution disabled. No application authority granted. Report `/home/ubuntu/.treehouse/firstmate-557e63/23/firstmate/data/jat-b1-screen-prepare-20261024/native-noninteractive-route-proposal-20261025/report.md`; retained proposal `/data/scratch-fast/kwen1/no-mistakes-research-20261024/setup-evidence/native-noninteractive-route-proposal-20261025`. Native local validation and trained-checkpoint/GPU/real-resume gates remain open. B1 NOT_STARTED; no SCREEN_PREFIX/COMMON_PREFIX. Return entry to coordinator; A2 owner alone writes canonical notebook.
+
+
+## 2026-10-25: current coordinator selection for synthetic proposal checks
+
+The coordinator selected one1CPU/1GiB/10minute synthetic fixture context under the same B1 sole owner.
+The15 finite behavioral cases were unrun when the proposal was delivered; syntax checks are not runtime proof.
+Only test-root copies, fake credential commands and synthetic children are selected for these checks.
+The protected launcher, runtime, credentials and configuration remain unchanged; application/restore, real service/model execution, GPU work and science are not selected.
+Static native source indicates a final LF in the normal rebase prompt, so the earlier unterminated fixture does not explain the live wait by itself.
+Actual native prompt bytes/hash, substantive review JSON/model identity and the usable research-validation route remain unproved.
+This current fixture selection is separate from the exact historical proposal above.
+A2 made no additional job observation, source/config change, test, analysis or endpoint execution. Native64 remains unchanged, prepared source/configs stay frozen and the next observation remains09UTC.
