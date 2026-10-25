@@ -875,3 +875,34 @@ B1 retains its service/job ownership, and A2 retains sole ownership of2834281/28
 
 Next ordinary observation:2026-10-25T01:30Z for native16's original endpoint/terminal evidence and both job states, or sooner on a concrete owned failure or a released usable validation route.
 The next review follows native16's approach to5000; it is not an estimate-triggered stop or extension.
+
+## 2026-10-25 Native16 joint5000 original endpoint and terminal receipt
+
+The scheduled01:30UTC observation confirms owned native16 job2834282 and every recorded step COMPLETED0:0.
+UTC start2026-10-24T20:49:54, end2026-10-25T01:19:51, allocated elapsed16,197seconds.
+The original job records5000 completed optimizer updates and1,280,000 image exposures.
+Original checkpoint5000 SHA256 record `695627a2b5369dbc5e0c1b724f07b3b749c103ee5ad254e4587e225f54b18216`.
+No checkpoint was independently rehashed, loaded or accepted for full-state continuation in this observation.
+
+Original full3200DEV records L1 0.09676495456486009, AlexNet LPIPS 0.5911963574681431, shared distortion 0.6879613120330031, L1p90 0.14127867966890334, latent image variance 0.23899523460032202, and latent RMS 0.5316736655951876.
+The raw3200 per-image errors and32-image probes at t=.25,.5,.75 are retained with parameter names, reconstruction/generation gradient norms, cosines and difficulty relations.
+Probe generation uses mean-per-draw gradients, distinct from the summed M3 training objective.
+These are original job outputs; no new numerical or probe analysis ran.
+
+Parent allocation accounting gives17.996666666666666 RTX3090 device-hours and71.98666666666666 allocated CPU core-hours; child steps are not added again.
+Original process categories retain training17.877581548943354 GPU-hours and evaluation0.08123100777997429 GPU-hours, with remaining allocation setup/tail/instrumentation boundaries stated in the terminal receipt.
+The explicit A2 owner ledger now records2834282 terminal.
+Owned native64 job2834281 remains RUNNING at1167 completed updates in the saved snapshot; its latest DEV/checkpoint remains1000.
+
+All original non-model run outputs, stdout/stderr, submissions, checkpoint hash records and Slurm accounting are retained under `outputs/A2/training-receipts-r6/observation-0130/` in the A2 source.
+Handoff SHA256 `39fa19557202a3c448516f06d418def575d1c66b7f8fab6f84aed21a2dcfcbfc`; terminal receipt SHA256 `21a6734245b3a473ad2971eef2df5a07ce75cb158da298b2cd8ffe8962113d5f`.
+Original fullDEV artifact SHA256 `a5bee2823a2b9de5bcd3f2d8c14fc97d43c70b5acf837b20e91a3338164e3de5`; probe artifact SHA256 `79ebc92e016a00186377c63fe520bff8444174650b14b7a1d3c2565352144e06`.
+Both immutable stage Git revisions, staging manifests and resolved configuration bytes were rechecked.
+Recorded data/metric identities match the locked protocol.
+
+This completes the original native16 training-job receipt, not paired A2 science or stable64 acceptance.
+The accepted256 A1 reproduction remains the established stable reference.
+Native64 endpoint, required substantive local validation, eligible generation and the coordinator's conditional RECON decision remain pending.
+Prepared endpoint r2 source/configs stay frozen; the existing B1-held primary-auth call is pending, with no usable A2 review route.
+No helper/test/model load, new numerical analysis, submission, generation/RECON/stable64 release or downstream run occurred.
+Next ordinary original-output observation:2026-10-25T05:00Z for native64's next scheduled2000DEV/state, or sooner on a concrete owned failure or released usable review route.
