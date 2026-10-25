@@ -993,3 +993,26 @@ All9owned jobs are terminal; no current monitor/allocation is running.
 No model-byte load/hash, new tests/analysis, resume, allocation, submission or executable code change ran.
 Usable substantive-review route and primary launcher selection remain pending. Exact reviewed code/config/checkpoint/check acceptance is required before later execution.
 A2 remains scientifically incomplete; native64 valid64/generation/RECON/downstream releases remain false, and only accepted256 reference quality is established.
+
+## 2026-10-25 Native64 recovery code candidate prepared; tests and execution disabled
+
+Message038 selected minimum G1..G7 code/config/test preparation before the external review route is ready.
+Implementation `164b3aadf3d7c5e004e5312fa385bb8c256a556f`; disabled runtime config `campaign/a2/configs/r7-checkpoint4000-recovery/NATIVE64_JOINT.disabled.json`, SHA256 `90330b2c98ba7b43d30f5194ce2540b3dd703bcaf7fccc929ea7b6ebf4b3109c`.
+Full reused-source review code patch SHA256 `e781081a446dabe9eb8cdb0ee4230c2ec064e520ae4054318832c045e4080eea` from base `51a29b63aaba705a23a9de0e39ed8818b74a77ec`; recovery-only patch `f223b7ea0bf2ce9a2a8b97f0de46f5a92223f974820decd6c15b0107c2206b2a`.
+Report `campaign/a2/RECOVERY_R2.md`; receipts `outputs/A2/native64-recovery-candidate-r2-20261025/`. Historical r1/r2 inputs and initial26b0c99 candidate evidence are preserved.
+
+The existing training/checkpoint/endpoint helpers now bind exact parent4000 state and source/config identities, replay through parent attempted4267, new output identity, derived effective prefix/suffix history and separate physical attempts/unique allocation costs.
+Production and the prepared GPU comparison share restore-before-DDP and the numerical update; restored per-rank RNG is preserved across DDP construction.
+The terminal state/job_state adapter rejects contradictions and requires successful child steps for complete endpoints.
+Static AST/source/manifest/mode/config/Git checks passed; relocated numerical operation AST is unchanged except the explicit engineering autocast option.
+Focused CPU metadata/tiny-state and real four-rank checkpoint4000/update4001/engineering round-trip checks are PREPARED, NOT_RUN.
+No changed project module was imported and no new test/model-byte hash/load/analysis/allocation/resume/submission ran. All new training/consumer/engineering configs remain disabled.
+
+Target stays5000 effective/1280000images;266 abandoned completed updates/68096images and unknown partial4267 are retained in physical accounting.
+Saved timing predicts16.180443RTX3090h for remaining1000 updates, plus separate unmeasured checks/evaluation/setup. No cap/reserve/device conversion applies.
+Original end13:36:48Z and first observation17:01:53Z remain distinct. The same future owner must monitor terminal/preemption/failure states live between DEV observations using the existing monitor or bounded foreground polling, proposed at most60seconds; no service/wrapper is added.
+
+All9owned jobs remain terminal; original native16/FIT/official source/environment/stages/outputs are unchanged.
+One substantive NoMistakes review must include the complete reused unreviewed surface and this fix, not just the latest documentation diff.
+Usable route, exact review/test/fix/final-commit evidence, parent full-state/actual-environment acceptance, new enabled config/consumer bindings and a fresh final stage remain required before continuation.
+A2 is incomplete; valid64/generation/RECON/downstream releases remain false and only accepted256 reference quality is established.
