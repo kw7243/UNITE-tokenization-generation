@@ -909,3 +909,23 @@ Next ordinary original-output observation:2026-10-25T05:00Z for native64's next 
 
 
 2026-10-25: Service allocation2835069 completed0:0 on groenig-6 after3:50:06. Native daemon cleanly stopped03:16:38Z; batch/extern completed0:0, all18client steps terminal. Reserved cost15.34CPU core-hours; first failed service attempt adds0.007777778, total service15.347777778core-hours. Measured processor time10.724s for replacement, separate from allocation cost; do not double-count nested steps. Zero GPU-hours/scientific updates. Failed B1 run01M5R3Y1GM1Y5E4SGNV98S69WD remains blocked at launcher Kerberos preflight, with no review/test/document/lint pass or agent-containment proof. Last AXI custody user_owned clean unchanged d11d67a1e8efa97c717df3a4a066abe57a4bdad2; backed-up branch and pinned ancestry verified. Native managed run directory absent; no worker deletion, submitted source/full stage/gate/logs/inputs/database retained. No auth retry, credential/Codex change, restart, submission, resume or science during terminal audit. No owned service allocation/B1 pipeline active. Next wait: primary supplies supported authenticated compute-agent route and continuation. Original service/auth calls remain unresolved; B1 NOT_STARTED. A2 owns canonical import.
+
+## 2026-10-25 Requested04:10 native64 original status
+
+For correlation566658ec2070beda, owned native64 job2834281 parent/batch/extern/numbered step remain RUNNING.
+Original results snapshot at2026-10-25T04:10:56Z records1845 completed updates and472,320 image exposures.
+The latest already-written monitor is update1800; the latest fixed512DEV and checkpoint remain update1000.
+Original checkpoint SHA256 record `ec6a549264cd686fb4afdeca348be5d3c143ce055909966d0038253cf0150357`.
+No checkpoint was loaded or independently rehashed.
+
+Raw results, DEV/per-image errors, monitor/exposure/runtime files, source/config/data/metric identities, stdout/stderr, submission and parent/step accounting are retained in `outputs/A2/training-receipts-r6/observation-0410-native64/` in the A2 source.
+Handoff SHA256 `24f14c5e327ab9b1e7c597e0d8040ae3a74102fff38fa5226fa6d3210a46bf1a`.
+Both source revision and staging-manifest/configuration bytes match the original immutable run identity.
+Running0:0 is not terminal success; separately copied running files can reflect different instants.
+Native16's previously completed5000 endpoint/terminal evidence remains in observation-0130 and was not re-observed for this request.
+
+No new analysis/test/model load, experiment source/config change, submission or scientific release occurred.
+Prepared endpoint r2 remains frozen; no usable validation route or active service exists.
+B1 retains sole service/auth diagnosis ownership.
+Only the accepted256 A1 reference has established stable quality; native64 endpoint and paired classification remain pending.
+Next bounded owned observation remains2026-10-25T05:00Z for the next scheduled2000DEV/checkpoint/state, or sooner on a concrete owned failure or released usable review route.
