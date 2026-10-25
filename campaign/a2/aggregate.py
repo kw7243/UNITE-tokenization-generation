@@ -1,6 +1,7 @@
 """CPU-only A2 endpoint metrics, paired reconstruction intervals and curves."""
 import argparse
 import csv
+import importlib.metadata
 import json
 import os
 from pathlib import Path
@@ -202,6 +203,8 @@ def main():
     assert sha(plot_env['freeze_all']) == plot_env['freeze_all_sha256']
     assert sha(plot_env['base_pth']) == plot_env['base_pth_sha256']
     assert matplotlib.__version__ == plot_env['matplotlib_version']
+    for name, version in plot_env['additional_versions'].items():
+        assert importlib.metadata.version(name) == version, name
     first = locked_json(cfg['arms']['NATIVE64_JOINT']['training_config'])
     rows = read_interface(first['data'])['DEV']
     assert set(cfg['arms']) in ({'NATIVE64_JOINT', 'NATIVE16_JOINT'},
