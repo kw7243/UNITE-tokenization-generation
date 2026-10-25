@@ -1122,3 +1122,38 @@ No new analysis/test/generation/model-byte load/rehash/resume, job change or sou
 Primary launcher selection is pending; no usable substantive-review route or new scientific release exists.
 Prepared endpoint r2 source/configs remain frozen; only the accepted256 A1 reference has established stable quality.
 Next meaningful original-output condition:2026-10-25T17:00Z for original5000 endpoint/fullDEV/probes/checkpoint and terminal accounting, or sooner concrete owned failure/released usable route.
+
+## 2026-10-25 Native64 original run preempted before5000
+
+At the scheduled17UTC observation, explicitUTC accounting confirms owned native64 job2834281 PREEMPTED at13:36:48UTC, parentexit0:0.
+BatchCANCELLED0:15, externCOMPLETED0:0 and numberedstepFAILED1:0 are all terminal; raw stderr explicitly says DUE TO PREEMPTION.
+Parentexit0:0 does not establish training success.
+The interruption was first observed at17:01:53UTC; raw node-local stderr timestamps and explicitUTC scheduler rows are both retained.
+Last original results record4266updates/1,092,096image exposures, not requested5000/1,280,000.
+Latest original monitor4200 and fixed512DEV4000 remain preserved. Full3200DEV5000, endpoint probes and checkpoint5000 were not emitted.
+
+| Saved update | DEV images | L1 | AlexNet LPIPS | Shared distortion |
+| --- | --- | --- | --- | --- |
+| 1000 | 512 | 0.23755374737083912 | 0.857935709063895 | 1.0954894564347342 |
+| 2000 | 512 | 0.1736747955728788 | 0.7565707248868421 | 0.9302455204597209 |
+| 3000 | 512 | 0.10375457500049379 | 0.6562352759065107 | 0.7599898509070044 |
+| 4000 | 512 | 0.08738722509588115 | 0.5500048617541324 | 0.6373920868500136 |
+
+Latest retained checkpoint4000 original recordedSHA256 `9fb9c31deb782cb845ef34c20d539dda10651e720304f26339d24467be74ab7d`; all1000/2000/3000/4000 files are present.
+No independent model-byte rehash/load, schema/role/full-state acceptance or resume ran.
+Original parent elapsed60,414seconds corresponds to67.12666666666667RTX3090device-hours and268.50666666666666allocatedCPUcore-hours, counted once.
+Original process train/eval counters and later child shutdown timestamps have different boundaries and are retained without nested-step double count.
+All9owned A2 jobs now have terminal owner-ledger records; none remain active.
+
+Raw original outputs, exact source/config/data/metric/fixedDEV/checkpoint identities and full terminal accounting are under `outputs/A2/training-receipts-r6/observation-1700-native64/` in the A2 source.
+Terminal receiptSHA256 `f3813f054416c4f2bda8fa7f4aec5b57519d66414bd60c499a62cbe3889ea9e9`; final handoffSHA256 `99c09001d5dc0376b454c13ef2d7da9f0973a2093348ccd6b0bbf1ff3082a47d`.
+Initial snapshot handoff4011b817edfa125617cb052b2388e2980f1303854230e6ccd178d1d19932f2c7 is preserved separately; no historical identity was discarded.
+Stage Git/manifest/configuration bytes match original submission; accepted native16 and FIT receipts remain unchanged.
+
+This is scheduler interruption, not evidence of numerical failure or a scientific negative.
+Native64 lacks its matched5000 endpoint and independent stable64/full-state acceptance; only accepted256 A1 reference quality is established.
+No new analysis/test/model-byte load/rehash, conversion, generation, resume, submission or source/config/job change occurred.
+Primary launcher selection is pending and no usable substantive-review route exists; prepared endpoint r2/scientific-validation gates remain frozen.
+The coordinator must direct bounded recovery from retained4000 boundary versus logged4266 progress, with explicit exposure/control accounting and required validation.
+No recovery resource/run is selected here; next meaningful condition is coordinator recovery direction and released review route, not another poll of a terminated job.
+A2 remains incomplete; no generation/RECON/stable64/downstream release follows.
