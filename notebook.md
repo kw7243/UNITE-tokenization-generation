@@ -1054,3 +1054,36 @@ The B1 owner is waiting for primary technical selection of the exact shared-laun
 The current receipt does not select that protected change or a new native service/model attempt.
 Synthetic success does not establish the complete live prompt, substantive review JSON/model identity or a usable research-validation route.
 No new credential or scientific release follows. Native64 remains unchanged; A2 endpoint source/configs stay frozen and the next original-output observation remains09UTC.
+
+## 2026-10-25 Scheduled09:00 original native64 update3000 observation
+
+At09:02:18Z, owned native64 job2834281 parent/batch/extern/numbered step remain RUNNING.
+Original results snapshot records3085 completed updates and789,760 image exposures.
+The original same512DEV identity artifact hash is unchanged from05UTC.
+Saved DEV summaries are retained below without recomputation.
+
+| Update | Images | L1 | AlexNet LPIPS | Shared distortion | L1 p90 | Latent image variance | Latent RMS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1000 | 512 | 0.23755374737083912 | 0.857935709063895 | 1.0954894564347342 | 0.3190992504358292 | 0.00042255650653950656 | 0.9984315361796424 |
+| 2000 | 512 | 0.1736747955728788 | 0.7565707248868421 | 0.9302455204597209 | 0.23051212728023532 | 0.18956032191690392 | 0.8983145090088012 |
+| 3000 | 512 | 0.10375457500049379 | 0.6562352759065107 | 0.7599898509070044 | 0.1448198735713959 | 0.29502178106646687 | 0.7276047675173041 |
+
+Saved L1, AlexNet LPIPS and shared distortion decrease at each recorded point.
+This is an unfinished training trend, not a paired endpoint outcome or stable64 acceptance.
+Original checkpoint1000/2000/3000 files are present; latest original3000SHA256 record `8f272d88d60406bc12a4ce85c69814f2121005797c59347fb71d1964c6348704`.
+No independent model-byte rehash, checkpoint/model load, conversion, state acceptance or continuation ran.
+Original monitor3000: reconstruction loss 0.5771384433610365, flowSUM 0.7160191304283217, per-draw mean 0.2386730434761072, gradient norm beforeclip 2.029118299484253, LR 0.0001.
+Actual training remains summed M3; report mean-per-draw is a separate convention.
+
+At the stated observation, parent elapsed43,942seconds corresponds to48.824444444444445 incurredRTX3090 device-hours and195.29777777777778 allocatedCPUcore-hours.
+Terminal cost remains pending; child steps are not double-counted and original process-phase counters have different timing boundaries.
+No concrete failure is visible in captured accounting/stderr; existing torchvision warnings are preserved.
+Raw results, per-image DEV, monitor/exposure/runtime, stage/config/data/metric identities, checkpoint records and Slurm/stdout/stderr evidence remain under `outputs/A2/training-receipts-r6/observation-0900-native64/` in the A2 source.
+Handoff SHA256 `f5633bb2f1a69c358f192930e3ddf0b6512f656902af11edf9784ed588b33d1a`.
+Stage source/manifest/configuration bytes were rechecked against the original submission; running file snapshots can reflect different instants.
+Native16 terminal and FIT reference/terminal evidence remain intact with no new ownership.
+
+No new endpoint analysis/test/generation/resume/model load, source/config or job change occurred.
+The primary has not selected the shared launcher change; no usable native review route or new scientific release exists.
+Prepared endpoint r2 source/configs remain frozen; only accepted256 A1 reference quality is established.
+Next meaningful original-output observation:2026-10-25T13:00Z for native64 scheduled4000DEV/checkpoint/state, or sooner on concrete owned failure or released usable route.
