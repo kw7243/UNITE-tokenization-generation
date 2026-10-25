@@ -1,5 +1,6 @@
 """Retain A2 endpoint features and paired samples; CPU scoring is separate."""
 import argparse
+import gc
 import copy
 import json
 import os
@@ -267,6 +268,7 @@ def main():
                 peak_memory_gib=torch.cuda.max_memory_allocated(device)/(1024**3))
             save_json(out/'results.json', record)
             del model, rec, gen, logits_file, pixels_file
+            gc.collect()
             torch.cuda.empty_cache()
         record.update(phase_status='COMPLETED', node_status='AWAITING_CPU_SCORING', elapsed_seconds=time.perf_counter()-tick)
     except Exception as exc:

@@ -1,5 +1,6 @@
 """CPU-only A2 endpoint metrics, paired reconstruction intervals and curves."""
 import argparse
+import gc
 import csv
 import importlib.metadata
 import json
@@ -219,6 +220,7 @@ def main():
     checked64 = load_ema(arms['NATIVE64_JOINT']['input'], arms['NATIVE64_JOINT']['config'],
                          arms['NATIVE64_JOINT']['result'], torch.device('cpu'))
     del checked64
+    gc.collect()
     classes = np.array([r['class_index'] for r in arms['NATIVE64_JOINT']['rows']])
     paired = paired_difference(arms['NATIVE16_JOINT']['values'], arms['NATIVE64_JOINT']['values'], classes)
     eligible = generation_eligible({k: [r['allocation_distortion'] for r in v['result']['reconstruction']['history']]

@@ -1,5 +1,6 @@
 """Initialized native ODE/feature integration check; never a scientific endpoint."""
 import argparse
+import gc
 import json
 import os
 from pathlib import Path
@@ -84,6 +85,7 @@ def main():
         finally:
             handle.remove()
         del model, values, images, expected, expected_logits
+        gc.collect()
         torch.cuda.empty_cache()
     assert sha(args.engineering_receipt) == args.engineering_receipt_sha
     native_proof = json.loads(args.engineering_receipt.read_text())
