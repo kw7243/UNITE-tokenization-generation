@@ -744,3 +744,40 @@ Next bounded owned observation remains2026-10-25T05:00Z for the next scheduled20
 
 
 2026-10-25: Under primary corr566658ec2070beda, diagnosed noninteractive launcher preflight without allocating compute or resuming validation. NoMistakes sends prompt stdin to the unchanged scratch Codex launcher; missing compute Kerberos context triggers kinit before native Codex. Doctor path availability did not prove auth. VM ticket/master are valid; native SSH through the existing authenticated jump to the known login passed and produced a forwarded ticket/AFS tokens. Nested cluster-jump and direct login-only negative counterfactuals failed; no direct fallback is recommended. Bare VM compute SSH defaults differ: ubuntu/no jump/no delegation. Proposed explicit kwen1/jump/GSSAPI route plus a same-node Slurm step checks real cache/cgroup and launcher --version with no model request. Proposal only:1CPU/1GiB/3min,max0.05core-hours, no service or pipeline; compute forwarding/native agent protocol remain unproved. No current human login requirement established; no ticket copy, password collection, unit/credential/Codex/source change. Source d11d67a1e8efa97c717df3a4a066abe57a4bdad2 clean; new scheduled CPU/GPU cost0 and scientific updates0. Await coordinator continuation for the bounded proof; original service/auth blockers remain open. B1 NOT_STARTED; A2 handles native64 status and canonical import.
+
+
+## 2026-10-25 Scheduled05:00 native64 update2000 original observation
+
+Owned native64 job2834281 parent/batch/extern/numbered step remain RUNNING.
+The original05:01:55Z snapshot records2059 completed optimizer updates and527,104 image exposures.
+Fixed512DEV at2000 records L1 0.1736747955728788, AlexNet LPIPS 0.7565707248868421, shared distortion 0.9302455204597209, L1p90 0.23051212728023532, latent image variance 0.18956032191690392, and latent RMS 0.8983145090088012.
+Original checkpoint2000 SHA256 record `04b908748e52c93abf4db84ae428040eec907dbe6170a1dc1c0ec50e3d37ead9`.
+No checkpoint was loaded, executed or independently rehashed; it remains partial.
+Latest original monitor2000 records reconstruction loss 0.6199644161388278, flow SUM 0.6161637062905356, per-draw mean 0.2053879020968452, and gradient norm before clipping 2.257058620452881.
+The training objective remains the summed M3 loss.
+
+Current parent elapsed29,520seconds corresponds to32.8 incurred RTX3090 device-hours and131.2 allocated CPU core-hours.
+These are running incurred costs; terminal accounting is pending and child steps are not double-counted.
+Original process training/evaluation counters have different setup/tail boundaries and remain in the raw results.
+No concrete runtime failure is visible in the captured accounting/stderr; existing torchvision warnings remain retained.
+Exact raw config/data/metric/checkpoint/monitor/runtime/Slurm evidence is under `outputs/A2/training-receipts-r6/observation-0500-native64/` in the A2 source.
+Handoff SHA256 `e389833005a6cd9d253aaf453d8c741c410d7d070320716931e082b7d1c00d44`.
+Original stage revision, staging-manifest/configuration bytes and recorded data/metric identities match the locked run.
+Running0:0 is not terminal success; separate file snapshots can reflect different instants.
+
+No new analysis/test/model load, experiment source/config change, submission, scientific release or other-job adoption occurred.
+Prepared endpoint r2 stays frozen; paired5000/native64 stability/generation/conditionalRECON remain pending.
+The accepted256 A1 reproduction remains the established stable reference.
+The exact queued transport/native-version entry below is imported as historical proof only.
+Message024 reports later B1-owned service attempt2838179 failed before actual Codex agent proof and was released; no usable review route exists.
+Next original-output observation:2026-10-25T09:00Z for native64 scheduled3000DEV/checkpoint/state, or sooner on concrete owned failure or released usable route.
+
+
+#2026-10-25 compute authentication probe
+
+- Transport/version PASS: sole probe2838034 on groenig-3 printed Codex0.146.0 inside verified Slurm step0 with valid delegated compute Kerberos credentials; one SSH attempt, exit0.
+- All steps terminal; deliberate owner release. Cost61CPU-seconds,0.0169444444CPU core-hours; GPU-hours0, scientific updates0.
+- Full stage `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261025_003320-49d7f1-d11d67a-code`; source clean/backed-up `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`, unchanged launcher/environment.
+- Actual native review-agent stdin/JSON/service proof remains pending; version output is not a validation pass. Empty pre-launch AFS token list and nonfatal existing temp cleanup warning retained with limits.
+- Retained report `/data/scratch-fast/kwen1/no-mistakes-research-20261024/setup-evidence/compute-auth-verification/delivery/report.md`. Separate2CPU/4GiB/2hour native-agent/service bound reported under corr c27b871fd6e8cc27; ordinary continuation authorized, no idle human wait.
+- Trained A2 checkpoint/hash and GPU/real-resume prerequisites remain unresolved. B1 NOT_STARTED; no SCREEN_PREFIX/COMMON_PREFIX.
