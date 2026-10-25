@@ -1,0 +1,168 @@
+{
+  "schema": "jat-a2-aggregate-config.v1",
+  "execution_enabled": false,
+  "disabled_reason": "Recovery candidate only. Future enabled runtime config, full5000 outputs, actual training stage/terminal hashes and required review/check evidence are not available. No endpoint execution selected.",
+  "node_id": "A2",
+  "bootstrap_seed": 917,
+  "bootstrap_resamples": 1000,
+  "cpu_threads": 8,
+  "plan_sha256": "4cac088f79f6ad4c848e9fc91b56590711c0fb4596f184f3babe81f5dfee40c5",
+  "metric_protocol_sha256": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+  "source": {
+    "implementation_revision": "617961b5916ea1da702852467dcad6235a2e2b77",
+    "code_sha256": {
+      "campaign/a2/__init__.py": "3140130f36cb41c91929f8f2c454ba6bd09e424343b021dd7277ea9922c7a9a3",
+      "campaign/a2/aggregate.py": "6677f7f4652799a07c0a30d43d6cb8e30e54c8be96d1f4666eb321c1e920a6df",
+      "campaign/a2/aggregate.sbatch": "0b90d4f888504870e214836ae63c91315c16d3f7dd225078e8addcb193e31a93",
+      "campaign/a2/asset-lock.json": "c496a886268c16a1154dc9bc89ba47cb9114f47dbff8cadf2957f7d14feb3ec2",
+      "campaign/a2/checkpoint.py": "098e6362988ea8e915790e5832c04c1e12f97c3d4567a5cfa07c3c73a93770f9",
+      "campaign/a2/continuation.py": "e1dfcd7f9faaa79a6f56ee4ed22f86dc4d3edf43e99a48774e1f2a66342adc79",
+      "campaign/a2/cpu.sbatch": "d52dceb7eddac2fe870f7dffc7243bd791b85bb1d1f769c63347dd9d12bce1c0",
+      "campaign/a2/data.py": "b5282b246d09426d52d4f8da15895a81e34c0849e2ed28598336a1ba827ed89d",
+      "campaign/a2/distributed.sbatch": "d3a783fd495d983c10e5f4218d90d6524f9e3f949764eef0b0163e8690941117",
+      "campaign/a2/endpoint.sbatch": "0a0f64e83dfe5fc918b3b0f6c1eb1d5977d62a5aeaa154e0333112e520073544",
+      "campaign/a2/endpoint_features.py": "c20693cf94da7e4f0d9705d5d3300238e3a3591204f2cfbd4029f9bb2cc4274c",
+      "campaign/a2/evaluate.py": "1de36bd6abdc46ff9163e42367c84dcd6f96cb381f328b1a307145e06b4dccdd",
+      "campaign/a2/metric-protocol.json": "20acc43b9f3498e092590daddbb56184a7d09e2fe3b4fe7f9812cd36189bd873",
+      "campaign/a2/native-check.sbatch": "a390ccdfaef2f0742dae26792983df29daab1c813d5e45a234edc1e080338ad4",
+      "campaign/a2/native.py": "2dfce647009660730f9e126a6acb535c5eeaa3fdd6085db0a5946a44dd4b00f7",
+      "campaign/a2/node-launch.sh": "87afdb5a17af2ef20668302e7742ba0424b0246b1e04878178b7091c13f4cb8e",
+      "campaign/a2/optimizer-structure.json": "3ca864345991bc7602f576fe2ad0437cf5225515aae302bb91f5abe810ae1c98",
+      "campaign/a2/postprocess-additions.txt": "8e5b83fb8735141c2a028f6b5c87b764ab6f91d043201f5972afdec515c2f657",
+      "campaign/a2/postprocess-environment.json": "552284543909e7e7b13a81881aa290dd299e3b4ab72d25c2e21a9a6c100d76de",
+      "campaign/a2/rank.sh": "ac63649ed8ff3ba0fadb938cf06bc1d77c7693eafd27c43f9e8a219a38c34b2d",
+      "campaign/a2/resolve.py": "362b94ed67a75c16c1acfb71da34f88c5289d37f6116b6a07f48db7d90311140",
+      "campaign/a2/shared-visible-check.sbatch": "5f51bae0f718f91988e937e3435176a786096f545b2bacddad10f3f5974d4a6c",
+      "campaign/a2/tests/check_collective.py": "ffe5535ec63a28d7722a510b5f8e5ef65c058e678def7d356a3d45a55d1cba70",
+      "campaign/a2/tests/check_continuation_cpu.py": "afc88fb8515503ace06daec7fdd61979004294c1807a70efbab50edcce6b253a",
+      "campaign/a2/tests/check_continuation_gpu.py": "efda14a911cc72c37e90b0c1052d13bf2434b772191ec94adb729b9416beb5c4",
+      "campaign/a2/tests/check_cpu.py": "be531b776010a6cb9a30fa960e7bc4914be7558f269130055dfebbd409d80f1d",
+      "campaign/a2/tests/check_ddp_gpu.py": "b60ef7d1704f7d05aedf16db051cc5b921bd95aa86898df0c50770190fd98599",
+      "campaign/a2/tests/check_denoise_output.py": "4909ee7db78d2d2bd8177c15c3104578da55357806ce6caa9d98356a61ca2d11",
+      "campaign/a2/tests/check_endpoint_cpu.py": "dc5eaf415329c14c1587bd038a39ec1e30824b2008eaba101cefd14e7835c78a",
+      "campaign/a2/tests/check_endpoint_gpu.py": "0cbe04609aa063b24803254aafcb41fcdb851d84a078ab64c3df62ac9e02c582",
+      "campaign/a2/tests/check_native_gpu.py": "c426545d1492494150f1d612acf27924e1d920a0ef9bc0f60ba2cd8362a98096",
+      "campaign/a2/train.py": "f10db37731b4f5a2400668f7a3fd20b7ce44f9dae583b488c90c9edbc932cba8",
+      "campaign/adapters/prefix.py": "f7c661c7904023c790d8e2e8cfa4e1d6591481286155f354ae2613a7979cdff9",
+      "reproduction/tools/stage_and_run.sh": "160f66e8e39b58d7175ee80327f6cd4c36a14df5e6941f671747f9b67e4ef9db",
+      "reproduction/tools/verify_stage.py": "1ca0560b3bcdff56cdca4fc11b6d051232149b78ea924217e953820561700a03"
+    },
+    "patch_sha256": "8ca8a707503057b4673817f985b346c436a62c64fa5748d60ffd6b43484888a5"
+  },
+  "plot_environment": {
+    "path": "/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1",
+    "freeze_all": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/no-mistakes-local-20261024/endpoint-preparation/postprocess-environment/freeze-all.txt",
+    "freeze_all_sha256": "958dd94309578461725d851a84a7f4d037a28ec12a4cba9e080296c5dbaa7901",
+    "base_pth": "/data/scratch-fast/kwen1/envs/jat-a2-postprocess-20261024-r1/lib/python3.10/site-packages/jat-locked-base.pth",
+    "base_pth_sha256": "ad47556104f1211b2f3a89bab30b91a41466d9bda15b1a4761095ac5ea41f902",
+    "matplotlib_version": "3.9.4",
+    "base_environment": "/data/scratch-fast/kwen1/envs/joint-adaptive-tokenization-20261024-r1",
+    "original_packages_sha256": "fbc44e755ea7ab9c1fb95f88783678b7c57fc8a367086054903fbfc2617ef253",
+    "reason": "The locked training environment lacks Matplotlib and every required plotting helper; required A2 matched curves need a plotting tool. No installed native gnuplot/Rscript/dot was found.",
+    "additional_versions": {
+      "matplotlib": "3.9.4",
+      "contourpy": "1.3.0",
+      "cycler": "0.12.1",
+      "fonttools": "4.55.3",
+      "kiwisolver": "1.4.7",
+      "pyparsing": "3.2.0",
+      "python-dateutil": "2.9.0.post0",
+      "six": "1.17.0"
+    }
+  },
+  "arms": {
+    "NATIVE64_JOINT": {
+      "training_config": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/configs/r8-checkpoint4000-recovery/NATIVE64_JOINT.disabled.json",
+        "sha256": "490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6"
+      },
+      "result": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/A2__NATIVE64_JOINT__s0__490d8bc0148a/results.json",
+        "sha256": null,
+        "reason": "Disabled candidate; no5000 continuation artifact exists."
+      },
+      "terminal_receipt": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/receipts/terminal-NATIVE64_JOINT.json",
+        "sha256": null,
+        "reason": "Continuation job has not run."
+      },
+      "checkpoint": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/A2__NATIVE64_JOINT__s0__490d8bc0148a/checkpoint-5000.pt",
+        "sha256": null,
+        "reason": "Disabled candidate; no5000 continuation artifact exists."
+      },
+      "dev_full": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/A2__NATIVE64_JOINT__s0__490d8bc0148a/dev-full-5000.json",
+        "sha256": null,
+        "reason": "Disabled candidate; no5000 continuation artifact exists."
+      },
+      "gradient_probe": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/A2__NATIVE64_JOINT__s0__490d8bc0148a/gradient-probe.json",
+        "sha256": null,
+        "reason": "Disabled candidate; no5000 continuation artifact exists."
+      },
+      "monitor": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/A2__NATIVE64_JOINT__s0__490d8bc0148a/monitor.jsonl",
+        "sha256": null,
+        "reason": "Disabled candidate; no5000 continuation artifact exists."
+      },
+      "exposure": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/native64-continuation-r1/A2__NATIVE64_JOINT__s0__490d8bc0148a/exposure.jsonl",
+        "sha256": null,
+        "reason": "Disabled candidate; no5000 continuation artifact exists."
+      },
+      "training_stage": {
+        "path": null,
+        "source_revision": null,
+        "staging_manifest_sha256": null,
+        "config_sha256": "490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6",
+        "reason": "No recovery stage or job exists; exact final enabled config/stage binding must replace this placeholder."
+      }
+    },
+    "NATIVE16_JOINT": {
+      "training_config": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/campaign/a2/configs/r6-source-ddp-unused/NATIVE16_JOINT.yaml",
+        "sha256": "deca12b2ce6936e91f604ec88e9b2c4bfa1c57a18b0468ea40754ff52f5fcb14"
+      },
+      "result": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/results.json",
+        "sha256": null
+      },
+      "terminal_receipt": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/training-receipts-r6/terminal-NATIVE16_JOINT.json",
+        "sha256": null
+      },
+      "checkpoint": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/checkpoint-5000.pt",
+        "sha256": null
+      },
+      "dev_full": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/dev-full-5000.json",
+        "sha256": null
+      },
+      "gradient_probe": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/gradient-probe.json",
+        "sha256": null
+      },
+      "monitor": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/monitor.jsonl",
+        "sha256": null
+      },
+      "exposure": {
+        "path": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2/A2__NATIVE16_JOINT__s0__deca12b2ce69/exposure.jsonl",
+        "sha256": null
+      },
+      "training_stage": {
+        "path": "/data/scratch-fast/kwen1/jat-a2-20261024-stages/20261024_164819-13fc0e-7a492f5-code",
+        "source_revision": "7a492f54a1974931d5d603b14b150263a8891f44",
+        "staging_manifest_sha256": "40f3b1740de5ca9ed90a5a8fe6abb087dacaf525ec3bc21b682289a73e41495c",
+        "config_sha256": "deca12b2ce6936e91f604ec88e9b2c4bfa1c57a18b0468ea40754ff52f5fcb14"
+      }
+    }
+  },
+  "endpoint_features": null,
+  "endpoint_features_reason": "No paired eligible endpoint feature run exists yet.",
+  "conditional_reconstruction_releases": {},
+  "additional_cost_receipts": [],
+  "output_parent": "/data/vision/torralba/u/kwen1/image-tokenization-20261023/joint-adaptive-tokenization-a2-20261024/outputs/A2"
+}
