@@ -1034,3 +1034,14 @@ Remaining1000-update training forecast16.180443RTX3090h plus separately unmeasur
 All9owned jobs remain terminal. Same-owner live terminal monitoring between DEV observations remains required, with original end13:36:48Z and first-observed17:01:53Z distinct.
 The full reused unreviewed source and related fix remain one substantive NoMistakes unit; route/review/check/final-enabled-binding/fresh-stage/launch acceptance are pending.
 A2 is incomplete; valid64/generation/conditional RECON/downstream releases remain false. Native16/FIT and accepted256 reference evidence are unchanged.
+
+## 2026-10-25 Primary launcher selection; recovery r3 remains frozen
+
+Coordinator message039 at2026-10-25T19:15:51Z reports primary technical selection of the exact B1-owned shared launcher correction and one bounded real native acceptance attempt, correlation `f2ba3d59910fcf02`.
+This is existing setup authority, not new captain words. No usable route or successful native review is established.
+Recovery candidate r3 source `7d5e9127883b41bda92c8232d42cfa8006867e9c`, implementation `617961b5916ea1da702852467dcad6235a2e2b77` and config SHA256 `490d8bc0148a2704f36002aa31d0cbe265263b5775398a1ee632bfc2cbf012f6` remain frozen/disabled.
+Preparation is accepted for review only. Code/test/configuration bytes match the frozen hashes; scientific gates remain unchanged.
+B1 remains sole launcher maintainer and owner of this acceptance attempt. A2 retains sole canonical notebook writing.
+No new candidate, allocation, native review context, test, model-byte check, resume or submission is selected or executed.
+All9owned A2 jobs remain terminal. Actual route proof must arrive before further review-context or execution work.
+This update changes notebook documentation only and does not accept scientific A2, valid64, generation, conditional RECON or downstream work.
