@@ -1366,3 +1366,36 @@ The r3 recovery source/config/tests remain frozen and disabled. Candidate7d5e912
 The full A2 handoff is /home/ubuntu/.treehouse/firstmate-557e63/28/firstmate/data/project-handoff-20261026/a2-handoff.md, with a retained CSAIL copy under outputs/A2/paused-handoff-20261026/. It records exact jobs, source/notebook identities, retained paths, open gates, costs, ownership release and resume steps. A2 is safe to stop execution. Canonical notebook writing remains single-owner during final documentation closeout; the coordinator must explicitly transfer that role before another writer acts.
 
 The last accepted B1 record is native VM review01M5TW7CKP4FXCVDJWVQZDZ6ZD with four source findings. The pause forbids continuing its selected fixes or review. B1 final stopped-state/source-custody evidence has not yet been forwarded to A2 and is not inferred from this handoff. A2 does not adopt or stop B1's processes. A2 remains available only for the selected documentation-only preservation import, without resuming code, checks or science.
+
+
+## 2026-10-26 UTC — B1 review paused; source and evidence retained
+
+All B1 scientific work and new review phases are paused by the coordinator's latest direction. B1 is NOT_STARTED. No scientific update, image evaluation, GPU allocation, trained A2-to-B1 conversion, SCREEN_PREFIX or COMMON_PREFIX resulted from this work.
+
+The VM native NoMistakes run `01M5TW7CKP4FXCVDJWVQZDZ6ZD` completed review of corrected source `c7cf6c19bb9b5b7f03a19a1de36dcc37cd9b5ec7`. Its latest raw review response lists 65 paths and no new findings. Four fix rounds addressed checkpoint publication, replay acknowledgment and physical accounting, initial DEV evaluation, evaluation precision, staging tracking, final endpoint publication, and exclusive DEV attempt files. Imported official source bytes remain unchanged.
+
+Fourteen focused synthetic regressions passed. They use mocked numerical boundaries and do not prove full-model numerics, GPU/DDP, ODE behavior or real checkpoint resume. The corrected source has no completed locked-environment CPU check. The earlier seven-group CPU preparation PASS applies to source `1b0f251ef3552592d4f407cb156562c07354d71f`.
+
+The native Test phase was cancelled through supported `axi abort` under the explicit pause. It is not a passing validation result. Document and lint remained pending. The owned private VM daemon then stopped through its supported command; its daemon, log sink and native Test PIDs are absent. No current B1 allocation is held. All 15 known B1-owned historical Slurm jobs are terminal; their parent allocations total 60,646 CPU-core-seconds and zero GPU TRES. No Slurm job was submitted during the VM review phase.
+
+Native cancellation removed the managed source directory. Before cancellation, `cp -a --reflink=auto` returned zero and saved the source, stages, outputs and partial VM environment. Preservation checks matched all 237 tracked files to the reviewed Git blobs and found all 12,031 enumerated untracked paths. The copy was made while installation was active, so changing partial-environment bytes are not an atomic or validated environment snapshot. The failed post-stop copy and exact source-path error are retained. No recovery, deletion or repair was attempted.
+
+The latest source and history remain in `fixed-head-round4.bundle`, SHA256 `279b9b536e66f9aa76d3ea7ae3de2d3225a535018f2db1c48012d348ca5c61de`, on both hosts. CSAIL also retains a standalone frozen source and full stage at:
+
+- `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/vm-native-20261026-c7cf6c19-source`
+- `/data/scratch-fast/kwen1/jat-b1-screen-prepare-20261024-stages/20261025_225932-c8433e-c7cf6c1-code`
+
+The ordinary retained research branch remains at backed-up `d11d67a1e8efa97c717df3a4a066abe57a4bdad2`; it does not contain the rebased review fixes. Native branch custody reports manual reconciliation required. It was not repaired or synchronized.
+
+The independent CSAIL Codex 0.160.0 package is installed and retained. The proposed launcher/model-config transition was never activated. The manual updater question was resolved before the VM route was selected; the current pause prohibits activation or further checks.
+
+Handoff: `/home/ubuntu/.treehouse/firstmate-557e63/23/firstmate/data/project-handoff-20261026/b1-handoff.md`. Stop and copy receipts are under the adjacent evidence files and `/home/ubuntu/.local/share/jat-b1-screen-prepare-20261024-vm-review-20261026/preservation-20261026T0314Z`. All source, stages, failures and outputs remain retained. The B1 owner releases execution ownership to the coordinator for preservation and transfer only. A2 remains the sole canonical notebook writer; this entry is supplied through the coordinator for publication and writer release.
+
+
+### Final A2 notebook closeout and custody release
+
+The preceding B1 preservation entry is reproduced verbatim. Its SHA256 is43133de3400490c7bf0b57543d4df4ba6635c7721630169caf7dff028ed1c167. Coordinator instruction049 accepts it for documentation-only import. It records cancelled native Test, stopped private processes and incomplete validation. Synthetic regression results do not establish real numerical or distributed correctness. Tracked-source preservation coverage does not make the changing partial environment an atomic or validated snapshot. Ordinary branchd11d67a1 and reviewed fixed sourcec7cf6c19 have different custody; no reconciliation was performed by A2.
+
+This final entry closes A2's pending B1 documentation import. All earlier notebook entries and pause evidence remain intact. No A2 or B1 code, test, service, package, model or scientific action was performed for publication. A2 remains scientifically incomplete, with r3 recovery disabled and no accepted stable64 complete checkpoint. The nine A2-owned jobs remain terminal; no owned execution resource remains.
+
+After publication and verification of both ordinary notebook backups, A2 releases the canonical notebook writer role to primary custody under instruction049. No new active writer is assigned. A future writer needs an explicit assignment before editing. The user pause remains in force; research, reviews, tests, retries and validation require new explicit user authority. A2 remains paused until the coordinator stops the agent through native control. It does not stop itself or administer another owner's processes. Final handoff and identity receipts are retained at /home/ubuntu/.treehouse/firstmate-557e63/28/firstmate/data/project-handoff-20261026/ and outputs/A2/paused-handoff-20261026/.
